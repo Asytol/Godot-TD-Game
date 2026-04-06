@@ -41,7 +41,7 @@ public partial class MainCharacter : RigidBody2D
 
 	public override void _PhysicsProcess(double delta)
 	{ 
-		if (Input.IsActionJustPressed("jump"))
+		if (Input.IsActionJustPressed("jump") && Grounded)
 		{
 			LinearVelocity += new Godot.Vector2(0,Jump_force);
 			//ApplyImpulse(new Vector2(0, Jump_force));
@@ -60,7 +60,7 @@ public partial class MainCharacter : RigidBody2D
 		Godot.Vector2 Position = new Godot.Vector2(this.GlobalPosition.X, this.GlobalPosition.Y + this_collider.Shape.GetRect().Size.Y / 2);
 		var query = PhysicsRayQueryParameters2D.Create(Position,new Godot.Vector2(Position.X, Position.Y + 2),1);
 		var result = spaceState.IntersectRay(query);
-		if (result != null){
+		if (result.Count > 0){
 			Grounded = true; }
 		else{ Grounded = false;}
 		
