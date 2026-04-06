@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://d0fwc6pi0u3cn"]
+
+[ext_resource type="Texture2D" uid="uid://cpavbtoa18o8k" path="res://Raw_sprites/Enemies/lizard_m_idle_anim_f0.png" id="1_mgyyx"]
+[ext_resource type="Script" uid="uid://i8xt60ymkima" path="res://Scripts/Enemy_base.cs" id="1_r88v8"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_r88v8"]
+size = Vector2(13, 14)
+
+[node name="RigidBody2D2" type="RigidBody2D" unique_id=447939803]
+collision_layer = 2
+script = ExtResource("1_r88v8")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=535382408]
+texture = ExtResource("1_mgyyx")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=965911700]
+position = Vector2(0.5, 6)
+shape = SubResource("RectangleShape2D_r88v8")

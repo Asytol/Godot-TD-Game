@@ -1,0 +1,25 @@
+[gd_scene format=3 uid="uid://bwdn5f2xgiq16"]
+
+[ext_resource type="Script" uid="uid://b2o2rtj52k386" path="res://Scripts/MainCharacter.cs" id="1_6lby2"]
+[ext_resource type="Texture2D" uid="uid://dsmtq1rshow1s" path="res://Fall (32x32).png" id="1_64g7q"]
+[ext_resource type="PackedScene" uid="uid://b713135w050xr" path="res://Scenes/reg_slash.tscn" id="3_xcak5"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6lby2"]
+size = Vector2(21, 27)
+
+[node name="RigidBody2D" type="RigidBody2D" unique_id=1541007265]
+script = ExtResource("1_6lby2")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1566403700]
+texture_filter = 1
+texture = ExtResource("1_64g7q")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1395052926]
+position = Vector2(0.5, 1.5)
+shape = SubResource("RectangleShape2D_6lby2")
+
+[node name="Weapon_node" type="Node2D" parent="." unique_id=636123186]
+
+[node name="Reg_slash" parent="." unique_id=1132030649 instance=ExtResource("3_xcak5")]
+
+[node name="Area2D" type="Area2D" parent="." unique_id=1466384654]
