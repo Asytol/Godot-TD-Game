@@ -18,7 +18,7 @@ public partial class Enemy_base : RigidBody2D
 	{
 		health -= damage;
 
-		this_line.SetPointPosition(0,new Vector2(og_line_width * (Max_health / health),0));
+		this_line.SetPointPosition(0,new Vector2(og_line_width * (health/Max_health),0));
 	}
 	
 	// Called when the node enters the scene tree for the first time.

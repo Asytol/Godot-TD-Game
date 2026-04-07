@@ -15,7 +15,7 @@ public partial class Weapon_script : Area2D
 	public bool available = false;
 
 	//Duration and stuff
-	[Export] public float Standard_Damage = 1;
+	[Export] public float Standard_Damage = 20;
 	[Export] public float Damage = 20;
 	[Export] public float Cooldown = 2;
 	[Export] public float Size = 1;

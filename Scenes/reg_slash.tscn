@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://dcnocn7ad2dbm" path="res://Scripts/Weapon_script.cs" id="1_ixfc0"]
 [ext_resource type="Texture2D" uid="uid://c5atte5wnssv6" path="res://Raw_sprites/TileMap/Terrain (16x16).png" id="2_kqtwd"]
+[ext_resource type="Texture2D" uid="uid://dw1ud4bfw5d35" path="res://Raw_sprites/Mask_guy/weapon_anime_sword.png" id="3_x1lyi"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_x1lyi"]
 atlas = ExtResource("2_kqtwd")
@@ -95,10 +96,6 @@ region = Rect2(336, 0, 16, 16)
 atlas = ExtResource("2_kqtwd")
 region = Rect2(288, 144, 16, 16)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_uagj0"]
-atlas = ExtResource("2_kqtwd")
-region = Rect2(0, 0, 16, 16)
-
 [sub_resource type="SpriteFrames" id="SpriteFrames_bskqg"]
 animations = [{
 "frames": [{
@@ -182,7 +179,7 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_uagj0")
+"texture": ExtResource("3_x1lyi")
 }],
 "loop": true,
 "name": &"Idle",
@@ -197,8 +194,9 @@ Force = 20.0
 
 [node name="Sprite2D" type="AnimatedSprite2D" parent="." unique_id=1582128532]
 position = Vector2(-11.499999, -4.7683716e-07)
+rotation = -1.5707964
 sprite_frames = SubResource("SpriteFrames_bskqg")
-animation = &"Attacking"
+animation = &"Idle"
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="." unique_id=1102429361]
 position = Vector2(-4, 0)

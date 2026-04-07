@@ -21,5 +21,3 @@ shape = SubResource("RectangleShape2D_6lby2")
 [node name="Weapon_node" type="Node2D" parent="." unique_id=636123186]
 
 [node name="Reg_slash" parent="." unique_id=1132030649 instance=ExtResource("3_xcak5")]
-
-[node name="Area2D" type="Area2D" parent="." unique_id=1466384654]
