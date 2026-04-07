@@ -13,7 +13,7 @@ public partial class Projectile : Area2D
 	[Export] public float Decay_time = 3;
 
 
-	[Export] public float speed;
+	[Export] public float speed = 30;
 	[Export] public float damage;
 	private Godot.Vector2 Direction; 
 
@@ -30,7 +30,7 @@ public partial class Projectile : Area2D
 			direction = add_spread(direction,Extra_spread);
 		}
 		this.Direction = direction.Normalized();
-		this.Rotation = Direction.Angle() + 90;
+		this.Rotation = Direction.Angle() + Mathf.Pi/2;
 		this.speed = speed;
 
 	}
@@ -57,6 +57,6 @@ public partial class Projectile : Area2D
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
-		GlobalPosition += Direction * speed * (float)delta;
+		GlobalPosition += Direction * speed * (float)delta*10;
 	}
 }

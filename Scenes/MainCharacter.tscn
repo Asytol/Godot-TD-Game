@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://b2o2rtj52k386" path="res://Scripts/MainCharacter.cs" id="1_6lby2"]
 [ext_resource type="Texture2D" uid="uid://dsmtq1rshow1s" path="res://Fall (32x32).png" id="1_64g7q"]
-[ext_resource type="PackedScene" uid="uid://b713135w050xr" path="res://Scenes/reg_slash.tscn" id="3_xcak5"]
+[ext_resource type="PackedScene" uid="uid://b713135w050xr" path="res://Scenes/Weapons/reg_slash.tscn" id="3_xcak5"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6lby2"]
 size = Vector2(21, 27)

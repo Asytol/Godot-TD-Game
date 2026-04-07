@@ -11,14 +11,15 @@ collision_layer = 2
 script = ExtResource("1_r88v8")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=535382408]
+position = Vector2(0, -6)
 texture = ExtResource("1_mgyyx")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=965911700]
-position = Vector2(0.5, 6)
+position = Vector2(0.5, 0)
 shape = SubResource("RectangleShape2D_r88v8")
 
 [node name="Line2D" type="Line2D" parent="." unique_id=1281815574]
-position = Vector2(-6, -7)
-points = PackedVector2Array(14, 0, 0, 0)
+position = Vector2(-7, -13)
+points = PackedVector2Array(15, 0, 0, 0)
 width = 2.0
 default_color = Color(0.7628233, 0, 0.25860265, 1)

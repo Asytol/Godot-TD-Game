@@ -368,7 +368,6 @@ script = ExtResource("6_mtg6t")
 
 [node name="Tower" parent="." unique_id=1558998400 instance=ExtResource("7_6r0k1")]
 position = Vector2(269, 544)
-projectile = ExtResource("8_3l0ph")
 
 [node name="Projectile" parent="." unique_id=1140131879 instance=ExtResource("8_3l0ph")]
 position = Vector2(151, 234)
