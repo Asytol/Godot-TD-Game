@@ -6,7 +6,8 @@
 [ext_resource type="PackedScene" uid="uid://bwdn5f2xgiq16" path="res://Scenes/MainCharacter.tscn" id="3_r5nid"]
 [ext_resource type="PackedScene" uid="uid://d0fwc6pi0u3cn" path="res://Scenes/Lizard_enemy.tscn" id="5_mtg6t"]
 [ext_resource type="Script" uid="uid://pwhjd4ww66xe" path="res://Scripts/TileMapLayer.cs" id="6_mtg6t"]
-[ext_resource type="Script" uid="uid://cli6epvexw1wf" path="res://Scripts/Tower_base.cs" id="7_5cr4c"]
+[ext_resource type="PackedScene" uid="uid://bwmt4vbkjp7my" path="res://Scenes/tower.tscn" id="7_6r0k1"]
+[ext_resource type="PackedScene" uid="uid://nrjw7psdb65x" path="res://Scenes/projectile.tscn" id="8_3l0ph"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_r5nid"]
 texture = ExtResource("2_808s8")
@@ -341,9 +342,6 @@ terrain_set_0/terrain_0/name = "Ground"
 terrain_set_0/terrain_0/color = Color(0.5, 0.34375, 0.25, 1)
 sources/0 = SubResource("TileSetAtlasSource_r5nid")
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_6r0k1"]
-radius = 80.0
-
 [node name="Main_test_scene" type="Node" unique_id=731922039]
 
 [node name="TextureRect" type="TextureRect" parent="." unique_id=842042576]
@@ -368,10 +366,9 @@ tile_map_data = PackedByteArray("AAABACYAAAAHAAEAAAACACYAAAAHAAEAAAACACcAAAAHAAI
 tile_set = SubResource("TileSet_mtg6t")
 script = ExtResource("6_mtg6t")
 
-[node name="Area2D" type="Area2D" parent="." unique_id=1799269679]
-script = ExtResource("7_5cr4c")
+[node name="Tower" parent="." unique_id=1558998400 instance=ExtResource("7_6r0k1")]
+position = Vector2(269, 544)
+projectile = ExtResource("8_3l0ph")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=287048678]
-shape = SubResource("CircleShape2D_6r0k1")
-
-[node name="Sprite2D" type="Sprite2D" parent="Area2D" unique_id=1171857067]
+[node name="Projectile" parent="." unique_id=1140131879 instance=ExtResource("8_3l0ph")]
+position = Vector2(151, 234)

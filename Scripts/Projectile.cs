@@ -24,12 +24,13 @@ public partial class Projectile : Area2D
 	{
 		
 	}
-	public void instantiate(Godot.Vector2 direction, float speed, float Extra_spread = 0, List<int> ex_layers = null){
+	public void instantiate(Godot.Vector2 direction, float speed=30, float Extra_spread = 0, List<int> ex_layers = null){
 		
 		if (Extra_spread != 0){
 			direction = add_spread(direction,Extra_spread);
 		}
 		this.Direction = direction.Normalized();
+		this.Rotation = Direction.Angle() + 90;
 		this.speed = speed;
 
 	}
