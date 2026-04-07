@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://bwmt4vbkjp7my"]
+
+[ext_resource type="Script" uid="uid://cli6epvexw1wf" path="res://Scripts/Tower_base.cs" id="1_ndpwd"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_6r0k1"]
+radius = 80.0
+
+[node name="Tower" type="Area2D" unique_id=1558998400]
+script = ExtResource("1_ndpwd")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=170741772]
+shape = SubResource("CircleShape2D_6r0k1")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=63638823]
