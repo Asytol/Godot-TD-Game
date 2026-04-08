@@ -25,7 +25,6 @@ public partial class Tower_base : Area2D
 	public override void _Ready()
 	{
 		range = base_range; damage = base_damage; spread = base_spread;
-
 		if (projectile == null) {projectile = GD.Load<PackedScene>("res://Scenes/projectile.tscn"); }
 
 		my_collider = this.GetNode<CollisionShape2D>("CollisionShape2D");

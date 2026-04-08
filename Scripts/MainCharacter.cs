@@ -57,13 +57,7 @@ public partial class MainCharacter : RigidBody2D
 	}
 
 	public override void _PhysicsProcess(double delta)
-	{ 
-		if (Input.IsActionJustPressed("jump") && Grounded)
-		{
-			LinearVelocity += new Godot.Vector2(0,Jump_force);
-			//ApplyImpulse(new Vector2(0, Jump_force));
-		}
-		
+	{ 	
 		if (Input.IsActionPressed("right"))
 		{
 			LinearVelocity += new Godot.Vector2(speed,0);
@@ -72,16 +66,15 @@ public partial class MainCharacter : RigidBody2D
 		{
 			LinearVelocity += new Godot.Vector2(-speed,0);
 		} 
+		if (Input.IsActionPressed("up")){
+			LinearVelocity += new Godot.Vector2(0,-speed);
+		}
+		if (Input.IsActionPressed("down")){
+			LinearVelocity += new Godot.Vector2(0,speed);
+		}
+
 		if (Input.IsActionJustPressed("Change_inv_left")){change_weapon(true);}
 		if (Input.IsActionJustPressed("Change_inv_right")){change_weapon(false);}
-
-
-		PhysicsDirectSpaceState2D spaceState = GetWorld2D().DirectSpaceState;	
-		Godot.Vector2 Position = new Godot.Vector2(this.GlobalPosition.X, this.GlobalPosition.Y + this_collider.Shape.GetRect().Size.Y / 2);
-		PhysicsRayQueryParameters2D query = PhysicsRayQueryParameters2D.Create(Position,new Godot.Vector2(Position.X, Position.Y + 2),1);
-		var result = spaceState.IntersectRay(query);
-		if (result.Count > 0){ Grounded = true; }
-		else{ Grounded = false;}
 		
 		UpdateIFrameList((float) delta);
 	}
