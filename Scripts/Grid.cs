@@ -1,4 +1,5 @@
 using Godot;
+using System.IO;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -50,7 +51,7 @@ public class Grid_class<TGridObject>
     }
 
     public TGridObject GetGridObject(int x, int y){
-        if (x >= 0 && y >= 0 && x <= width && y <= height)
+        if (x >= 0 && y >= 0 && x < width && y < height)
         {
             return gridArray[x, y];
         }

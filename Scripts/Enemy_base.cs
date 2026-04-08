@@ -8,25 +8,46 @@ public partial class Enemy_base : RigidBody2D
 {
 	[Export] public Line2D this_line;
 	private float og_line_width;
-	[Export] public int Speed = 200;
+	[Export] public int Speed = 20;
 	[Export] public float Max_health = 100;
 	[Export] public float health = 100;
-	
+	[Export] public float wall_damage = 0.5f;
+	[Export] public bool stunned = true;	
 
 	private PathFinder pathFinder;
 	[Export] public TileMapLayer tilemap;
+	private bool path_updated = false;
+	private const int cellsize=16;
+	private Godot.Vector2I finish_position;
+
 	List<PathNode> path = new List<PathNode>();
+	[Export] public int PathFinding_delay = 15;
+	private int current_pathfinding_delay = 0;
 	public override void _PhysicsProcess(double delta)
 	{
-		pathFinder.GetGrid().GetXY(new Godot.Vector2 (10,10),out int x, out int y);
-		Vector2I position = new Vector2I (Mathf.RoundToInt(this.GlobalPosition.X),Mathf.RoundToInt(this.GlobalPosition.Y));
+		current_pathfinding_delay++;
 
-		path = pathFinder.FindPath(0,0,10,10);
+		if (stunned == false)
+		{
+			if (current_pathfinding_delay == PathFinding_delay){
+			pathFinder.GetGrid().GetXY(new Godot.Vector2 (10,10),out int x, out int y);
+			Vector2I position = new Vector2I (Mathf.RoundToInt(this.GlobalPosition.X/cellsize),Mathf.RoundToInt(this.GlobalPosition.Y/cellsize));
+
+			//What the actual fuck, why does the code break when the total width compared to the end position is smaller than 10! what! wtf!
+			path = pathFinder.FindPath(position.X,position.Y,finish_position.X,finish_position.Y);
+			path_updated = true;
+			
+			//-
+			current_pathfinding_delay = 0;
+			}	
+		}
+		
+		walk_along_nodes(path);
+		QueueRedraw();
 	}
 	public override void _Draw(){
 		for (int i = 1; i < path.Count; i++){
-			GD.Print("coordinates: "+path[i].x+" "+path[i].y);
-			DrawLine(new Godot.Vector2(path[i -1].x, path[i-1].y), new Godot.Vector2(path[i].x, path[i].y),Colors.Green, 1.0f);
+			DrawLine(new Godot.Vector2(path[i -1].x, path[i-1].y)*16 -this.GlobalPosition+new Godot.Vector2(8,8), new Godot.Vector2(path[i].x, path[i].y)*16-this.GlobalPosition+new Godot.Vector2(8,8),Colors.Red, 1.0f);
 		} 
 	}
 
@@ -40,6 +61,41 @@ public partial class Enemy_base : RigidBody2D
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		pathFinder = new PathFinder(20,20, tilemap);
+		Godot.Vector2 temp_pos = GetNode<Area2D>("/root/Main_test_scene/Finish").Position;
+		finish_position = new Vector2I(Mathf.RoundToInt(temp_pos.X/cellsize),//->
+		Mathf.RoundToInt(temp_pos.Y/cellsize)); //<-
+		finish_position = finish_position.Abs();
+
+		pathFinder = new PathFinder(finish_position.X+10,finish_position.Y+10, tilemap); 
+	}
+
+	private async void walk_along_nodes(List<PathNode> nodes){
+		path_updated = false;
+		while (path_updated == false){
+			for (int i = 0; i < nodes.Count; i++){
+				Godot.Vector2 cell_positon = new Godot.Vector2(nodes[i].x * cellsize, nodes[i].y * cellsize);
+				Godot.Vector2 cell_positon2 = new Godot.Vector2(nodes[i].x * cellsize, nodes[i].y * cellsize);
+				float distance = GlobalPosition.DistanceTo(cell_positon);
+				float distance2 = GlobalPosition.DistanceTo(cell_positon2);
+
+				//
+				if (nodes[i].is_obstruction && tilemap.GetCellSourceId(nodes[i].tilemap_position) != -1){
+					float cost = (float)tilemap.GetCellTileData(nodes[i].tilemap_position).GetCustomData("cost");
+					await ToSignal(GetTree().CreateTimer(cost), SceneTreeTimer.SignalName.Timeout);
+					tilemap.SetCell(nodes[i].tilemap_position,-1);
+				}
+
+				while ((distance > 7) && path_updated == false){
+					if (distance2 < cellsize){break;} if (distance > distance2){break;}
+
+					LinearVelocity = GlobalPosition.DirectionTo(cell_positon) * Speed * (float)GetPhysicsProcessDeltaTime();
+					distance = GlobalPosition.DistanceTo(cell_positon);
+					distance2 = GlobalPosition.DistanceTo(cell_positon2);
+
+					await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+				}
+			}
+			await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+		}
 	}
 }

@@ -11,7 +11,8 @@ public partial class PathNode
     public int g_cost;
     public int h_cost;
     public int f_cost;
-    
+    public bool is_obstruction;
+    public Vector2I tilemap_position;
     public PathNode previousCell;
 
     public PathNode(Grid_class<PathNode> grid,int x, int y){

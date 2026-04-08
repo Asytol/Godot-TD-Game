@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://bvb6dnwk6e2"]
+
+[ext_resource type="Texture2D" uid="uid://c4cbt4mdmttym" path="res://Raw_sprites/Towers/chest_full_open_anim_f2.png" id="1_nv66a"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_uix65"]
+size = Vector2(16, 16)
+
+[node name="Finish" type="Area2D" unique_id=1400412053]
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=376689741]
+texture = ExtResource("1_nv66a")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=901253533]
+shape = SubResource("RectangleShape2D_uix65")

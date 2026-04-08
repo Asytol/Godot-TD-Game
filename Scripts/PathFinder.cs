@@ -2,6 +2,7 @@ using Godot;
 using System.Collections.Generic;
 using System.IO;
 using System.Numerics;
+using System.Security.Cryptography.X509Certificates;
 using System;
 
 public class PathFinder
@@ -48,16 +49,17 @@ public class PathFinder
             {
                 if (searched_cells.Contains(neighbour)){ continue; }
 
-                int temp_gcost = current_node.g_cost + Calculate_distance(current_node, neighbour);
+                int temp_gcost = current_node.g_cost + Calculate_distance(current_node.x,current_node.y, neighbour.x,neighbour.y);
                 Vector2I TileCoordinates = GetTileMapCoordinates(Tilemap,neighbour.x,neighbour.y);
 
-                if (temp_gcost < neighbour.g_cost && CheckBreakable(Tilemap,TileCoordinates) == false)
+                if (temp_gcost < neighbour.g_cost && CheckBreakable(Tilemap,TileCoordinates) == true)
                 {
                     neighbour.previousCell = current_node;
                     neighbour.g_cost = temp_gcost;
-                    neighbour.h_cost = Calculate_distance(current_node, neighbour);
+                    neighbour.h_cost = Calculate_distance(current_node.x,current_node.y, neighbour.x,neighbour.y);
                     neighbour.CalculateFCost();
-                    neighbour.f_cost += CheckTileCost(Tilemap, TileCoordinates);
+
+                    neighbour.f_cost += CheckTileCost(Tilemap, TileCoordinates,neighbour);
                     if (!cells_to_search.Contains(neighbour)){
                         cells_to_search.Add(neighbour);
                     }
@@ -94,12 +96,12 @@ public class PathFinder
         return best_cell;
     }
 
-    private int Calculate_distance(PathNode cell1, PathNode cell2)
+    private int Calculate_distance(int x1, int y1, int x2,int y2)
     {
-        int XDistance = Math.Abs(cell1.x - cell2.x);
-        int YDistance = Math.Abs(cell1.y - cell2.y);
+        int XDistance = Math.Abs(x1 - x2);
+        int YDistance = Math.Abs(y1 - y2);
         int remaining = Math.Abs(XDistance - YDistance);
-        return 14 * Mathf.Min(XDistance, YDistance) + 10 * remaining;
+        return remaining;
     }
 
     private PathNode GetNode(int x, int y)
@@ -116,12 +118,16 @@ public class PathFinder
         Vector2I tilemap_coordinates = tilemap.LocalToMap(coordinates);
         return tilemap_coordinates;
     }
-    private int CheckTileCost(Godot.TileMapLayer tilemap, Vector2I coordinates){
+    private int CheckTileCost(Godot.TileMapLayer tilemap, Vector2I coordinates,PathNode node){
         int id = tilemap.GetCellSourceId(coordinates);
 
-        Variant cost = tilemap.GetCellTileData(coordinates).GetCustomData("cost");
-        if (cost.VariantType == Variant.Type.Int){
-            return (int)cost;
+        if (id != -1){
+            Variant cost = tilemap.GetCellTileData(coordinates).GetCustomData("cost");
+            node.is_obstruction = true;
+            node.tilemap_position = coordinates;
+            if (cost.VariantType == Variant.Type.Float){
+                return Mathf.RoundToInt((float)cost);
+            }   
         }
 
         return 0;
@@ -147,18 +153,10 @@ public class PathFinder
         if (x - 1 >= 0){
             //Left
             NeighbourList.Add(GetNode(x - 1, y));
-            //Left down
-            if (y -1 >= 0) { NeighbourList.Add(GetNode(x - 1, y - 1)); }
-            //Left up
-            if (y+1 <= grid.Get_height()) { NeighbourList.Add(GetNode(x - 1, y + 1)); }
         }
         if (x + 1 < grid.Get_width()) {
             //Right
             NeighbourList.Add(GetNode(x + 1, y));
-            //Right down
-            if (y - 1 >= 0) { NeighbourList.Add(GetNode(x + 1, y - 1)); }
-            //Right up
-            if (y + 1 < grid.Get_height()) { NeighbourList.Add(GetNode(x + 1, y + 1)); }
         }
         //down
         if (y - 1 >= 0) { NeighbourList.Add(GetNode(x, y - 1)); }
