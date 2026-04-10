@@ -6,6 +6,9 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_r88v8"]
 size = Vector2(13, 14)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vbq21"]
+size = Vector2(15, 16)
+
 [node name="RigidBody2D2" type="RigidBody2D" unique_id=447939803]
 collision_layer = 2
 script = ExtResource("1_r88v8")
@@ -23,3 +26,9 @@ position = Vector2(-7, -13)
 points = PackedVector2Array(15, 0, 0, 0)
 width = 2.0
 default_color = Color(0.7628233, 0, 0.25860265, 1)
+
+[node name="Area2D" type="Area2D" parent="." unique_id=1655982755]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=2118569006]
+position = Vector2(0.5, 0)
+shape = SubResource("RectangleShape2D_vbq21")

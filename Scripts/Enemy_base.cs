@@ -57,6 +57,11 @@ public partial class Enemy_base : RigidBody2D
 
 		this_line.SetPointPosition(0,new Godot.Vector2(og_line_width * (health/Max_health),0));
 	}
+	public void Knockback(Godot.Vector2 Direction, float force){
+		float ex_force = Max_health;
+		if (Max_health != health){ex_force = Max_health/health;}
+		ApplyImpulse(Direction * force * ex_force);
+	}
 	
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -71,24 +76,35 @@ public partial class Enemy_base : RigidBody2D
 
 	private async void walk_along_nodes(List<PathNode> nodes){
 		path_updated = false;
+
+		Godot.Vector2 Velocity = new Godot.Vector2(0,0);
 		while (path_updated == false){
 			for (int i = 0; i < nodes.Count; i++){
+
+				Velocity = new Godot.Vector2(0,0);
+
 				Godot.Vector2 cell_positon = new Godot.Vector2(nodes[i].x * cellsize, nodes[i].y * cellsize);
 				Godot.Vector2 cell_positon2 = new Godot.Vector2(nodes[i].x * cellsize, nodes[i].y * cellsize);
 				float distance = GlobalPosition.DistanceTo(cell_positon);
 				float distance2 = GlobalPosition.DistanceTo(cell_positon2);
 
 				//
-				if (nodes[i].is_obstruction && tilemap.GetCellSourceId(nodes[i].tilemap_position) != -1){
-					float cost = (float)tilemap.GetCellTileData(nodes[i].tilemap_position).GetCustomData("cost");
-					await ToSignal(GetTree().CreateTimer(cost), SceneTreeTimer.SignalName.Timeout);
-					tilemap.SetCell(nodes[i].tilemap_position,-1);
+				if (nodes[i].is_obstruction){
+					TileMapLayer script = tilemap as TileMapLayer;
+					while (true){
+						if (script.Area_damageI(nodes[i].tilemap_position, wall_damage * (float)GetPhysicsProcessDeltaTime()) == true){break;}
+						await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+					}
+					nodes[i].is_obstruction = false;
 				}
 
-				while ((distance > 7) && path_updated == false){
-					if (distance2 < cellsize){break;} if (distance > distance2){break;}
+				while ((distance > 5) && path_updated == false){
+					LinearVelocity -= Velocity;
+					if (distance > distance2){break;}
 
-					LinearVelocity = GlobalPosition.DirectionTo(cell_positon) * Speed * (float)GetPhysicsProcessDeltaTime();
+					Velocity = GlobalPosition.DirectionTo(cell_positon) * Speed * (float)GetPhysicsProcessDeltaTime();
+					LinearVelocity += Velocity;
+
 					distance = GlobalPosition.DistanceTo(cell_positon);
 					distance2 = GlobalPosition.DistanceTo(cell_positon2);
 

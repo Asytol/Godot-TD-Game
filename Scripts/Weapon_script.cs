@@ -95,15 +95,11 @@ public partial class Weapon_script : Area2D
 			if (parent_script.CheckIFrames(body.Name) == false)
 			{
 				parent_script.I_frame_list.Add(new I_frame_obj(body.Name, 1));
-
 				GD.Print("Weapon_collided, w/ enemy");
-				if (body is RigidBody2D rb)
-				{
-					Vector2 Direction = (body.Position - this.Position).Normalized();
-					rb.LinearVelocity += Direction * Force;
-					GD.Print("New velocity is:"+rb.LinearVelocity);
-				}
+
+				Vector2 Direction = (body.Position - this.Position).Normalized();
 				Enemy_base script = body as Enemy_base;
+				script.Knockback(Direction,Force);
 				script.Damage(Damage);	
 			}
 		}

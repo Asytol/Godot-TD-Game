@@ -10,7 +10,7 @@ public class Grid_class<TGridObject>
     private int height;
     private float cellSize;
     private Vector2 originPosition;
-    private TGridObject[,] gridArray;
+    public TGridObject[,] gridArray;
 
     public Grid_class(int width, int height, float cellSize,Vector2 originPosition, Func<Grid_class<TGridObject>,int,int, TGridObject> createGridObject)
     {
