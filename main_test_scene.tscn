@@ -423,10 +423,11 @@ gravity_scale = 0.0
 speed = 10
 
 [node name="Lizard" parent="." unique_id=447939803 node_paths=PackedStringArray("tilemap") instance=ExtResource("5_mtg6t")]
-position = Vector2(542, 495)
+position = Vector2(515, 485)
 collision_mask = 3
 gravity_scale = 0.0
 Speed = 2
+wall_damage = 3.0
 stunned = false
 tilemap = NodePath("../TileMapLayer")
 
