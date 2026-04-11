@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://cqgmojw3cwhym"]
+
+[ext_resource type="Script" uid="uid://d0b00pq5tth0w" path="res://Scripts/Terrain_tile.cs" id="1_s7ngq"]
+[ext_resource type="Texture2D" uid="uid://c5atte5wnssv6" path="res://Raw_sprites/TileMap/Terrain (16x16).png" id="2_aadc2"]
+
+[node name="Tile" type="Sprite2D" unique_id=1417194335]
+position = Vector2(16, 16)
+texture = ExtResource("2_aadc2")
+region_enabled = true
+region_rect = Rect2(272, 64, 16, 16)
+script = ExtResource("1_s7ngq")
+cost = 15
+AtlasCoordinates = Vector2i(272, 64)

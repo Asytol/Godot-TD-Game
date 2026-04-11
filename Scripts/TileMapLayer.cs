@@ -1,14 +1,26 @@
 using Godot;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Numerics;
 using System;
 using System.ComponentModel;
+using System.IO;
 
 public partial class TileMapLayer : Godot.TileMapLayer
 {
+	//Building and ui
+	[Export] private TextureRect terrain_texture;
+
+	//tiles 
 	[Export] public bool Place_tiles = false;
 	[Export] public Vector2I current_atlas = new Vector2I(0,0);
+	[Export] public int current_SourceId = 0;
 
+	private List<Build_tile> BuildTiles = new List<Build_tile>();
+	private List<Sprite2D> TerrainTiles = new List<Sprite2D>();
 
+	private string dir_path = "res://Scenes/Terrain_tiles/";
+	//Grids and cells
 	private bool mouse_down = false;
 
 	private Grid_class<Tile_node> grid;
@@ -18,6 +30,7 @@ public partial class TileMapLayer : Godot.TileMapLayer
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{	
+
 		grid = new Grid_class<Tile_node>(width,height,cellsize,new Godot.Vector2(0,0), (Grid_class<Tile_node> g, int x, int y) => new Tile_node(g,x,y));
 
 		foreach (Vector2I cell in GetUsedCells()){
@@ -25,6 +38,25 @@ public partial class TileMapLayer : Godot.TileMapLayer
 			Tile.health = (float)GetCellTileData(cell).GetCustomData("health");
 			Tile.breakable = (bool)GetCellTileData(cell).GetCustomData("breakable");	
 		}
+
+		//Ui and building
+		Vector2I position = new Vector2I(cellsize,cellsize);
+		bool selected = false; 
+		foreach (Node node in GetChildren())
+		{
+			if (node is Sprite2D && node is Node2D)
+			{
+				Node2D nd = node as Node2D;
+				nd.Position = position;
+				position += new Vector2I(0,cellsize*2+4);
+				TerrainTiles.Add(node as Sprite2D);
+
+				if (!selected){nd.Modulate = Colors.White;selected = true;}
+				else {nd.Modulate = Colors.DimGray;}
+			}
+		}
+		if (terrain_texture == null){terrain_texture = GetNode<TextureRect>("TextureRect"); }
+		terrain_texture.Size = new Godot.Vector2(32,36 * TerrainTiles.Count);
 	}
 	public override void _Input(InputEvent @event)
 	{
@@ -34,8 +66,30 @@ public partial class TileMapLayer : Godot.TileMapLayer
 			mouse_down = !mouse_down;
 			if (Place_tiles && mouse_down)
 			{
-				Godot.Vector2 MousePos = eventMouseButton.Position;
-				Create_tile(MousePos,0);
+				bool tile_selected = false;
+				foreach (Sprite2D node in TerrainTiles){
+					Terrain_tile Script = node as Terrain_tile;
+					if (Script.Check_AABB(eventMouseButton.Position) == true){
+						//New tile
+						node.Modulate = Colors.White;
+						tile_selected = true;
+						current_atlas = Script.AtlasCoordinates/cellsize;
+						current_SourceId = Script.SourceId;
+						
+						foreach (Sprite2D other_node in TerrainTiles)
+						{
+							if (other_node != node)
+							{
+								other_node.Modulate = Colors.DimGray;
+							}
+						}
+					}
+				}
+				if (!tile_selected)
+				{
+					Godot.Vector2 MousePos = eventMouseButton.Position;
+					Create_tile(MousePos,current_SourceId);
+				}			
 			}
 		}
 	}
@@ -49,8 +103,11 @@ public partial class TileMapLayer : Godot.TileMapLayer
 		if (sourceId != -1)
 		{
 			Tile_node Tile = grid.GetGridObject(TilePos.X,TilePos.Y);
-			Tile.health = (float)GetCellTileData(TilePos).GetCustomData("health");
-			Tile.breakable = (bool)GetCellTileData(TilePos).GetCustomData("breakable");	
+			if (Tile != null)
+			{
+				Tile.health = (float)GetCellTileData(TilePos).GetCustomData("health");
+				Tile.breakable = (bool)GetCellTileData(TilePos).GetCustomData("breakable");		
+			}
 		}
 	}
 
@@ -91,6 +148,9 @@ public partial class TileMapLayer : Godot.TileMapLayer
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
+		if (Place_tiles)
+		{	
+		}
 	}
 
 
@@ -122,5 +182,15 @@ public partial class TileMapLayer : Godot.TileMapLayer
 			SetCell(TilePos,-1,Godot.Vector2I.Zero,-1);}
 
 		return Damage_tileI(TilePos, raw_dmg);
+	}
+
+	private void read_dir(string name){
+		using var dir = DirAccess.Open(name);
+	
+		if (dir != null)
+		{
+			GD.Print(dir.GetFiles());
+		}
+
 	}
 }

@@ -31,7 +31,7 @@ public partial class MainCharacter : RigidBody2D
 	public override void _Ready()
 	{
 		
-		foreach (var child in GetChildren()){
+		foreach (Node child in GetChildren()){
 			if (child is Area2D)
 			{
 				weapon_list.Add(child as Area2D);

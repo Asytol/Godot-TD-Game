@@ -23,6 +23,18 @@ public partial class Enemy_base : RigidBody2D
 	List<PathNode> path = new List<PathNode>();
 	[Export] public int PathFinding_delay = 15;
 	private int current_pathfinding_delay = 0;
+
+	public override void _Ready()
+	{
+		if (tilemap == null){tilemap = GetNode<TileMapLayer>("%TileMap");}
+
+		Godot.Vector2 temp_pos = GetNode<Area2D>("/root/Main_test_scene/Finish").Position;
+		finish_position = new Vector2I(Mathf.RoundToInt(temp_pos.X/cellsize),//->
+		Mathf.RoundToInt(temp_pos.Y/cellsize)); //<-
+		finish_position = finish_position.Abs();
+
+		pathFinder = new PathFinder(finish_position.X+10,finish_position.Y+10, tilemap); 
+	}
 	public override void _PhysicsProcess(double delta)
 	{
 		current_pathfinding_delay++;
@@ -42,7 +54,7 @@ public partial class Enemy_base : RigidBody2D
 			}	
 		}
 		
-		walk_along_nodes(path);
+		WalkAlongNodes(path);
 		QueueRedraw();
 	}
 	public override void _Draw(){
@@ -64,17 +76,8 @@ public partial class Enemy_base : RigidBody2D
 	}
 	
 	// Called when the node enters the scene tree for the first time.
-	public override void _Ready()
-	{
-		Godot.Vector2 temp_pos = GetNode<Area2D>("/root/Main_test_scene/Finish").Position;
-		finish_position = new Vector2I(Mathf.RoundToInt(temp_pos.X/cellsize),//->
-		Mathf.RoundToInt(temp_pos.Y/cellsize)); //<-
-		finish_position = finish_position.Abs();
 
-		pathFinder = new PathFinder(finish_position.X+10,finish_position.Y+10, tilemap); 
-	}
-
-	private async void walk_along_nodes(List<PathNode> nodes){
+	private async void WalkAlongNodes(List<PathNode> nodes){
 		path_updated = false;
 
 		Godot.Vector2 Velocity = new Godot.Vector2(0,0);
