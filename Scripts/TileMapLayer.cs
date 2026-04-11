@@ -11,11 +11,11 @@ public partial class TileMapLayer : Godot.TileMapLayer
 	//Building and ui
 	[Export] private TextureRect terrain_texture;
 
-	//tiles 
+	//local saved tiles 
 	[Export] public bool Place_tiles = false;
-	[Export] public Vector2I current_atlas = new Vector2I(0,0);
-	[Export] public int current_SourceId = 0;
-
+	[Export] public Terrain_tile TileScript;
+	private bool hidden = false;
+	//
 	private List<Build_tile> BuildTiles = new List<Build_tile>();
 	private List<Sprite2D> TerrainTiles = new List<Sprite2D>();
 
@@ -27,6 +27,7 @@ public partial class TileMapLayer : Godot.TileMapLayer
 	[Export] public int width = 72;
 	[Export] public int height = 41;
 	private const int cellsize = 16;
+	[Export] private int money = 200;
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{	
@@ -51,7 +52,7 @@ public partial class TileMapLayer : Godot.TileMapLayer
 				position += new Vector2I(0,cellsize*2+4);
 				TerrainTiles.Add(node as Sprite2D);
 
-				if (!selected){nd.Modulate = Colors.White;selected = true;}
+				if (!selected){nd.Modulate = Colors.White;selected = true;TileScript = node as Terrain_tile;}
 				else {nd.Modulate = Colors.DimGray;}
 			}
 		}
@@ -73,8 +74,7 @@ public partial class TileMapLayer : Godot.TileMapLayer
 						//New tile
 						node.Modulate = Colors.White;
 						tile_selected = true;
-						current_atlas = Script.AtlasCoordinates/cellsize;
-						current_SourceId = Script.SourceId;
+						TileScript = Script;
 						
 						foreach (Sprite2D other_node in TerrainTiles)
 						{
@@ -87,8 +87,12 @@ public partial class TileMapLayer : Godot.TileMapLayer
 				}
 				if (!tile_selected)
 				{
-					Godot.Vector2 MousePos = eventMouseButton.Position;
-					Create_tile(MousePos,current_SourceId);
+					if (money > TileScript.cost)
+					{
+						money -= TileScript.cost;
+						Godot.Vector2 MousePos = eventMouseButton.Position;
+						Create_tile(MousePos,TileScript.SourceId);
+					}		
 				}			
 			}
 		}
@@ -98,7 +102,7 @@ public partial class TileMapLayer : Godot.TileMapLayer
 		Godot.Vector2 LocalPos = ToLocal(GlobalPosition);
 		Vector2I TilePos = LocalToMap(LocalPos);
 
-		SetCell(TilePos,sourceId,current_atlas,0);
+		SetCell(TilePos,sourceId,TileScript.AtlasCoordinates/cellsize,0);
 
 		if (sourceId != -1)
 		{
@@ -149,7 +153,18 @@ public partial class TileMapLayer : Godot.TileMapLayer
 	public override void _Process(double delta)
 	{
 		if (Place_tiles)
-		{	
+		{
+			hidden = false;
+		}
+		else
+		{
+			if (!hidden)
+			{
+				hidden = true;
+				foreach (Sprite2D tile in TerrainTiles){
+					tile.Visible = false;
+				}
+			}
 		}
 	}
 
@@ -182,15 +197,5 @@ public partial class TileMapLayer : Godot.TileMapLayer
 			SetCell(TilePos,-1,Godot.Vector2I.Zero,-1);}
 
 		return Damage_tileI(TilePos, raw_dmg);
-	}
-
-	private void read_dir(string name){
-		using var dir = DirAccess.Open(name);
-	
-		if (dir != null)
-		{
-			GD.Print(dir.GetFiles());
-		}
-
 	}
 }
