@@ -17,6 +17,7 @@ public partial class Enemy_base : RigidBody2D
 	[Export] public float StunDuration = 2;
 	private float C_StunDuration = 0;
 	[Export] public float RotationSpeed = 5;
+	[Export] public int MoneyDrops;
 	private PathFinder pathFinder;
 	[Export] public TileMapLayer tilemap;
 	private bool path_updated = false;
@@ -39,6 +40,8 @@ public partial class Enemy_base : RigidBody2D
 		finish_position = finish_position.Abs();
 
 		pathFinder = new PathFinder(finish_position.X+10,finish_position.Y+10, tilemap); 
+
+		GetNode<Area2D>("Area2D").AreaEntered += OnBodyEntered;
 	}
 	public override void _PhysicsProcess(double delta)
 	{
@@ -83,9 +86,9 @@ public partial class Enemy_base : RigidBody2D
 	public void Damage(float damage)
 	{
 		health -= damage;
-		GD.Print(health);
+		if (health <= 0){KillYourself();}
+
 		this_line.SetPointPosition(0,new Godot.Vector2(og_line_width * (health/Max_health),0));
-		GD.Print(this_line.Points[0]);
 		stunned = true;
 	}
 	public void Knockback(Godot.Vector2 Direction, float force){
@@ -154,5 +157,17 @@ public partial class Enemy_base : RigidBody2D
 			}
 		}
 		await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+	}
+	private void OnBodyEntered(Node2D body)
+	{
+		if (body is CollisionObject2D collider && collider.CollisionLayer == 3)
+		{ //Layermask collision mask 3 is holes, so we slaughter the lizards and other fuckers
+			KillYourself();
+		}
+	}
+
+	private void KillYourself()
+	{
+		QueueFree();
 	}
 }

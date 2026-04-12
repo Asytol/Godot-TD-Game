@@ -30,7 +30,7 @@ public partial class MainCharacter : RigidBody2D
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		
+
 		foreach (Node child in GetChildren()){
 			if (child is Area2D)
 			{
@@ -89,7 +89,7 @@ public partial class MainCharacter : RigidBody2D
 			{
 				GD.Print("Not null");
 				if (script.available == true)
-				{	
+				{
 					GD.Print("attacked");
 					float Direction = GetAngleTo(eventMouseButton.Position);
 					Weapon_body.Rotation = Direction - Mathf.Pi;

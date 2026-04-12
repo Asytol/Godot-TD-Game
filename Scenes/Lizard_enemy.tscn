@@ -34,3 +34,5 @@ default_color = Color(0.7628233, 0, 0.25860265, 1)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=2118569006]
 position = Vector2(0.5, 0)
 shape = SubResource("RectangleShape2D_vbq21")
+
+[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]

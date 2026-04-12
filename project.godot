@@ -11,9 +11,13 @@ config_version=5
 [application]
 
 config/name="Testing"
-run/main_scene="res://main_test_scene.tscn"
+run/main_scene="uid://b57ejbh8brp7v"
 config/features=PackedStringArray("4.6", "C#", "Forward Plus")
 config/icon="res://icon.svg"
+
+[autoload]
+
+SceneTransitioner="*uid://dtr1pgdhoi3t0"
 
 [dotnet]
 

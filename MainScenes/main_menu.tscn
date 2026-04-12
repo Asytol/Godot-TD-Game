@@ -1,0 +1,108 @@
+[gd_scene format=3 uid="uid://b57ejbh8brp7v"]
+
+[ext_resource type="Theme" uid="uid://s4ii41fomu2s" path="res://Raw_sprites/Button_theme.tres" id="1_oepce"]
+[ext_resource type="Script" uid="uid://csyu14jixahob" path="res://Scripts/MainMenu.cs" id="1_rqe8y"]
+[ext_resource type="Theme" uid="uid://b4ytiaxr0csu4" path="res://Raw_sprites/Box_theme.tres" id="3_qnbo1"]
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_rqe8y"]
+
+[node name="MainMenu" type="Control" unique_id=1009987052]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_rqe8y")
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=719563857]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("PlaceholderTexture2D_rqe8y")
+
+[node name="CenterContainer" type="CenterContainer" parent="." unique_id=703106896]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer" unique_id=1959833956]
+layout_mode = 2
+
+[node name="Level select" type="Button" parent="CenterContainer/VBoxContainer" unique_id=131614400]
+unique_name_in_owner = true
+layout_mode = 2
+theme = ExtResource("1_oepce")
+text = "Level select"
+
+[node name="Button2" type="Button" parent="CenterContainer/VBoxContainer" unique_id=519410632]
+layout_mode = 2
+theme = ExtResource("1_oepce")
+text = "Settings"
+
+[node name="Quit" type="Button" parent="CenterContainer/VBoxContainer" unique_id=1702049403]
+unique_name_in_owner = true
+layout_mode = 2
+theme = ExtResource("1_oepce")
+text = "Quit"
+
+[node name="TestLevel1" type="Button" parent="." unique_id=1820325865]
+unique_name_in_owner = true
+layout_mode = 0
+offset_right = 85.0
+offset_bottom = 31.0
+text = "Test Level
+"
+
+[node name="LevelSelect" type="CenterContainer" parent="." unique_id=452464053]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="PanelContainer" parent="LevelSelect" unique_id=751640181]
+custom_minimum_size = Vector2(300, 300)
+layout_mode = 2
+mouse_filter = 2
+theme = ExtResource("3_qnbo1")
+
+[node name="PanelContainer" type="Control" parent="LevelSelect/Panel" unique_id=982175287]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+
+[node name="ExitLvlTab" type="Button" parent="LevelSelect/Panel/PanelContainer" unique_id=71338473]
+layout_mode = 0
+offset_top = -31.0
+offset_right = 20.0
+text = "X
+"
+
+[node name="GridContainer" type="GridContainer" parent="LevelSelect/Panel" unique_id=1976333802]
+layout_mode = 2
+columns = 5
+
+[node name="Button" type="Button" parent="LevelSelect/Panel/GridContainer" unique_id=542082849]
+layout_mode = 2
+text = "Level 1"
+
+[node name="Button2" type="Button" parent="LevelSelect/Panel/GridContainer" unique_id=1450859488]
+layout_mode = 2
+text = "Level 2
+"
+
+[connection signal="button_up" from="CenterContainer/VBoxContainer/Level select" to="." method="_on_button_button_up"]
+[connection signal="button_up" from="CenterContainer/VBoxContainer/Level select" to="LevelSelect" method="show"]
+[connection signal="button_up" from="CenterContainer/VBoxContainer/Level select" to="LevelSelect" method="set_mouse_filter" binds= [0]]
+[connection signal="button_up" from="CenterContainer/VBoxContainer/Quit" to="." method="_on_quit_button_up"]
+[connection signal="button_up" from="TestLevel1" to="." method="_on_test_level_1_button_up"]
+[connection signal="button_up" from="LevelSelect/Panel/PanelContainer/ExitLvlTab" to="LevelSelect" method="hide"]
