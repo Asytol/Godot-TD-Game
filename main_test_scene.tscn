@@ -28,9 +28,9 @@ speed = 10
 
 [node name="Lizard" parent="." unique_id=447939803 instance=ExtResource("5_mtg6t")]
 position = Vector2(448, 467)
-collision_mask = 3
 gravity_scale = 0.0
-wall_damage = 3.0
+StunDuration = 4.0
+RotationSpeed = 0.01
 
 [node name="TileMap" parent="." unique_id=1592501808 instance=ExtResource("4_5cr4c")]
 unique_name_in_owner = true

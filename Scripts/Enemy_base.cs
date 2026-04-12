@@ -9,11 +9,14 @@ public partial class Enemy_base : RigidBody2D
 	[Export] public Line2D this_line;
 	private float og_line_width;
 	[Export] public int Speed = 1;
+	private Godot.Vector2 GlobalVelocity;
 	[Export] public float Max_health = 100;
 	[Export] public float health = 100;
 	[Export] public float wall_damage = 0.5f;
-	[Export] public bool stunned = false;	
-
+	[Export] public bool stunned = false;
+	[Export] public float StunDuration = 2;
+	private float C_StunDuration = 0;
+	[Export] public float RotationSpeed = 5;
 	private PathFinder pathFinder;
 	[Export] public TileMapLayer tilemap;
 	private bool path_updated = false;
@@ -28,6 +31,7 @@ public partial class Enemy_base : RigidBody2D
 	{
 		if (tilemap == null){tilemap = GetTree().GetRoot().GetNode<TileMapLayer>("Main_test_scene/TileMap");}
 		if (this_line == null){this_line = GetNode<Line2D>("Line2D"); }
+		og_line_width = this_line.Points[0].X;
 
 		Godot.Vector2 temp_pos = GetNode<Area2D>("/root/Main_test_scene/Finish").Position;
 		finish_position = new Vector2I(Mathf.RoundToInt(temp_pos.X/cellsize),//->
@@ -40,8 +44,10 @@ public partial class Enemy_base : RigidBody2D
 	{
 		current_pathfinding_delay++;
 
-		if (stunned == false)
+		if (!stunned)
 		{
+			Rotation = 0;
+			GlobalPosition += GlobalVelocity;
 			if (current_pathfinding_delay == PathFinding_delay){
 				pathFinder.GetGrid().GetXY(new Godot.Vector2 (10,10),out int x, out int y);
 				Vector2I position = new Vector2I (Mathf.FloorToInt(this.GlobalPosition.X/cellsize),Mathf.FloorToInt(this.GlobalPosition.Y/cellsize));
@@ -49,15 +55,22 @@ public partial class Enemy_base : RigidBody2D
 				//What the actual fuck, why does the code break when the total width compared to the end position is smaller than 10! what! wtf!
 				path = pathFinder.FindPath(position.X,position.Y,finish_position.X,finish_position.Y);
 				path_updated = true;
-				
 				//-
 				current_pathfinding_delay = 0;
-			}	
+			}
 		}
-		
+		else{
+			C_StunDuration += (float)delta;
+			if (C_StunDuration > StunDuration){
+				stunned = false;
+				C_StunDuration = 0;
+				StandStraight();
+			}
+		}
+
 		if (path_updated)
 		{
-			WalkAlongNodes(path);	
+			WalkAlongNodes(path);
 		}
 		QueueRedraw();
 	}
@@ -70,17 +83,39 @@ public partial class Enemy_base : RigidBody2D
 	public void Damage(float damage)
 	{
 		health -= damage;
-
+		GD.Print(health);
 		this_line.SetPointPosition(0,new Godot.Vector2(og_line_width * (health/Max_health),0));
+		GD.Print(this_line.Points[0]);
+		stunned = true;
 	}
 	public void Knockback(Godot.Vector2 Direction, float force){
 		float ex_force = Max_health;
 		if (Max_health != health){ex_force = Max_health/health;}
 		ApplyImpulse(Direction * force * ex_force);
 	}
-	
-	// Called when the node enters the scene tree for the first time.
 
+	// Called when the node enters the scene tree for the first time.
+	private async void StandStraight()
+	{
+		ConstantTorque = 0;
+		int Direction = -1;
+		if (Mathf.Abs(GlobalRotationDegrees) > 180){
+			Direction *= -1;
+		}
+		if (Rotation < 0){
+			Direction *= -1;
+		}
+
+		float Degrees = Rotation;
+		while(Mathf.Abs(GlobalRotationDegrees) > 4 && Mathf.Abs(GlobalRotationDegrees) < 356)
+		{
+			Degrees += RotationSpeed * (float)GetPhysicsProcessDeltaTime();
+			Rotation = Degrees;
+			await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+		}
+		ConstantTorque = 0;
+		Rotation = 0;
+	}
 	private async void WalkAlongNodes(List<PathNode> nodes){
 		path_updated = false;
 
@@ -99,7 +134,7 @@ public partial class Enemy_base : RigidBody2D
 			if (nodes[i].is_obstruction){
 				TileMapLayer script = tilemap as TileMapLayer;
 				while (true){
-					if (script.Area_damageI(nodes[i].tilemap_position, wall_damage * (float)GetPhysicsProcessDeltaTime()) == true){break;}
+					if (script.Area_damageI(nodes[i].tilemap_position, wall_damage) == true){break;}
 					await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
 				}
 				nodes[i].is_obstruction = false;
@@ -110,7 +145,7 @@ public partial class Enemy_base : RigidBody2D
 				if (Mathf.Abs(GlobalPosition.X - cell_positon2.X) < cellsize && Mathf.Abs(GlobalPosition.Y - cell_positon2.Y) < cellsize){break;}
 
 				Velocity = GlobalPosition.DirectionTo(cell_positon) * Speed * (float)GetPhysicsProcessDeltaTime();
-				GlobalPosition += Velocity;
+				GlobalVelocity = Velocity;
 
 				distance = GlobalPosition.DistanceTo(cell_positon);
 				distance2 = GlobalPosition.DistanceTo(cell_positon2);
