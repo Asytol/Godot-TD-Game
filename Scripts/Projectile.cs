@@ -36,6 +36,10 @@ public partial class Projectile : Area2D
 		this.speed = speed;
 		if (IncLayers == null){IncLayers = new List<int>{2};}
 		this.ActiveLayers = IncLayers;
+		foreach (int layer in ActiveLayers)
+		{
+			CollisionLayer += (uint)layer;
+		}
 	}
 	private Godot.Vector2 add_spread(Godot.Vector2 direction,float Extra_spread){
         float Current_angle = Mathf.RadToDeg(Mathf.Atan2(direction.Y,direction.X));
@@ -71,12 +75,14 @@ public partial class Projectile : Area2D
 	private void OnBodyEntered(Node2D body)
 	{
 		if (body is CollisionObject2D collider){
+			GD.Print("pluh"+collider);
 			foreach(int layer in ActiveLayers){
 				if (collider.CollisionLayer == layer){
 					if (body is Enemy_base enemy){
 						enemy.Damage(damage);
 						Godot.Vector2 Direction = (body.Position - this.Position).Normalized();
 						enemy.Knockback(Direction,1f);
+						break;
 					}
 				}
 			}
