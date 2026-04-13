@@ -1,0 +1,30 @@
+[gd_scene format=3 uid="uid://dhn1k01fpibe6"]
+
+[ext_resource type="Theme" uid="uid://s4ii41fomu2s" path="res://Raw_sprites/Button_theme.tres" id="1_gxeva"]
+
+[node name="CenterContainer" type="CenterContainer" unique_id=1948420492]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1001106728]
+layout_mode = 2
+
+[node name="Level select" type="Button" parent="VBoxContainer" unique_id=1299227185]
+unique_name_in_owner = true
+layout_mode = 2
+theme = ExtResource("1_gxeva")
+text = "Level select"
+
+[node name="Button2" type="Button" parent="VBoxContainer" unique_id=1198851652]
+layout_mode = 2
+theme = ExtResource("1_gxeva")
+text = "Settings"
+
+[node name="Quit" type="Button" parent="VBoxContainer" unique_id=490181177]
+unique_name_in_owner = true
+layout_mode = 2
+theme = ExtResource("1_gxeva")
+text = "Quit"
