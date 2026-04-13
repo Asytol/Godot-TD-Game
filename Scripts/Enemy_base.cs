@@ -28,6 +28,8 @@ public partial class Enemy_base : RigidBody2D
 	[Export] public int PathFinding_delay = 15;
 	private int current_pathfinding_delay = 0;
 
+	private bool InKillZone = false;
+
 	public override void _Ready()
 	{
 		if (tilemap == null){tilemap = GetTree().GetRoot().GetNode<TileMapLayer>("Main_test_scene/TileMap");}
@@ -41,7 +43,9 @@ public partial class Enemy_base : RigidBody2D
 
 		pathFinder = new PathFinder(finish_position.X+10,finish_position.Y+10, tilemap); 
 
-		GetNode<Area2D>("Area2D").AreaEntered += OnBodyEntered;
+		GetNode<Area2D>("Area2D").AreaEntered += OnAreaEntered;
+		GetNode<Area2D>("Area2D").BodyEntered += OnBodyEntered;
+		GetNode<Area2D>("Area2D").BodyExited += OnBodyExited;
 	}
 	public override void _PhysicsProcess(double delta)
 	{
@@ -64,6 +68,7 @@ public partial class Enemy_base : RigidBody2D
 		}
 		else{
 			C_StunDuration += (float)delta;
+			if (InKillZone){KillYourself();}
 			if (C_StunDuration > StunDuration){
 				stunned = false;
 				C_StunDuration = 0;
@@ -93,7 +98,7 @@ public partial class Enemy_base : RigidBody2D
 	}
 	public void Knockback(Godot.Vector2 Direction, float force){
 		float ex_force = Max_health;
-		if (Max_health != health){ex_force = Max_health/health;}
+		if (health != 0){ex_force = Max_health/health;}
 		ApplyImpulse(Direction * force * ex_force);
 	}
 
@@ -158,16 +163,41 @@ public partial class Enemy_base : RigidBody2D
 		}
 		await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
 	}
-	private void OnBodyEntered(Node2D body)
+	private void OnAreaEntered(Node2D body)
 	{
-		if (body is CollisionObject2D collider && collider.CollisionLayer == 3)
-		{ //Layermask collision mask 3 is holes, so we slaughter the lizards and other fuckers
+		if (body is CollisionObject2D col)
+		{
+			GD.Print(col.CollisionLayer);
+		}
+		if (body is CollisionObject2D collider && collider.CollisionLayer == 5 && stunned)
+		{ //Layermask collision layer 3 is holes, so we slaughter the lizards and other fuckers
 			KillYourself();
 		}
 	}
-
-	private void KillYourself()
+	private void OnBodyEntered(Node2D body)
 	{
+		if (body is CollisionObject2D collider && collider.CollisionLayer == 5)
+		{ //Layermask collision layer value 5 is holes, so we slaughter the lizards and other fuckers
+			InKillZone = true;
+		}
+	}
+	private void OnBodyExited(Node2D body)
+	{
+		if (body is CollisionObject2D collider && collider.CollisionLayer == 5)
+		{ 
+			InKillZone = false;
+		}
+	}
+
+	private async void KillYourself()
+	{
+		/*
+		this.SetProcess(false);
+		while (this.Scale.X > 0.1 && this.Scale.Y > 0.1)
+		{
+			this.Scale = new Godot.Vector2(this.Scale.X - 0.1f, this.Scale.Y - 0.1f);
+			await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+		}*/
 		QueueFree();
 	}
 }

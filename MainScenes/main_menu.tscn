@@ -2,9 +2,8 @@
 
 [ext_resource type="Theme" uid="uid://s4ii41fomu2s" path="res://Raw_sprites/Button_theme.tres" id="1_oepce"]
 [ext_resource type="Script" uid="uid://csyu14jixahob" path="res://Scripts/MainMenu.cs" id="1_rqe8y"]
+[ext_resource type="Texture2D" uid="uid://dnbrsh5txxmn4" path="res://Raw_sprites/Namnlös.jpg" id="2_gnxq4"]
 [ext_resource type="Theme" uid="uid://b4ytiaxr0csu4" path="res://Raw_sprites/Box_theme.tres" id="3_qnbo1"]
-
-[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_rqe8y"]
 
 [node name="MainMenu" type="Control" unique_id=1009987052]
 layout_mode = 3
@@ -22,7 +21,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = SubResource("PlaceholderTexture2D_rqe8y")
+texture = ExtResource("2_gnxq4")
 
 [node name="CenterContainer" type="CenterContainer" parent="." unique_id=703106896]
 layout_mode = 1

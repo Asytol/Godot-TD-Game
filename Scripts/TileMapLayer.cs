@@ -75,7 +75,7 @@ public partial class TileMapLayer : Godot.TileMapLayer
 						node.Modulate = Colors.White;
 						tile_selected = true;
 						TileScript = Script;
-						
+
 						foreach (Sprite2D other_node in TerrainTiles)
 						{
 							if (other_node != node)

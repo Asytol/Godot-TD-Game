@@ -75,18 +75,24 @@ public partial class Tower_base : Area2D
 	private void OnBodyEntered(Node2D body)
 	{
 		GD.Print("added"+body.Name);
-		entities_in_area.Add(body);
+		if (body is CollisionObject2D collider && collider.CollisionLayer == 2)
+		{
+			entities_in_area.Add(body);
+		}
 	}
 	private void OnBodyExited(Node2D body)
 	{
 		GD.Print("removed"+body.Name);
-		entities_in_area.Remove(body);
+		if (body is CollisionObject2D collider && collider.CollisionLayer == 2)
+		{
+			entities_in_area.Remove(body);
+		}
 	}
 	private async void Summon_projectile(Godot.Vector2 direction,float speed=30,float extra_spread=0,List<int> ex_layers = null){
 		Node instance = projectile.Instantiate();
 		AddChild(instance);
 		Projectile script = instance as Projectile;
-		script.instantiate(direction, speed, extra_spread,ex_layers);
+		script.instantiate(direction, speed, extra_spread,ExLayers:ex_layers);
 
 		await ToSignal(GetTree().CreateTimer(Cooldown), SceneTreeTimer.SignalName.Timeout);
 		shooting = false;
