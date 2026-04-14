@@ -13,6 +13,24 @@
  - Give The chest a healthbar and add a way for game to end
  - Add enemies shrinking when dying.
  - Make the enemies break the blocks slower, for fucks sake they break it soooo quickly.
+ - Add losing and winning levels
+ - Add StunDuration to weapons instead of enemies
+ - Give enemies a StunResistance that decreases the StunDuration that is applied
+ - Make enemies accept iframes for more than just the base_weapon script
+ - Have Levels not be able to overflow
+ - Fix so that placed tiles also auto adjust like terrain
+ - Make so the stone tiles and hole tiles don't look wierd and fit the terrain.
+ - Change Start button ui
+ - Actually change quite some ui, im bad at ui
+ - Add more weapons to the character obviously
+ - Have block ui be part of ui maybe and not a sprite2D   (only maybe, it works fine ig)
+ - Hide blocks when round started
+ - Add timer before round starts aswell
+
+
+
+
+ - Add some particles ig, save that for last though
 
 A lot more
 ___________________________________________________________________________________________________
