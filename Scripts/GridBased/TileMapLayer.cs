@@ -37,7 +37,7 @@ public partial class TileMapLayer : Godot.TileMapLayer
 		foreach (Vector2I cell in GetUsedCells()){
 			Tile_node Tile = grid.GetGridObject(cell.X,cell.Y);
 			Tile.health = (float)GetCellTileData(cell).GetCustomData("health");
-			Tile.breakable = (bool)GetCellTileData(cell).GetCustomData("breakable");	
+			Tile.breakable = (bool)GetCellTileData(cell).GetCustomData("breakable");
 		}
 
 		//Ui and building
@@ -102,7 +102,10 @@ public partial class TileMapLayer : Godot.TileMapLayer
 		Godot.Vector2 LocalPos = ToLocal(GlobalPosition);
 		Vector2I TilePos = LocalToMap(LocalPos);
 
-		SetCell(TilePos,sourceId,TileScript.AtlasCoordinates/cellsize,0);
+		if (sourceId == -1)
+		{
+			SetCell(TilePos,sourceId,TileScript.AtlasCoordinates/cellsize,0);
+		}
 
 		if (sourceId != -1)
 		{

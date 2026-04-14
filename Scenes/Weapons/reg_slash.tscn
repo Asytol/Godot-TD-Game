@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://b713135w050xr"]
 
-[ext_resource type="Script" uid="uid://dcnocn7ad2dbm" path="res://Scripts/Weapon_script.cs" id="1_ixfc0"]
+[ext_resource type="Script" uid="uid://dcnocn7ad2dbm" path="res://Scripts/Nodes/Weapon_script.cs" id="1_ixfc0"]
 [ext_resource type="Texture2D" uid="uid://c5atte5wnssv6" path="res://Raw_sprites/TileMap/Terrain (16x16).png" id="2_kqtwd"]
 [ext_resource type="Texture2D" uid="uid://dw1ud4bfw5d35" path="res://Raw_sprites/Mask_guy/weapon_anime_sword.png" id="3_x1lyi"]
 

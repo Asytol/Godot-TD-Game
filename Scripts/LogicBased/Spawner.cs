@@ -4,24 +4,28 @@ using System;
 
 public partial class Spawner : Node2D
 {
-    [Export] public float global_wait = 20;
+    [Export] public float global_wait = 3;
     public double current_time;
-    public List<SpawnPreset> enemy_clumps = new List<SpawnPreset>();
+    public List<SpawnPreset> EnemyClumps = new List<SpawnPreset>();
     private PackedScene current_enemy;
 
     public override void _Ready()
     {
         //Just testing my system with this line
-        enemy_clumps.Add(new SpawnPreset(5,2,1,GD.Load<PackedScene>("res://Scenes/Lizard_enemy.tscn")));
-
-        foreach (SpawnPreset enemy in enemy_clumps)
-        {
-            spawn_clump(enemy);
-        }
     }
 
     public override void _Process(double delta)
     {
+    }
+    public void ChangeEnemyClumps(List<SpawnPreset> EnemyClumps)
+    {
+        this.EnemyClumps = EnemyClumps;
+    }
+    public async void StartSpawn(SpawnPreset EnemyClump)
+    {
+        await ToSignal(GetTree().CreateTimer(global_wait), SceneTreeTimer.SignalName.Timeout);
+        
+        spawn_clump(EnemyClump);
     }
 
     private async void spawn_clump(SpawnPreset preset)
@@ -31,7 +35,8 @@ public partial class Spawner : Node2D
         for (int i = 0; i < preset.amount; i++)
         {
             GD.Print("instantiated enemy");
-            Node instance = preset.enemy.Instantiate();
+            PackedScene enemy = GD.Load<PackedScene>(preset.EnemyScene); //Maybe load from levelhandler instead to have on loadtime
+            Node instance = enemy.Instantiate();
             AddChild(instance);
             Node2D obj = instance as Node2D;
             obj.GlobalPosition = GlobalPosition;

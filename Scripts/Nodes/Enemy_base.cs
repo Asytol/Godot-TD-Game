@@ -22,6 +22,9 @@ public partial class Enemy_base : RigidBody2D
 	[Export] public TileMapLayer tilemap;
 	private bool path_updated = false;
 	private const int cellsize=16;
+	private const int mapheight = 50;
+	private const int mapwidth = 73;
+
 	private Godot.Vector2I finish_position;
 
 	List<PathNode> path = new List<PathNode>();
@@ -41,7 +44,7 @@ public partial class Enemy_base : RigidBody2D
 		Mathf.RoundToInt(temp_pos.Y/cellsize)); //<-
 		finish_position = finish_position.Abs();
 
-		pathFinder = new PathFinder(finish_position.X+10,finish_position.Y+10, tilemap); 
+		pathFinder = new PathFinder(mapwidth,mapheight, tilemap); 
 
 		GetNode<Area2D>("Area2D").AreaEntered += OnAreaEntered;
 		GetNode<Area2D>("Area2D").BodyEntered += OnBodyEntered;

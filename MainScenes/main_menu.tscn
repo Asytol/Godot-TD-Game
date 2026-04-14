@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://b57ejbh8brp7v"]
 
 [ext_resource type="Theme" uid="uid://s4ii41fomu2s" path="res://Raw_sprites/Button_theme.tres" id="1_oepce"]
-[ext_resource type="Script" uid="uid://csyu14jixahob" path="res://Scripts/MainMenu.cs" id="1_rqe8y"]
+[ext_resource type="Script" uid="uid://csyu14jixahob" path="res://Scripts/LogicBased/MainMenu.cs" id="1_rqe8y"]
 [ext_resource type="Texture2D" uid="uid://dnbrsh5txxmn4" path="res://Raw_sprites/Namnlös.jpg" id="2_gnxq4"]
 [ext_resource type="Theme" uid="uid://b4ytiaxr0csu4" path="res://Raw_sprites/Box_theme.tres" id="3_qnbo1"]
 

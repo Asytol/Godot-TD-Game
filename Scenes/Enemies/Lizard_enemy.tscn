@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://d0fwc6pi0u3cn"]
 
 [ext_resource type="Texture2D" uid="uid://cpavbtoa18o8k" path="res://Raw_sprites/Enemies/lizard_m_idle_anim_f0.png" id="1_mgyyx"]
-[ext_resource type="Script" uid="uid://i8xt60ymkima" path="res://Scripts/Enemy_base.cs" id="1_r88v8"]
+[ext_resource type="Script" uid="uid://i8xt60ymkima" path="res://Scripts/Nodes/Enemy_base.cs" id="1_r88v8"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_r88v8"]
 size = Vector2(13, 14)

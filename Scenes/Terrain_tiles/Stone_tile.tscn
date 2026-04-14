@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://b82l702ekps01"]
 
 [ext_resource type="Texture2D" uid="uid://c5atte5wnssv6" path="res://Raw_sprites/TileMap/Terrain (16x16).png" id="1_bnpsy"]
-[ext_resource type="Script" uid="uid://d0b00pq5tth0w" path="res://Scripts/Terrain_tile.cs" id="2_8mvmd"]
+[ext_resource type="Script" uid="uid://d0b00pq5tth0w" path="res://Scripts/GridBased/Terrain_tile.cs" id="2_8mvmd"]
 
 [node name="Tile" type="Sprite2D" unique_id=1417194335]
 position = Vector2(16, 16)
