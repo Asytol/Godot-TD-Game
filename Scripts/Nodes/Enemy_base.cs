@@ -15,7 +15,8 @@ public partial class Enemy_base : RigidBody2D
 	[Export] public float health = 100;
 	[Export] public float wall_damage = 0.5f;
 	[Export] public bool stunned = false;
-	[Export] public float StunDuration = 2;
+	private float StunDuration = 2;
+	[Export] public float StunResistance = 1;
 	private float C_StunDuration = 0;
 	[Export] public float RotationSpeed = 5;
 	[Export] public int MoneyDrops;
@@ -97,12 +98,13 @@ public partial class Enemy_base : RigidBody2D
 		} 
 	}
 
-	public void Damage(float damage)
+	public void Damage(float damage,float StunDuration)
 	{
 		health -= damage;
 		if (health <= 0){KillYourself();}
 
 		this_line.SetPointPosition(0,new Godot.Vector2(og_line_width * (health/Max_health),0));
+		this.StunDuration = StunDuration/StunResistance;
 		stunned = true;
 	}
 	public void Knockback(Godot.Vector2 Direction, float force){

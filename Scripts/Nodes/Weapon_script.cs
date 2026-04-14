@@ -20,6 +20,7 @@ public partial class Weapon_script : Area2D
 	[Export] public float Cooldown = 2;
 	[Export] public float Size = 1;
 	[Export] public float Force = 1000;
+	[Export] public float StunDuration = 1; //. , f
 
 	private MainCharacter parent_script;
 
@@ -97,10 +98,10 @@ public partial class Weapon_script : Area2D
 				parent_script.I_frame_list.Add(new I_frame_obj(body.Name, 1));
 				GD.Print("Weapon_collided, w/ enemy");
 
-				Vector2 Direction = (body.Position - this.Position).Normalized();
+				Vector2 Direction = this.GlobalPosition.DirectionTo(body.GlobalPosition);
 				Enemy_base script = body as Enemy_base;
 				script.Knockback(Direction,Force);
-				script.Damage(Damage);	
+				script.Damage(Damage,StunDuration);
 			}
 		}
 	} 

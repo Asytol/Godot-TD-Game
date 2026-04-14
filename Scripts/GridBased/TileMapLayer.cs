@@ -27,11 +27,13 @@ public partial class TileMapLayer : Godot.TileMapLayer
 	[Export] public int width = 72;
 	[Export] public int height = 41;
 	private const int cellsize = 16;
-	[Export] private int money = 200;
+	public static int money = 200;
+	private Label MoneyNum;
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{	
-
+		MoneyNum = GetNode<Label>("%MoneyNum");
+		MoneyNum.Text = money.ToString();
 		grid = new Grid_class<Tile_node>(width,height,cellsize,new Godot.Vector2(0,0), (Grid_class<Tile_node> g, int x, int y) => new Tile_node(g,x,y));
 
 		foreach (Vector2I cell in GetUsedCells()){
@@ -92,7 +94,6 @@ public partial class TileMapLayer : Godot.TileMapLayer
 				{
 					if (money > TileScript.cost)
 					{
-						money -= TileScript.cost;
 						Godot.Vector2 MousePos = eventMouseButton.Position;
 						Create_tile(MousePos,TileScript.SourceId);
 					}		
@@ -107,14 +108,34 @@ public partial class TileMapLayer : Godot.TileMapLayer
 
 		if (GetCellSourceId(TilePos) == -1)
 		{
+			money -= TileScript.cost;
+			MoneyNum.Text = money.ToString();
 			SetCell(TilePos,sourceId,TileScript.AtlasCoordinates/cellsize,0);
 			Tile_node Tile = grid.GetGridObject(TilePos.X,TilePos.Y);
 			if (Tile != null)
 			{
 				Tile.health = (float)GetCellTileData(TilePos).GetCustomData("health");
-				Tile.breakable = (bool)GetCellTileData(TilePos).GetCustomData("breakable");		
+				Tile.breakable = (bool)GetCellTileData(TilePos).GetCustomData("breakable");
+			}
+			//UpdateTerrain(TilePos,3);
+		}
+	}
+	private void UpdateTerrain(Vector2I MidPoint,int size)
+	{ //Tried doing terrain here but it didn't work altoo well, my bad gng
+		Godot.Collections.Array<Vector2I> array = []; 
+		array.Resize(size*size);
+
+		int total = 0;
+		for (int x = -1; x < size-1; x++){
+			for (int y = -1; x < size-1; x++){
+				array[total] = new Vector2I(MidPoint.X - x,MidPoint.Y - y);
+				total++;
 			}
 		}
+		
+		int TerrainSet = GetCellTileData(MidPoint).TerrainSet;
+		int Terrain = GetCellTileData(MidPoint).Terrain;
+		SetCellsTerrainConnect(array,TerrainSet,Terrain);
 	}
 
 	public bool Damage_tile(Godot.Vector2 GlobalPosition,float damage)
@@ -166,6 +187,7 @@ public partial class TileMapLayer : Godot.TileMapLayer
 				foreach (Sprite2D tile in TerrainTiles){
 					tile.Visible = false;
 				}
+				terrain_texture.Visible = false;
 			}
 		}
 	}

@@ -14,8 +14,9 @@ public partial class Projectile : Area2D
 	[Export] public float Decay_time = 3;
 
 
-	[Export] public float speed = 30;
+	[Export] public float speed = 30; //. ,
 	[Export] public float damage = 10;
+	[Export] public float StunDuration = 0.3f;
 	private Godot.Vector2 Direction; 
 
 	private List<int> ActiveLayers = new List<int>();
@@ -75,11 +76,10 @@ public partial class Projectile : Area2D
 	private void OnBodyEntered(Node2D body)
 	{
 		if (body is CollisionObject2D collider){
-			GD.Print("pluh"+collider);
 			foreach(int layer in ActiveLayers){
 				if (collider.CollisionLayer == layer){
 					if (body is Enemy_base enemy){
-						enemy.Damage(damage);
+						enemy.Damage(damage,StunDuration);
 						Godot.Vector2 Direction = (body.Position - this.Position).Normalized();
 						enemy.Knockback(Direction,1f);
 						break;

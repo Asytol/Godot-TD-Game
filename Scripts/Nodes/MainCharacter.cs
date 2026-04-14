@@ -26,7 +26,6 @@ public partial class MainCharacter : RigidBody2D
 
 	public List<I_frame_obj> I_frame_list = new List<I_frame_obj> {};
 
-	
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
@@ -41,7 +40,7 @@ public partial class MainCharacter : RigidBody2D
 			weapon_list[i].Visible = false;
 			weapon_list[i].SetProcess(false);
 		}
-		
+
 
 		if (this_collider == null){this_collider = this.GetNode<CollisionShape2D>("CollisionShape2D");}
 
@@ -81,9 +80,8 @@ public partial class MainCharacter : RigidBody2D
 	public override void _Input(InputEvent @event)
 	{
 		// Mouse in viewport coordinates.
-		if (@event is InputEventMouseButton eventMouseButton)
+		if (@event is InputEventMouseButton eventMouseButton && LevelHandler.RoundOver == false)
 		{
-			GD.Print("clicked");
 			Weapon_script script = (Weapon_script)Weapon_body;
 			if (script != null)
 			{

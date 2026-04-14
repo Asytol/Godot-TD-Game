@@ -23,6 +23,8 @@ public partial class MainMenu : Control
     private void TestLevel()
     {
         GD.Print("bing");
-        GetTree().ChangeSceneToFile("res://MainScenes/main_test_scene.tscn");
+        CanvasLayer Transitioner = GetTree().Root.GetChild<CanvasLayer>(0);
+        SceneTransitioner script = Transitioner as SceneTransitioner;
+        script.GoToScene("main_test_scene");
     }
 }

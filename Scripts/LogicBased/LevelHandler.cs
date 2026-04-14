@@ -10,7 +10,7 @@ public partial class LevelHandler : Node
 	private WavePreset[] ThisLevel;
 	public int CurrentWave;
 	[Export] public int MaxWaves = 4;
-	public bool RoundOver = false;
+	public static bool RoundOver = false;
 	public static int EnemiesAlive = 0;
 	//[Export] private WavePreset[] WavePresets;
 
