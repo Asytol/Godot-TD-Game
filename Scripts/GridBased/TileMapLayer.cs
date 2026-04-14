@@ -12,7 +12,7 @@ public partial class TileMapLayer : Godot.TileMapLayer
 	[Export] private TextureRect terrain_texture;
 
 	//local saved tiles 
-	[Export] public bool Place_tiles = false;
+	public static bool Place_tiles = true;
 	[Export] public Terrain_tile TileScript;
 	private bool hidden = false;
 	//
@@ -36,8 +36,11 @@ public partial class TileMapLayer : Godot.TileMapLayer
 
 		foreach (Vector2I cell in GetUsedCells()){
 			Tile_node Tile = grid.GetGridObject(cell.X,cell.Y);
-			Tile.health = (float)GetCellTileData(cell).GetCustomData("health");
-			Tile.breakable = (bool)GetCellTileData(cell).GetCustomData("breakable");
+			if (Tile != null)
+			{
+				Tile.health = (float)GetCellTileData(cell).GetCustomData("health");
+				Tile.breakable = (bool)GetCellTileData(cell).GetCustomData("breakable");	
+			}
 		}
 
 		//Ui and building
@@ -102,13 +105,9 @@ public partial class TileMapLayer : Godot.TileMapLayer
 		Godot.Vector2 LocalPos = ToLocal(GlobalPosition);
 		Vector2I TilePos = LocalToMap(LocalPos);
 
-		if (sourceId == -1)
+		if (GetCellSourceId(TilePos) == -1)
 		{
 			SetCell(TilePos,sourceId,TileScript.AtlasCoordinates/cellsize,0);
-		}
-
-		if (sourceId != -1)
-		{
 			Tile_node Tile = grid.GetGridObject(TilePos.X,TilePos.Y);
 			if (Tile != null)
 			{

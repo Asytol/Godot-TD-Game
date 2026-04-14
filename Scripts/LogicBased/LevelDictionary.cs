@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Security.Cryptography.X509Certificates;
 
-public class LevelDictionary
+public static class LevelDictionary
 {
     public static readonly WavePreset[] Main_test_scene =
     {

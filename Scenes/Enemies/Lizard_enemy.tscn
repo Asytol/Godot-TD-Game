@@ -11,11 +11,13 @@ size = Vector2(15, 16)
 
 [node name="RigidBody2D2" type="RigidBody2D" unique_id=447939803]
 collision_layer = 2
+collision_mask = 0
 script = ExtResource("1_r88v8")
 Speed = 20
 RotationSpeed = 0.5
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=535382408]
+z_index = 1
 position = Vector2(0, -6)
 texture = ExtResource("1_mgyyx")
 

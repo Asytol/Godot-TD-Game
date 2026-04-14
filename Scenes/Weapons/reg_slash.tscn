@@ -188,7 +188,7 @@ animations = [{
 
 [node name="Reg_slash" type="Area2D" unique_id=1935958866]
 collision_layer = 3
-collision_mask = 3
+collision_mask = 62
 script = ExtResource("1_ixfc0")
 Force = 15.0
 

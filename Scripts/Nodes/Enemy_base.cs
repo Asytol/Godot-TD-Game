@@ -1,5 +1,6 @@
 using Godot;
 using System.Collections.Generic;
+using System.Collections;
 using System.IO;
 using System.Numerics;
 using System;
@@ -35,11 +36,12 @@ public partial class Enemy_base : RigidBody2D
 
 	public override void _Ready()
 	{
-		if (tilemap == null){tilemap = GetTree().GetRoot().GetNode<TileMapLayer>("Main_test_scene/TileMap");}
+		//Child(0) is sceene transitioner :crying_emoji:
+		if (tilemap == null){tilemap = GetTree().Root.GetChild(1).GetNode<TileMapLayer>("%TileMap");}
 		if (this_line == null){this_line = GetNode<Line2D>("Line2D"); }
 		og_line_width = this_line.Points[0].X;
 
-		Godot.Vector2 temp_pos = GetNode<Area2D>("/root/Main_test_scene/Finish").Position;
+		Godot.Vector2 temp_pos = GetTree().Root.GetNode<Area2D>("/root/Main_test_scene/Finish").Position;
 		finish_position = new Vector2I(Mathf.RoundToInt(temp_pos.X/cellsize),//->
 		Mathf.RoundToInt(temp_pos.Y/cellsize)); //<-
 		finish_position = finish_position.Abs();
@@ -56,7 +58,6 @@ public partial class Enemy_base : RigidBody2D
 
 		if (!stunned)
 		{
-			Rotation = 0;
 			GlobalPosition += GlobalVelocity;
 			if (current_pathfinding_delay == PathFinding_delay){
 				pathFinder.GetGrid().GetXY(new Godot.Vector2 (10,10),out int x, out int y);
@@ -71,7 +72,12 @@ public partial class Enemy_base : RigidBody2D
 		}
 		else{
 			C_StunDuration += (float)delta;
-			if (InKillZone){KillYourself();}
+			Vector2I position = new Vector2I (Mathf.FloorToInt(this.GlobalPosition.X/cellsize),Mathf.FloorToInt(this.GlobalPosition.Y/cellsize));
+			if (tilemap.GetCellSourceId(position) == 1)
+			{
+				KillYourself();
+			}
+
 			if (C_StunDuration > StunDuration){
 				stunned = false;
 				C_StunDuration = 0;
@@ -108,6 +114,11 @@ public partial class Enemy_base : RigidBody2D
 	// Called when the node enters the scene tree for the first time.
 	private async void StandStraight()
 	{
+		Tween tween = CreateTween();
+		tween.TweenProperty(this,"globalrotation",Mathf.DegToRad(250),1);
+		await ToSignal(tween, Tween.SignalName.Finished);
+
+		/*
 		ConstantTorque = 0;
 		int Direction = -1;
 		if (Mathf.Abs(GlobalRotationDegrees) > 180){
@@ -126,6 +137,7 @@ public partial class Enemy_base : RigidBody2D
 		}
 		ConstantTorque = 0;
 		Rotation = 0;
+		*/
 	}
 	private async void WalkAlongNodes(List<PathNode> nodes){
 		path_updated = false;
@@ -168,28 +180,12 @@ public partial class Enemy_base : RigidBody2D
 	}
 	private void OnAreaEntered(Node2D body)
 	{
-		if (body is CollisionObject2D col)
-		{
-			GD.Print(col.CollisionLayer);
-		}
-		if (body is CollisionObject2D collider && collider.CollisionLayer == 5 && stunned)
-		{ //Layermask collision layer 3 is holes, so we slaughter the lizards and other fuckers
-			KillYourself();
-		}
 	}
 	private void OnBodyEntered(Node2D body)
 	{
-		if (body is CollisionObject2D collider && collider.CollisionLayer == 5)
-		{ //Layermask collision layer value 5 is holes, so we slaughter the lizards and other fuckers
-			InKillZone = true;
-		}
 	}
 	private void OnBodyExited(Node2D body)
 	{
-		if (body is CollisionObject2D collider && collider.CollisionLayer == 5)
-		{ 
-			InKillZone = false;
-		}
 	}
 
 	private async void KillYourself()
@@ -201,6 +197,13 @@ public partial class Enemy_base : RigidBody2D
 			this.Scale = new Godot.Vector2(this.Scale.X - 0.1f, this.Scale.Y - 0.1f);
 			await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
 		}*/
+		LevelHandler.EnemiesAlive--;
+		Tween tween = CreateTween();
+
+		AngularVelocity = 4000;
+		tween.TweenProperty(this, "scale",Godot.Vector2.Zero,1);
+
+		await ToSignal(tween, Tween.SignalName.Finished);
 		QueueFree();
 	}
 }

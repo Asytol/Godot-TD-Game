@@ -10,6 +10,8 @@ public partial class LevelHandler : Node
 	private WavePreset[] ThisLevel;
 	public int CurrentWave;
 	[Export] public int MaxWaves = 4;
+	public bool RoundOver = false;
+	public static int EnemiesAlive = 0;
 	//[Export] private WavePreset[] WavePresets;
 
 	[Signal]
@@ -17,6 +19,7 @@ public partial class LevelHandler : Node
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
+
 		GetNode<Button>("%Start").ButtonUp += OnStart;
 		//if/or is sadly faster than reflection ):
 		if (Name.ToString() == "Main_test_scene")
@@ -42,15 +45,31 @@ public partial class LevelHandler : Node
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
+
+		if (EnemiesAlive == 0)
+		{
+			RoundOver = true;
+			TileMapLayer.Place_tiles = true;
+		}
 	}
 
 	private void OnStart()
 	{
-		foreach (SpawnPreset preset in ThisLevel[CurrentWave].SpawnPresets)
+		if (RoundOver == true)
 		{
-			Node2D SpawnNode = GetNode<Node2D>($"%{preset.SpawnerName}");
-			Spawner script = SpawnNode as Spawner;
-			script.StartSpawn(preset);
+			foreach (SpawnPreset preset in ThisLevel[CurrentWave].SpawnPresets)
+			{
+				EnemiesAlive += preset.amount;
+				Node2D SpawnNode = GetNode<Node2D>($"%{preset.SpawnerName}");
+				Spawner script = SpawnNode as Spawner;
+				script.StartSpawn(preset);
+			}
+			RoundOver = false;
+			CurrentWave += 1;
 		}
+		TileMapLayer.Place_tiles = false;
 	}
+
+
+	//Getting nodes
 }
