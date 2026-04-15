@@ -98,5 +98,5 @@ public partial class Weapon_script : Area2D
 			script.Knockback(Direction,Force);
 			script.Damage(Damage,StunDuration,Name);
 		}
-	} 
+	}
 }

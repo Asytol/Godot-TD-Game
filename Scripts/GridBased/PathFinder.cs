@@ -2,7 +2,6 @@ using Godot;
 using System.Collections.Generic;
 using System.IO;
 using System.Numerics;
-using System.Security.Cryptography.X509Certificates;
 using System;
 
 public class PathFinder

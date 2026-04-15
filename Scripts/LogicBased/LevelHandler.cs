@@ -1,5 +1,4 @@
 using Godot;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -49,7 +48,6 @@ public partial class LevelHandler : Node
 		if (EnemiesAlive == 0)
 		{
 			RoundOver = true;
-			TileMapLayer.Place_tiles = true;
 		}
 	}
 
@@ -67,7 +65,6 @@ public partial class LevelHandler : Node
 			RoundOver = false;
 			CurrentWave += 1;
 		}
-		TileMapLayer.Place_tiles = false;
 	}
 
 
