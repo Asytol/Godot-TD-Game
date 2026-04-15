@@ -7,6 +7,8 @@
 [ext_resource type="Texture2D" uid="uid://ctg1ox4rmbbn0" path="res://Raw_sprites/Item_frame.png" id="5_p5ima"]
 [ext_resource type="PackedScene" uid="uid://cqgmojw3cwhym" path="res://Scenes/Terrain_tiles/Brick_tile.tscn" id="6_lpbv4"]
 [ext_resource type="PackedScene" uid="uid://b82l702ekps01" path="res://Scenes/Terrain_tiles/Stone_tile.tscn" id="7_bsuvp"]
+[ext_resource type="Texture2D" uid="uid://wkgmeftkue50" path="res://Raw_sprites/Towers/Ballista.png" id="8_bsuvp"]
+[ext_resource type="Script" uid="uid://u2ofwnkhaa8l" path="res://Scripts/GridBased/Build_tile.cs" id="9_p5ima"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_r5nid"]
 texture = ExtResource("2_p1nli")
@@ -629,7 +631,8 @@ texture = ExtResource("3_lpbv4")
 5:2/0/custom_data_2 = 1.0
 
 [sub_resource type="TileSet" id="TileSet_mtg6t"]
-physics_layer_0/collision_layer = 3
+physics_layer_0/collision_layer = 5
+physics_layer_0/collision_mask = 3
 physics_layer_0/physics_material = ExtResource("1_vwmae")
 physics_layer_1/collision_layer = 1
 physics_layer_1/collision_priority = 2.0
@@ -669,3 +672,30 @@ stretch_mode = 1
 
 [node name="Tile2" parent="." unique_id=297246895 instance=ExtResource("7_bsuvp")]
 position = Vector2(16, 48)
+
+[node name="TileSignifier" type="Sprite2D" parent="." unique_id=637838694]
+unique_name_in_owner = true
+texture = ExtResource("2_p1nli")
+offset = Vector2(8, 8)
+region_enabled = true
+region_rect = Rect2(0, 0, 16, 16)
+
+[node name="TowerContainer" type="VBoxContainer" parent="." unique_id=1692510672]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="MarginContainer" type="MarginContainer" parent="TowerContainer" unique_id=1709940437]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 16
+
+[node name="Ballista" type="TextureButton" parent="TowerContainer/MarginContainer" unique_id=1282572473]
+layout_mode = 2
+texture_normal = ExtResource("8_bsuvp")
+texture_pressed = ExtResource("8_bsuvp")
+texture_hover = ExtResource("8_bsuvp")
+texture_disabled = ExtResource("8_bsuvp")
+texture_focused = ExtResource("8_bsuvp")
+script = ExtResource("9_p5ima")

@@ -127,7 +127,7 @@ public class PathFinder
             node.tilemap_position = coordinates;
             if (cost.VariantType == Variant.Type.Float){
                 return Mathf.RoundToInt((float)cost);
-            }   
+            }
         }
 
         return 0;
@@ -137,10 +137,7 @@ public class PathFinder
         if (id != -1)
         {
             Variant breakable = tilemap.GetCellTileData(coordinates).GetCustomData("breakable");
-            if (breakable.VariantType == Variant.Type.Bool && (bool)breakable == true){
-                return true; 
-            }
-            else {return false;}
+            return breakable.VariantType == Variant.Type.Bool && (bool)breakable;
         }
         return true;
     }

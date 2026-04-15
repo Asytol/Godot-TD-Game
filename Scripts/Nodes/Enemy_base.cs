@@ -17,6 +17,7 @@ public partial class Enemy_base : RigidBody2D
 	[Export] public bool stunned = false;
 	private float StunDuration = 2;
 	[Export] public float StunResistance = 1;
+	[Export] public float ExtraIFrames = 0.2f;
 	private float C_StunDuration = 0;
 	[Export] public float RotationSpeed = 5;
 	[Export] public int MoneyDrops;
@@ -34,6 +35,8 @@ public partial class Enemy_base : RigidBody2D
 	private int current_pathfinding_delay = 0;
 
 	private bool InKillZone = false;
+
+	public List<I_frame_obj> IFrameList = new List<I_frame_obj> {};
 
 	public override void _Ready()
 	{
@@ -55,6 +58,7 @@ public partial class Enemy_base : RigidBody2D
 	}
 	public override void _PhysicsProcess(double delta)
 	{
+		UpdateIFrameList((float) delta);
 		current_pathfinding_delay++;
 
 		if (!stunned)
@@ -98,13 +102,18 @@ public partial class Enemy_base : RigidBody2D
 		} 
 	}
 
-	public void Damage(float damage,float StunDuration)
+	public void Damage(float damage,float StunDuration,StringName name)
 	{
+		if (CheckIFrames(name)){return;} //in list
+		IFrameList.Add(new I_frame_obj(name,StunDuration+ExtraIFrames));
+
 		health -= damage;
 		if (health <= 0){KillYourself();}
 
 		this_line.SetPointPosition(0,new Godot.Vector2(og_line_width * (health/Max_health),0));
-		this.StunDuration = StunDuration/StunResistance;
+
+		if (this.StunDuration - C_StunDuration < StunDuration/StunResistance)
+		{this.StunDuration = StunDuration/StunResistance;}
 		stunned = true;
 	}
 	public void Knockback(Godot.Vector2 Direction, float force){
@@ -112,34 +121,35 @@ public partial class Enemy_base : RigidBody2D
 		if (health != 0){ex_force = Max_health/health;}
 		ApplyImpulse(Direction * force * ex_force);
 	}
+	private void UpdateIFrameList(float deltaTime){
+		for (int i = 0; i < IFrameList.Count; i++){
+			IFrameList[i].C_Duration += deltaTime;
+			if (IFrameList[i].C_Duration > IFrameList[i].Duration){
+				IFrameList.RemoveAt(i);
+			}
+		}
+	}
+	public bool CheckIFrames(StringName name){
+		foreach (I_frame_obj obj in IFrameList){
+			if (obj.name == name){
+				return true;
+			}
+		}
+		return false;
+	}
 
 	// Called when the node enters the scene tree for the first time.
 	private async void StandStraight()
 	{
 		Tween tween = CreateTween();
-		tween.TweenProperty(this,"globalrotation",Mathf.DegToRad(250),1);
+
+		float time = 2;
+		float StartPoint = 0;
+		if(RotationDegrees > 180){StartPoint = 180;}
+		time *= Mathf.Abs(StartPoint-RotationDegrees)/90;
+
+		tween.TweenProperty(this,"rotation",Mathf.DegToRad(0),time);
 		await ToSignal(tween, Tween.SignalName.Finished);
-
-		/*
-		ConstantTorque = 0;
-		int Direction = -1;
-		if (Mathf.Abs(GlobalRotationDegrees) > 180){
-			Direction *= -1;
-		}
-		if (Rotation < 0){
-			Direction *= -1;
-		}
-
-		float Degrees = Rotation;
-		while(Mathf.Abs(GlobalRotationDegrees) > 4 && Mathf.Abs(GlobalRotationDegrees) < 356)
-		{
-			Degrees += RotationSpeed * (float)GetPhysicsProcessDeltaTime();
-			Rotation = Degrees;
-			await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
-		}
-		ConstantTorque = 0;
-		Rotation = 0;
-		*/
 	}
 	private async void WalkAlongNodes(List<PathNode> nodes){
 		path_updated = false;
@@ -204,7 +214,6 @@ public partial class Enemy_base : RigidBody2D
 
 		AngularVelocity = 4000;
 		tween.TweenProperty(this, "scale",Godot.Vector2.Zero,1);
-
 		await ToSignal(tween, Tween.SignalName.Finished);
 		QueueFree();
 	}

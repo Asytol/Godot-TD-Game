@@ -24,8 +24,6 @@ public partial class MainCharacter : RigidBody2D
 	//
 	public bool Grounded = true;
 
-	public List<I_frame_obj> I_frame_list = new List<I_frame_obj> {};
-
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
@@ -74,8 +72,6 @@ public partial class MainCharacter : RigidBody2D
 
 		if (Input.IsActionJustPressed("Change_inv_left")){change_weapon(true);}
 		if (Input.IsActionJustPressed("Change_inv_right")){change_weapon(false);}
-		
-		UpdateIFrameList((float) delta);
 	}
 	public override void _Input(InputEvent @event)
 	{
@@ -100,24 +96,6 @@ public partial class MainCharacter : RigidBody2D
 			float Direction = GetAngleTo(eventMouseMotion.Position);
 			Weapon_body.Rotation = Direction - Mathf.Pi;
 		}
-	}
-
-
-	private void UpdateIFrameList(float deltaTime){
-		for (int i = 0; i < I_frame_list.Count; i++){
-			I_frame_list[i].C_Duration += deltaTime;
-			if (I_frame_list[i].C_Duration > I_frame_list[i].Duration){
-				I_frame_list.RemoveAt(i);
-			}
-		}
-	}
-	public bool CheckIFrames(StringName name){
-		foreach (I_frame_obj obj in I_frame_list){
-			if (obj.name == name){
-				return true;
-			}
-		}
-		return false;
 	}
 	private void add_weapon(Area2D weapon)
 	{

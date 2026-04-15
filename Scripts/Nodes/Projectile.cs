@@ -79,7 +79,7 @@ public partial class Projectile : Area2D
 			foreach(int layer in ActiveLayers){
 				if (collider.CollisionLayer == layer){
 					if (body is Enemy_base enemy){
-						enemy.Damage(damage,StunDuration);
+						enemy.Damage(damage,StunDuration,Name);
 						Godot.Vector2 Direction = (body.Position - this.Position).Normalized();
 						enemy.Knockback(Direction,1f);
 						break;

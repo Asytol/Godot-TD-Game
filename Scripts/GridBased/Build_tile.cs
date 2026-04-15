@@ -1,9 +1,8 @@
 using Godot;
 using System;
 
-public class Build_tile
-{
-    public int cost;
-    public PackedScene building;
-
+public partial class Build_tile : TextureButton
+{ 
+    [Export] public int cost;
+    [Export] public PackedScene building;
 }

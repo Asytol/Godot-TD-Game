@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://l14itu8jjarh"]
+
+[ext_resource type="Script" uid="uid://gk8eyw3lnmpg" path="res://Scripts/Nodes/TowerShooterBase.cs" id="1_ugw7c"]
+[ext_resource type="Texture2D" uid="uid://wkgmeftkue50" path="res://Raw_sprites/Towers/Ballista.png" id="2_ojg5m"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ei7of"]
+
+[node name="Area2D" type="Area2D" unique_id=1380105968]
+collision_layer = 4
+collision_mask = 2
+script = ExtResource("1_ugw7c")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=2060543455]
+texture = ExtResource("2_ojg5m")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1708348395]
+shape = SubResource("CircleShape2D_ei7of")

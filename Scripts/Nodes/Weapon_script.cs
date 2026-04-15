@@ -93,16 +93,10 @@ public partial class Weapon_script : Area2D
 	private void OnBodyEntered(Node2D body)
 	{
 		if (body is CollisionObject2D collider && collider.CollisionLayer == 2){
-			if (parent_script.CheckIFrames(body.Name) == false)
-			{
-				parent_script.I_frame_list.Add(new I_frame_obj(body.Name, 1));
-				GD.Print("Weapon_collided, w/ enemy");
-
-				Vector2 Direction = this.GlobalPosition.DirectionTo(body.GlobalPosition);
-				Enemy_base script = body as Enemy_base;
-				script.Knockback(Direction,Force);
-				script.Damage(Damage,StunDuration);
-			}
+			Vector2 Direction = this.GlobalPosition.DirectionTo(body.GlobalPosition);
+			Enemy_base script = body as Enemy_base;
+			script.Knockback(Direction,Force);
+			script.Damage(Damage,StunDuration,Name);
 		}
 	} 
 }

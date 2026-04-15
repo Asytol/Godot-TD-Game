@@ -4,6 +4,7 @@
 
 [node name="SceneTransitioner" type="CanvasLayer" unique_id=279483628]
 script = ExtResource("1_wppla")
+SwitchDuration = null
 
 [node name="ColorRect" type="ColorRect" parent="." unique_id=630384793]
 anchors_preset = 15
