@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System;
 
 
-public partial class TowerShooterBase : Tower_base
+public partial class TowerShooterBase : TowerBase
 {
 	[ExportGroup("ShooterBase")] 
     [Export] public float base_damage = 80;

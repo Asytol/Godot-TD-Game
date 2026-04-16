@@ -29,8 +29,8 @@ public partial class TileMapLayer : Godot.TileMapLayer
 	[Export] public int width = 72;
 	[Export] public int height = 41;
 	private const int cellsize = 16;
-	public static int money = 200;
-	private Label MoneyNum;
+	public static int money = 0;
+	public Label MoneyNum;
 
 	private Sprite2D TileSignifier;
 
@@ -47,8 +47,6 @@ public partial class TileMapLayer : Godot.TileMapLayer
 
 
 		MoneyNum = GetNode<Label>("%MoneyNum");
-
-		MoneyNum.Text = money.ToString();
 		grid = new Grid_class<Tile_node>(width,height,cellsize,new Godot.Vector2(0,0), (Grid_class<Tile_node> g, int x, int y) => new Tile_node(g,x,y));
 
 		foreach (Vector2I cell in GetUsedCells()){
@@ -56,7 +54,7 @@ public partial class TileMapLayer : Godot.TileMapLayer
 			if (Tile != null)
 			{
 				Tile.health = (float)GetCellTileData(cell).GetCustomData("health");
-				Tile.breakable = (bool)GetCellTileData(cell).GetCustomData("breakable");	
+				Tile.breakable = (bool)GetCellTileData(cell).GetCustomData("breakable");
 			}
 		}
 
@@ -192,6 +190,8 @@ public partial class TileMapLayer : Godot.TileMapLayer
 	private void CreateBuilding(Godot.Vector2 GlobalPosition)
 	{
 		money -= BuildScript.cost;
+		GD.Print(BuildScript.cost);
+		MoneyNum.Text = money.ToString();
 		Godot.Vector2I Position = ((Vector2I)GlobalPosition/cellsize)*cellsize;
 
 		Node2D Instance = BuildScript.building.Instantiate<Node2D>();
@@ -285,9 +285,7 @@ public partial class TileMapLayer : Godot.TileMapLayer
 	//Tiles
 	private void BallistaPlace()
 	{
-		GD.Print("yes");
 		PlaceTiles = false;
-		GD.Print(PlaceTiles);
 		PlaceBuildings = true;
 		BuildScript = Ballista as Build_tile;
 

@@ -34,7 +34,7 @@ public partial class Enemy_base : RigidBody2D
 	[Export] public int PathFinding_delay = 15;
 	private int current_pathfinding_delay = 0;
 
-	private bool InKillZone = false;
+	private bool KillingSelf = false;
 
 	public List<I_frame_obj> IFrameList = new List<I_frame_obj> {};
 
@@ -80,7 +80,7 @@ public partial class Enemy_base : RigidBody2D
 			Vector2I position = new Vector2I (Mathf.FloorToInt(this.GlobalPosition.X/cellsize),Mathf.FloorToInt(this.GlobalPosition.Y/cellsize));
 			if (tilemap.GetCellSourceId(position) == 1)
 			{
-				KillYourself();
+				if (!KillingSelf){KillYourself();}
 			}
 
 			if (C_StunDuration > StunDuration){
@@ -202,14 +202,8 @@ public partial class Enemy_base : RigidBody2D
 
 	private async void KillYourself()
 	{
-		/*
-		this.SetProcess(false);
-		while (this.Scale.X > 0.1 && this.Scale.Y > 0.1)
-		{
-			this.Scale = new Godot.Vector2(this.Scale.X - 0.1f, this.Scale.Y - 0.1f);
-			await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
-		}*/
-		LevelHandler.EnemiesAlive--;
+		KillingSelf = true;
+		LevelHandler.OnEnemyDeath();
 		Tween tween = CreateTween();
 
 		AngularVelocity = 4000;

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Numerics;
 using System;
 
-public partial class Tower_base : Area2D
+public partial class TowerBase : Area2D
 {
 	private CollisionShape2D my_collider;
 	[Export] public float base_range = 80;

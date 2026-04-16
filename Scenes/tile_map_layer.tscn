@@ -10,6 +10,8 @@
 [ext_resource type="Texture2D" uid="uid://wkgmeftkue50" path="res://Raw_sprites/Towers/Ballista.png" id="8_bsuvp"]
 [ext_resource type="Script" uid="uid://u2ofwnkhaa8l" path="res://Scripts/GridBased/Build_tile.cs" id="9_p5ima"]
 [ext_resource type="PackedScene" uid="uid://l14itu8jjarh" path="res://Scenes/BallistaTower.tscn" id="10_u5ca1"]
+[ext_resource type="Theme" uid="uid://b4ytiaxr0csu4" path="res://Raw_sprites/Box_theme.tres" id="11_yehf8"]
+[ext_resource type="StyleBox" uid="uid://c0xoc2o2yqhdc" path="res://Raw_sprites/StyleBoxBlueTheme.tres" id="12_6cgyq"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_r5nid"]
 texture = ExtResource("2_p1nli")
@@ -660,8 +662,6 @@ tile_map_data = PackedByteArray("AAD//ygAAAAPAAYAAAD//ycAAAAPAAUAAAD//yYAAAAPAAU
 tile_set = SubResource("TileSet_mtg6t")
 navigation_enabled = false
 script = ExtResource("4_bsuvp")
-width = null
-height = null
 
 [node name="TextureRect" type="TextureRect" parent="." unique_id=242744489]
 texture_filter = 1
@@ -672,12 +672,11 @@ texture = ExtResource("5_p5ima")
 stretch_mode = 1
 
 [node name="Tile" parent="." unique_id=1417194335 instance=ExtResource("6_lpbv4")]
-SourceId = null
+cost = 10
 
 [node name="Tile2" parent="." unique_id=297246895 instance=ExtResource("7_bsuvp")]
 position = Vector2(16, 48)
-SourceId = null
-AtlasCoordinates = null
+cost = 15
 
 [node name="TileSignifier" type="Sprite2D" parent="." unique_id=637838694]
 unique_name_in_owner = true
@@ -708,7 +707,6 @@ texture_hover = ExtResource("8_bsuvp")
 texture_disabled = ExtResource("8_bsuvp")
 texture_focused = ExtResource("8_bsuvp")
 script = ExtResource("9_p5ima")
-cost = 15
 building = ExtResource("10_u5ca1")
 
 [node name="MarginContainer" type="MarginContainer" parent="TowerContainer/MarginContainer" unique_id=987387752]
@@ -727,5 +725,26 @@ size_flags_horizontal = 0
 mouse_filter = 2
 texture = ExtResource("5_p5ima")
 stretch_mode = 1
+
+[node name="StatsPanel" type="MarginContainer" parent="." unique_id=971184535]
+unique_name_in_owner = true
+visible = false
+offset_right = 78.0
+offset_bottom = 74.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 2
+
+[node name="Panel" type="Panel" parent="StatsPanel" unique_id=1193293641]
+custom_minimum_size = Vector2(70, 40)
+layout_mode = 2
+mouse_filter = 2
+theme = ExtResource("11_yehf8")
+theme_override_styles/panel = ExtResource("12_6cgyq")
+
+[node name="Label2" type="Label" parent="StatsPanel" unique_id=1766337982]
+layout_mode = 2
+text = "test"
+justification_flags = 162
 
 [connection signal="button_up" from="TowerContainer/MarginContainer/Ballista" to="." method="_on_ballista_button_up"]

@@ -6,10 +6,10 @@ using System.Text.RegularExpressions;
 
 public partial class LevelHandler : Node
 {
-	private WavePreset[] ThisLevel;
-	public int CurrentWave;
+	public static WavePreset[] ThisLevel;
+	public static int CurrentWave;
 	[Export] public int MaxWaves = 4;
-	public static bool RoundOver = false;
+	public static bool RoundOver = true;
 	public static int EnemiesAlive = 0;
 	//[Export] private WavePreset[] WavePresets;
 
@@ -29,6 +29,11 @@ public partial class LevelHandler : Node
 		{
 			ThisLevel = LevelDictionary.Levels[Name.ToString()[-1]];
 		}
+		TileMapLayer.money += ThisLevel[0].WaveMoney;
+		TileMapLayer script = GetNode<TileMapLayer>("%TileMap") as TileMapLayer;
+		script.MoneyNum.Text = ThisLevel[0].WaveMoney.ToString();
+
+		RoundOver = true;
 	}
 	private bool CantFindIsDigitFunction(char c)
 	{
@@ -44,16 +49,21 @@ public partial class LevelHandler : Node
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
-
+		GD.Print(EnemiesAlive);	
+	}
+	public static void OnEnemyDeath()
+	{
+		EnemiesAlive--;
 		if (EnemiesAlive == 0)
 		{
 			RoundOver = true;
+			TileMapLayer.money += ThisLevel[CurrentWave].WaveMoney;
 		}
 	}
 
 	private void OnStart()
 	{
-		if (RoundOver == true)
+		if (RoundOver)
 		{
 			foreach (SpawnPreset preset in ThisLevel[CurrentWave].SpawnPresets)
 			{
@@ -63,7 +73,7 @@ public partial class LevelHandler : Node
 				script.StartSpawn(preset);
 			}
 			RoundOver = false;
-			CurrentWave += 1;
+			CurrentWave++;
 		}
 	}
 
