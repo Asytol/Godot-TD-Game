@@ -5,11 +5,11 @@ using System.Diagnostics;
 using System.IO;
 using System.Numerics;
 using Godot;
+using static System.Net.Mime.MediaTypeNames;
 
 public partial class TileMapLayer : Godot.TileMapLayer
 {
 	//Building and ui
-	[Export] private TextureRect terrain_texture;
 
 	//local saved tiles 
 	public static bool PlaceTiles = true;
@@ -25,12 +25,12 @@ public partial class TileMapLayer : Godot.TileMapLayer
 	//Grids and cells
 	private bool mouse_down = false;
 
-	private Grid_class<Tile_node> grid;
+	private static Grid_class<Tile_node> grid;
 	[Export] public int width = 72;
 	[Export] public int height = 41;
 	private const int cellsize = 16;
 	public static int money = 0;
-	public Label MoneyNum;
+	public static Label MoneyNum;
 
 	private Sprite2D TileSignifier;
 
@@ -113,7 +113,6 @@ public partial class TileMapLayer : Godot.TileMapLayer
 			if (hidden)
 			{
 				hidden = false;
-				terrain_texture.Visible = true;
 				TileSignifier.Visible = true;
                 TowerContainer.Visible = true;
                 TileContainer.Visible = true;
@@ -124,15 +123,19 @@ public partial class TileMapLayer : Godot.TileMapLayer
 			if (!hidden)
 			{
 				hidden = true;
-                terrain_texture.Visible = false;
                 TileSignifier.Visible = false;
                 TowerContainer.Visible = false;
                 TileContainer.Visible = false;
             }
 		}
-	}
+    }
+    public override void _Draw()
+    {
+        //DrawCircle(TileSignifier.GlobalPosition,);
+    }
 
-	private void CreateTile(Godot.Vector2 GlobalPosition, int sourceId){
+
+    private void CreateTile(Godot.Vector2 GlobalPosition, int sourceId){
 		Godot.Vector2 LocalPos = ToLocal(GlobalPosition);
 		Vector2I TilePos = LocalToMap(LocalPos);
 
@@ -151,11 +154,14 @@ public partial class TileMapLayer : Godot.TileMapLayer
 		}
 	}
 	private void CreateBuilding(Godot.Vector2 GlobalPosition)
-	{
-		money -= BuildScript.cost;
+    {
+    	Godot.Vector2I Position = ((Vector2I)GlobalPosition/cellsize)*cellsize;
+        //if (grid.GetGridObject(Position.X,Position.Y))
+        if (GetCellSourceId(Position) != -1 && !(bool)GetCellTileData(Position).GetCustomData("Buildable")) {return;}
+        
+        money -= BuildScript.cost;
 		GD.Print(BuildScript.cost);
 		MoneyNum.Text = money.ToString();
-		Godot.Vector2I Position = ((Vector2I)GlobalPosition/cellsize)*cellsize;
 
 		Node2D Instance = BuildScript.building.Instantiate<Node2D>();
 		AddChild(Instance);
@@ -250,9 +256,29 @@ public partial class TileMapLayer : Godot.TileMapLayer
 	{
 		PlaceTiles = false;
 		PlaceBuildings = true;
-		BuildScript = button as Build_tile;
+        BuildScript = button as Build_tile;
 
-		TileSignifier.Texture = button.TextureNormal;
+        Node2D temp = BuildScript.building.Instantiate<Node2D>();
+        TowerBase BuildingScript = temp as TowerBase;
+        TileSignifier.GetChild<TextureRect>(0).Size = new Godot.Vector2(BuildingScript.range, BuildingScript.range);
+
+        TextureRect rect = TileSignifier.GetChild<TextureRect>(0);
+        rect.Visible = true;
+        rect.AnchorLeft = 0.5f;
+		rect.AnchorRight = 0.5f;
+		rect.AnchorTop = 0.5f;
+        rect.AnchorBottom = 0.5f;
+
+        Godot.Vector2 textureSize = rect.Texture.GetSize();
+
+		rect.OffsetLeft = -textureSize.X / 2;
+		rect.OffsetRight = textureSize.X / 2;
+		rect.OffsetTop = -textureSize.Y / 2;
+		rect.OffsetBottom = textureSize.Y / 2;
+
+
+
+        TileSignifier.Texture = button.TextureNormal;
     }
 
     private void ChangeCurrentTile(TextureButton button)
@@ -260,6 +286,7 @@ public partial class TileMapLayer : Godot.TileMapLayer
         PlaceTiles = true;
         PlaceBuildings = false;
         TileScript = button as Terrain_tile_button;
+        TileSignifier.GetChild<TextureRect>(0).Visible = false;
 
         TileSignifier.Texture = button.TextureNormal;
     }
@@ -291,6 +318,7 @@ public partial class TileMapLayer : Godot.TileMapLayer
 ⠀⠀⠀⠀⠀⠀⠉⠀⠀⠀⠉⠀⣸⣿⣿⣿⣿⣿⣿⣷⣦⣤⣭⣴⣾⣿⣿⡿⠋⠠⣶⣶⠚⣓⣀⣿⣿⣿⣿⣿⣧⡘⢿⣿⡇⢦⠜⢿⡆⠫
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣤⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠏⠀⠐⠿⠿⠿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣄⠱⢸⣦⠈⣿⣦
 ⠀⠀⠀⣀⣤⣤⣶⣿⠿⣿⣿⣿⣿⣿⣿⣙⣿⣿⣿⣿⣿⣿⣿⣿⣿⡏⠀⣶⣶⣶⣾⣿⣿⣿⣿⣿⣿⣿⣿⡻⣻⠿⠿⡿⣦⢸⣷⣤⡞⢿
+   ⣀⣤⣤⣶⣿⠿⣿⣿⣿⣿⣿⣿⣙⣿⣿⣿⣿⣿⣿⣿⣿⣿⡏⠀⣶⣶⣶⣾⣿⣿⣿⣿⣿⣿⣿⣿⡻⣻⠿⠿⡿⣦⢸⣷⣤⡞⢿
    ⣀⣤⣤⣶⣿⠿⣿⣿⣿⣿⣿⣿⣙⣿⣿⣿⣿⣿⣿⣿⣿⣿⡏⠀⣶⣶⣶⣾⣿⣿⣿⣿⣿⣿⣿⣿⡻⣻⠿⠿⡿⣦⢸⣷⣤⡞⢿
    ⣀⣤⣤⣶⣿⠿⣿⣿⣿⣿⣿⣿⣙⣿⣿⣿⣿⣿⣿⣿⣿⣿⡏⠀⣶⣶⣶⣾⣿⣿⣿⣿⣿⣿⣿⣿⡻⣻⠿⠿⡿⣦⢸⣷⣤⡞⢿
    ⣀⣤⣤⣶⣿⠿⣿⣿⣿⣿⣿⣿⣙⣿⣿⣿⣿⣿⣿⣿⣿⣿⡏⠀⣶⣶⣶⣾⣿⣿⣿⣿⣿⣿⣿⣿⡻⣻⠿⠿⡿⣦⢸⣷⣤⡞⢿

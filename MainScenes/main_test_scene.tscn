@@ -3,6 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://ce5688smmy8fa" path="res://Green.png" id="1_64wbe"]
 [ext_resource type="PackedScene" uid="uid://bwdn5f2xgiq16" path="res://Scenes/MainCharacter.tscn" id="2_63dlw"]
 [ext_resource type="PackedScene" uid="uid://yw8eau6lycgh" path="res://Scenes/tile_map_layer.tscn" id="4_ytlt0"]
+[ext_resource type="Script" uid="uid://djqav5vuqv6ke" path="res://Scripts/Nodes/Finish.cs" id="6_ytlt0"]
 [ext_resource type="PackedScene" uid="uid://bvb6dnwk6e2" path="res://Scenes/finish.tscn" id="7_4bbre"]
 [ext_resource type="Script" uid="uid://ckjt0mmch1a6i" path="res://Scripts/LogicBased/Spawner.cs" id="8_dooye"]
 [ext_resource type="Script" uid="uid://c2t62uwun1ntw" path="res://Scripts/LogicBased/LevelHandler.cs" id="9_63dlw"]
@@ -10,6 +11,9 @@
 [ext_resource type="Theme" uid="uid://b4ytiaxr0csu4" path="res://Raw_sprites/Box_theme.tres" id="10_ytlt0"]
 [ext_resource type="PackedScene" uid="uid://l14itu8jjarh" path="res://Scenes/BallistaTower.tscn" id="11_ytlt0"]
 [ext_resource type="Texture2D" uid="uid://dcwkdl27nm5g4" path="res://Raw_sprites/TileMap/Coin.png" id="12_kmpqp"]
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_kmpqp"]
+size = Vector2(32, 32)
 
 [node name="Main_test_scene" type="Node" unique_id=731922039]
 script = ExtResource("9_63dlw")
@@ -36,6 +40,9 @@ tile_map_data = PackedByteArray("AAD//ygAAAAPAAYAAAD//ycAAAANAAYAAAD//yYAAAAPAAU
 
 [node name="Finish" parent="." unique_id=1400412053 instance=ExtResource("7_4bbre")]
 position = Vector2(1000, 100)
+collision_layer = 4
+collision_mask = 2
+script = ExtResource("6_ytlt0")
 
 [node name="Spawner" type="Node2D" parent="." unique_id=818489847]
 unique_name_in_owner = true
@@ -96,6 +103,19 @@ stretch_mode = 4
 [node name="MoneyNum" type="Label" parent="Ui/MarginContainer2/HBoxContainer" unique_id=23445455]
 unique_name_in_owner = true
 layout_mode = 2
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="Ui/MarginContainer2/HBoxContainer" unique_id=453172738]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="Ui/MarginContainer2/HBoxContainer/HBoxContainer2" unique_id=132309790]
+layout_mode = 2
+texture = SubResource("PlaceholderTexture2D_kmpqp")
+stretch_mode = 4
+
+[node name="HealthNum" type="Label" parent="Ui/MarginContainer2/HBoxContainer/HBoxContainer2" unique_id=1580004134]
+unique_name_in_owner = true
+layout_mode = 2
+text = "10"
 
 [node name="BallistaTower" parent="." unique_id=1380105968 instance=ExtResource("11_ytlt0")]
 position = Vector2(232, 456)

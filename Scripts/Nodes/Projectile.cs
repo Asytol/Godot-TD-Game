@@ -16,7 +16,7 @@ public partial class Projectile : Area2D
 
 	[Export] public float speed = 30; //. ,
 	[Export] public float damage = 10;
-	[Export] public float StunDuration = 0.3f;
+	[Export] public float StunDuration = 0;
 	private Godot.Vector2 Direction; 
 
 	private List<int> ActiveLayers = new List<int>();

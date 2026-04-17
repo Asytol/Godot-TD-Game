@@ -1,8 +1,8 @@
-using Godot;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
+using Godot;
 
 public partial class LevelHandler : Node
 {
@@ -30,8 +30,7 @@ public partial class LevelHandler : Node
 			ThisLevel = LevelDictionary.Levels[Name.ToString()[-1]];
 		}
 		TileMapLayer.money += ThisLevel[0].WaveMoney;
-		TileMapLayer script = GetNode<TileMapLayer>("%TileMap") as TileMapLayer;
-		script.MoneyNum.Text = ThisLevel[0].WaveMoney.ToString();
+		TileMapLayer.MoneyNum.Text = ThisLevel[0].WaveMoney.ToString();
 
 		RoundOver = true;
 	}
@@ -49,7 +48,7 @@ public partial class LevelHandler : Node
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
-		GD.Print(EnemiesAlive);	
+		GD.Print(EnemiesAlive);
 	}
 	public static void OnEnemyDeath()
 	{
@@ -57,8 +56,9 @@ public partial class LevelHandler : Node
 		if (EnemiesAlive == 0)
 		{
 			RoundOver = true;
-			TileMapLayer.money += ThisLevel[CurrentWave].WaveMoney;
-		}
+            TileMapLayer.money += ThisLevel[CurrentWave].WaveMoney;
+            TileMapLayer.MoneyNum.Text = TileMapLayer.money.ToString();
+        }
 	}
 
 	private void OnStart()

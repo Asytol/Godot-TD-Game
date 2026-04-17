@@ -9,7 +9,6 @@ size = Vector2(7, 21)
 [node name="Projectile" type="Area2D" unique_id=1140131879]
 collision_mask = 3
 script = ExtResource("1_yr2qt")
-StunDuration = 0.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1679190379]
 shape = SubResource("RectangleShape2D_d4467")

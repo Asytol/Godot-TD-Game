@@ -112,9 +112,8 @@ public partial class Enemy_base : RigidBody2D
 
 		this_line.SetPointPosition(0,new Godot.Vector2(og_line_width * (health/Max_health),0));
 
-		if (this.StunDuration - C_StunDuration < StunDuration/StunResistance)
-		{this.StunDuration = StunDuration/StunResistance;}
-		stunned = true;
+		if (this.StunDuration - C_StunDuration < StunDuration/StunResistance && StunDuration != 0)
+		{this.StunDuration = StunDuration/StunResistance; stunned = true;}
 	}
 	public void Knockback(Godot.Vector2 Direction, float force){
 		float ex_force = Max_health;
@@ -175,7 +174,7 @@ public partial class Enemy_base : RigidBody2D
 				nodes[i].is_obstruction = false;
 			}
 
-			while ((distance > 4) && path_updated == false){
+			while ((distance > 4) && !path_updated){
 				if (distance > distance2){break;}
 				if (Mathf.Abs(GlobalPosition.X - cell_positon2.X) < cellsize && Mathf.Abs(GlobalPosition.Y - cell_positon2.Y) < cellsize){break;}
 
