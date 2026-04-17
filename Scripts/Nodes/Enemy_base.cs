@@ -108,7 +108,7 @@ public partial class Enemy_base : RigidBody2D
 		IFrameList.Add(new I_frame_obj(name,StunDuration+ExtraIFrames));
 
 		health -= damage;
-		if (health <= 0){KillYourself();}
+		if (health <= 0 && !KillingSelf){KillYourself();}
 
 		this_line.SetPointPosition(0,new Godot.Vector2(og_line_width * (health/Max_health),0));
 

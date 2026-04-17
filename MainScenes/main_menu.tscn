@@ -2,8 +2,10 @@
 
 [ext_resource type="Theme" uid="uid://s4ii41fomu2s" path="res://Raw_sprites/Button_theme.tres" id="1_oepce"]
 [ext_resource type="Script" uid="uid://csyu14jixahob" path="res://Scripts/LogicBased/MainMenu.cs" id="1_rqe8y"]
-[ext_resource type="Texture2D" uid="uid://dnbrsh5txxmn4" path="res://Raw_sprites/Namnlös.jpg" id="2_gnxq4"]
+[ext_resource type="Texture2D" uid="uid://dnbrsh5txxmn4" path="res://BigYahu.jpg" id="2_gnxq4"]
+[ext_resource type="Texture2D" uid="uid://b4du7co2ny5mf" path="res://Diabolical.jpg" id="2_w41gr"]
 [ext_resource type="Theme" uid="uid://b4ytiaxr0csu4" path="res://Raw_sprites/Box_theme.tres" id="3_qnbo1"]
+[ext_resource type="AudioStream" uid="uid://b1wn8y5apqbpa" path="res://bill-butcher-f-cking-diabolical-the-boys-theboys-billybutcher-butcher-funnymoments-primevideo-amazonprimevideo.mp3" id="6_4xubp"]
 
 [node name="MainMenu" type="Control" unique_id=1009987052]
 layout_mode = 3
@@ -13,6 +15,8 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_rqe8y")
+RebirthTexture = ExtResource("2_w41gr")
+RegularTexture = ExtResource("2_gnxq4")
 
 [node name="TextureRect" type="TextureRect" parent="." unique_id=719563857]
 layout_mode = 1
@@ -22,6 +26,11 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("2_gnxq4")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="." unique_id=300165130]
+stream = ExtResource("6_4xubp")
+volume_db = 24.0
+pitch_scale = 0.7
 
 [node name="CenterContainer" type="CenterContainer" parent="." unique_id=703106896]
 layout_mode = 1
@@ -50,6 +59,12 @@ unique_name_in_owner = true
 layout_mode = 2
 theme = ExtResource("1_oepce")
 text = "Quit"
+
+[node name="Rebirth" type="Button" parent="CenterContainer/VBoxContainer" unique_id=208411230]
+unique_name_in_owner = true
+layout_mode = 2
+theme = ExtResource("1_oepce")
+text = "Rebirth"
 
 [node name="TestLevel1" type="Button" parent="." unique_id=1820325865]
 unique_name_in_owner = true
@@ -99,9 +114,11 @@ layout_mode = 2
 text = "Level 2
 "
 
+[connection signal="finished" from="AudioStreamPlayer2D" to="." method="_on_audio_stream_player_2d_finished"]
 [connection signal="button_up" from="CenterContainer/VBoxContainer/Level select" to="." method="_on_button_button_up"]
 [connection signal="button_up" from="CenterContainer/VBoxContainer/Level select" to="LevelSelect" method="show"]
 [connection signal="button_up" from="CenterContainer/VBoxContainer/Level select" to="LevelSelect" method="set_mouse_filter" binds= [0]]
 [connection signal="button_up" from="CenterContainer/VBoxContainer/Quit" to="." method="_on_quit_button_up"]
+[connection signal="button_up" from="CenterContainer/VBoxContainer/Rebirth" to="." method="_on_rebirth_button_up"]
 [connection signal="button_up" from="TestLevel1" to="." method="_on_test_level_1_button_up"]
 [connection signal="button_up" from="LevelSelect/Panel/PanelContainer/ExitLvlTab" to="LevelSelect" method="hide"]

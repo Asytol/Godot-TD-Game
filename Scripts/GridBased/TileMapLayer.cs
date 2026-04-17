@@ -1,10 +1,10 @@
-using Godot;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Numerics;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
+using System.Numerics;
+using Godot;
 
 public partial class TileMapLayer : Godot.TileMapLayer
 {
@@ -14,14 +14,14 @@ public partial class TileMapLayer : Godot.TileMapLayer
 	//local saved tiles 
 	public static bool PlaceTiles = true;
 	public static bool PlaceBuildings = false;
-	[Export] public Terrain_tile TileScript;
+	[Export] public Terrain_tile_button TileScript;
 	[Export] public Build_tile BuildScript;
 	private bool hidden = false;
 	//
-	private List<TextureButton> BuildTiles = new List<TextureButton>();
-	private List<Sprite2D> TerrainTiles = new List<Sprite2D>();
+    private TextureRect TowerContainer;
+    private TextureRect TileContainer;
 
-	private string dir_path = "res://Scenes/Terrain_tiles/";
+    private string dir_path = "res://Scenes/Terrain_tiles/";
 	//Grids and cells
 	private bool mouse_down = false;
 
@@ -39,14 +39,27 @@ public partial class TileMapLayer : Godot.TileMapLayer
 	TextureButton Ballista;
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
-	{
-		//Build tiles
-		Ballista = GetNode<TextureButton>("%Ballista");
-		Ballista.ButtonUp += BallistaPlace;
-		//GetNode<TextureButton>("%Ballista").
+    {
+        TowerContainer = GetNode<TextureRect>("%TowerContainer");
+        TileContainer = GetNode<TextureRect>("%TileContainer");
+        //Get all TextureButton signals
+        if (TileSignifier == null){TileSignifier = GetNode<Sprite2D>("%TileSignifier");}
+
+        foreach (MarginContainer container in TileContainer.GetChild<VBoxContainer>(0).GetChildren())
+        {
+            TextureButton child = container.GetChild<TextureButton>(0);
+            child.Connect("SendTileInfo",new Callable(this, nameof(ChangeCurrentTile)));
+        }
+        foreach (MarginContainer container in TowerContainer.GetChild<VBoxContainer>(0).GetChildren())
+        {
+			TextureButton child = container.GetChild<TextureButton>(0);
+            child.Connect("SendBuildInfo", new Callable(this, nameof(ChangeCurrentBuilding)));
+            ChangeCurrentBuilding(child);
+        }
+        //GetNode<TextureButton>("%Ballista").
 
 
-		MoneyNum = GetNode<Label>("%MoneyNum");
+        MoneyNum = GetNode<Label>("%MoneyNum");
 		grid = new Grid_class<Tile_node>(width,height,cellsize,new Godot.Vector2(0,0), (Grid_class<Tile_node> g, int x, int y) => new Tile_node(g,x,y));
 
 		foreach (Vector2I cell in GetUsedCells()){
@@ -60,29 +73,6 @@ public partial class TileMapLayer : Godot.TileMapLayer
 
 		//Ui and building
 		Vector2I position = new Vector2I(cellsize,cellsize);
-		bool selected = false; 
-		foreach (Node node in GetChildren())
-		{
-			if (node is Sprite2D && node is Node2D)
-			{
-				if (node.Name == "TileSignifier"){TileSignifier = node as Sprite2D; continue;};
-
-				Node2D nd = node as Node2D;
-				nd.Position = position;
-				position += new Vector2I(0,cellsize*2+4);
-				TerrainTiles.Add(node as Sprite2D);
-
-				if (!selected){nd.Modulate = Colors.White;selected = true;TileScript = node as Terrain_tile;}
-				else {nd.Modulate = Colors.DimGray;}
-			}
-		}
-		if (TileSignifier == null){TileSignifier = GetNode<Sprite2D>("%TileSignifier");}
-
-		if (terrain_texture == null){terrain_texture = GetNode<TextureRect>("TextureRect"); }
-		terrain_texture.Size = new Godot.Vector2(32,36 * TerrainTiles.Count);
-
-		TileSignifier.RegionEnabled = true;
-		TileSignifier.RegionRect = new Rect2I(TileScript.AtlasCoordinates.X,TileScript.AtlasCoordinates.Y,16,16);
 	}
 	public override void _Input(InputEvent @event)
 	{
@@ -92,47 +82,22 @@ public partial class TileMapLayer : Godot.TileMapLayer
 			mouse_down = !mouse_down;
 			if (mouse_down && LevelHandler.RoundOver)
 			{
-				bool tile_selected = false;
-
-				foreach (Sprite2D node in TerrainTiles){
-					Terrain_tile Script = node as Terrain_tile;
-					if (Script.Check_AABB(eventMouseButton.Position)){
-						//New tile
-						node.Modulate = Colors.White;
-						tile_selected = true;
-						PlaceTiles = true;
-						PlaceBuildings = false;
-						TileScript = Script;
-						TileSignifier.Texture = node.Texture;
-						TileSignifier.RegionRect = new Rect2I(TileScript.AtlasCoordinates.X,TileScript.AtlasCoordinates.Y,16,16);
-
-						foreach (Sprite2D other_node in TerrainTiles)
-						{
-							if (other_node != node)
-							{
-								other_node.Modulate = Colors.DimGray;
-							}
-						}
-					}
-				}
-
-				if (!tile_selected && PlaceTiles)
+				if (PlaceTiles)
 				{
 					if (money >= TileScript.cost)
 					{
 						Godot.Vector2 MousePos = eventMouseButton.Position;
 						CreateTile(MousePos,TileScript.SourceId);
 					}
-				}
-			}
-
-			if (PlaceBuildings && mouse_down)
-			{
-				if (money >= BuildScript.cost)
+                }
+                if (PlaceBuildings)
+				{
+					if (money >= BuildScript.cost)
 					{
 						CreateBuilding(eventMouseButton.Position);
 					}
-			}
+				}
+            }
 		}
 		if (@event is InputEventMouseMotion eventMouseMotion)
 		{
@@ -148,24 +113,22 @@ public partial class TileMapLayer : Godot.TileMapLayer
 			if (hidden)
 			{
 				hidden = false;
-				foreach (Sprite2D tile in TerrainTiles){
-					tile.Visible = true;
-				}
 				terrain_texture.Visible = true;
 				TileSignifier.Visible = true;
-			}
+                TowerContainer.Visible = true;
+                TileContainer.Visible = true;
+            }
 		}
 		else
 		{
 			if (!hidden)
 			{
 				hidden = true;
-				foreach (Sprite2D tile in TerrainTiles){
-					tile.Visible = false;
-				}
-				terrain_texture.Visible = false;
-				TileSignifier.Visible = false;
-			}
+                terrain_texture.Visible = false;
+                TileSignifier.Visible = false;
+                TowerContainer.Visible = false;
+                TileContainer.Visible = false;
+            }
 		}
 	}
 
@@ -283,15 +246,23 @@ public partial class TileMapLayer : Godot.TileMapLayer
 
 
 	//Tiles
-	private void BallistaPlace()
+	private void ChangeCurrentBuilding(TextureButton button)
 	{
 		PlaceTiles = false;
 		PlaceBuildings = true;
-		BuildScript = Ballista as Build_tile;
+		BuildScript = button as Build_tile;
 
-		TileSignifier.Texture = Ballista.TextureNormal;
-		TileSignifier.RegionRect = new Rect2I(0,0,16,16);
-	}
+		TileSignifier.Texture = button.TextureNormal;
+    }
+
+    private void ChangeCurrentTile(TextureButton button)
+    {
+        PlaceTiles = true;
+        PlaceBuildings = false;
+        TileScript = button as Terrain_tile_button;
+
+        TileSignifier.Texture = button.TextureNormal;
+    }
 }
 
 
@@ -320,4 +291,7 @@ public partial class TileMapLayer : Godot.TileMapLayer
 ⠀⠀⠀⠀⠀⠀⠉⠀⠀⠀⠉⠀⣸⣿⣿⣿⣿⣿⣿⣷⣦⣤⣭⣴⣾⣿⣿⡿⠋⠠⣶⣶⠚⣓⣀⣿⣿⣿⣿⣿⣧⡘⢿⣿⡇⢦⠜⢿⡆⠫
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣤⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠏⠀⠐⠿⠿⠿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣄⠱⢸⣦⠈⣿⣦
 ⠀⠀⠀⣀⣤⣤⣶⣿⠿⣿⣿⣿⣿⣿⣿⣙⣿⣿⣿⣿⣿⣿⣿⣿⣿⡏⠀⣶⣶⣶⣾⣿⣿⣿⣿⣿⣿⣿⣿⡻⣻⠿⠿⡿⣦⢸⣷⣤⡞⢿
+   ⣀⣤⣤⣶⣿⠿⣿⣿⣿⣿⣿⣿⣙⣿⣿⣿⣿⣿⣿⣿⣿⣿⡏⠀⣶⣶⣶⣾⣿⣿⣿⣿⣿⣿⣿⣿⡻⣻⠿⠿⡿⣦⢸⣷⣤⡞⢿
+   ⣀⣤⣤⣶⣿⠿⣿⣿⣿⣿⣿⣿⣙⣿⣿⣿⣿⣿⣿⣿⣿⣿⡏⠀⣶⣶⣶⣾⣿⣿⣿⣿⣿⣿⣿⣿⡻⣻⠿⠿⡿⣦⢸⣷⣤⡞⢿
+   ⣀⣤⣤⣶⣿⠿⣿⣿⣿⣿⣿⣿⣙⣿⣿⣿⣿⣿⣿⣿⣿⣿⡏⠀⣶⣶⣶⣾⣿⣿⣿⣿⣿⣿⣿⣿⡻⣻⠿⠿⡿⣦⢸⣷⣤⡞⢿
 */

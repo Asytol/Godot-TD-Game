@@ -5,13 +5,14 @@
 [ext_resource type="Texture2D" uid="uid://dcvxaapydl65v" path="res://Raw_sprites/TileMap/Hole_tileset.png" id="3_lpbv4"]
 [ext_resource type="Script" uid="uid://pwhjd4ww66xe" path="res://Scripts/GridBased/TileMapLayer.cs" id="4_bsuvp"]
 [ext_resource type="Texture2D" uid="uid://ctg1ox4rmbbn0" path="res://Raw_sprites/Item_frame.png" id="5_p5ima"]
-[ext_resource type="PackedScene" uid="uid://cqgmojw3cwhym" path="res://Scenes/Terrain_tiles/Brick_tile.tscn" id="6_lpbv4"]
-[ext_resource type="PackedScene" uid="uid://b82l702ekps01" path="res://Scenes/Terrain_tiles/Stone_tile.tscn" id="7_bsuvp"]
 [ext_resource type="Texture2D" uid="uid://wkgmeftkue50" path="res://Raw_sprites/Towers/Ballista.png" id="8_bsuvp"]
 [ext_resource type="Script" uid="uid://u2ofwnkhaa8l" path="res://Scripts/GridBased/Build_tile.cs" id="9_p5ima"]
 [ext_resource type="PackedScene" uid="uid://l14itu8jjarh" path="res://Scenes/BallistaTower.tscn" id="10_u5ca1"]
+[ext_resource type="Texture2D" uid="uid://bi82ketkd1p5m" path="res://Raw_sprites/TileMap/UiTerrainTextures/Brick.png" id="11_a5obw"]
 [ext_resource type="Theme" uid="uid://b4ytiaxr0csu4" path="res://Raw_sprites/Box_theme.tres" id="11_yehf8"]
 [ext_resource type="StyleBox" uid="uid://c0xoc2o2yqhdc" path="res://Raw_sprites/StyleBoxBlueTheme.tres" id="12_6cgyq"]
+[ext_resource type="Texture2D" uid="uid://b3k8p786tfmsj" path="res://Raw_sprites/TileMap/UiTerrainTextures/StoneBrick.png" id="12_cwa1k"]
+[ext_resource type="Script" uid="uid://ijp6ng4aw433" path="res://Scripts/GridBased/Terrain_tile_button.cs" id="12_vh02k"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_r5nid"]
 texture = ExtResource("2_p1nli")
@@ -663,21 +664,6 @@ tile_set = SubResource("TileSet_mtg6t")
 navigation_enabled = false
 script = ExtResource("4_bsuvp")
 
-[node name="TextureRect" type="TextureRect" parent="." unique_id=242744489]
-texture_filter = 1
-texture_repeat = 2
-offset_right = 32.0
-offset_bottom = 32.0
-texture = ExtResource("5_p5ima")
-stretch_mode = 1
-
-[node name="Tile" parent="." unique_id=1417194335 instance=ExtResource("6_lpbv4")]
-cost = 10
-
-[node name="Tile2" parent="." unique_id=297246895 instance=ExtResource("7_bsuvp")]
-position = Vector2(16, 48)
-cost = 15
-
 [node name="TileSignifier" type="Sprite2D" parent="." unique_id=637838694]
 unique_name_in_owner = true
 texture = ExtResource("2_p1nli")
@@ -685,18 +671,32 @@ offset = Vector2(8, 8)
 region_enabled = true
 region_rect = Rect2(0, 0, 16, 16)
 
-[node name="TowerContainer" type="VBoxContainer" parent="." unique_id=1692510672]
-offset_right = 40.0
+[node name="TowerContainer" type="TextureRect" parent="." unique_id=1773634107]
+unique_name_in_owner = true
+texture_filter = 1
+texture_repeat = 2
+offset_left = 40.0
+offset_right = 72.0
+offset_bottom = 36.0
+size_flags_horizontal = 0
+mouse_filter = 2
+texture = ExtResource("5_p5ima")
+stretch_mode = 1
+
+[node name="VBox" type="VBoxContainer" parent="TowerContainer" unique_id=1692510672]
+layout_mode = 0
+offset_left = -40.0
+offset_right = 32.0
 offset_bottom = 40.0
 
-[node name="MarginContainer" type="MarginContainer" parent="TowerContainer" unique_id=1709940437]
+[node name="MarginContainer" type="MarginContainer" parent="TowerContainer/VBox" unique_id=1709940437]
 layout_mode = 2
 theme_override_constants/margin_left = 48
 theme_override_constants/margin_top = 8
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 16
 
-[node name="Ballista" type="TextureButton" parent="TowerContainer/MarginContainer" unique_id=1282572473]
+[node name="Ballista" type="TextureButton" parent="TowerContainer/VBox/MarginContainer" unique_id=1282572473]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 0
@@ -709,22 +709,46 @@ texture_focused = ExtResource("8_bsuvp")
 script = ExtResource("9_p5ima")
 building = ExtResource("10_u5ca1")
 
-[node name="MarginContainer" type="MarginContainer" parent="TowerContainer/MarginContainer" unique_id=987387752]
-layout_mode = 2
-mouse_filter = 2
-theme_override_constants/margin_left = -8
-theme_override_constants/margin_top = -8
-theme_override_constants/margin_right = 8
-theme_override_constants/margin_bottom = 16
-
-[node name="TextureRect" type="TextureRect" parent="TowerContainer/MarginContainer/MarginContainer" unique_id=1773634107]
+[node name="TileContainer" type="TextureRect" parent="." unique_id=242744489]
+unique_name_in_owner = true
 texture_filter = 1
 texture_repeat = 2
-layout_mode = 2
-size_flags_horizontal = 0
-mouse_filter = 2
+offset_right = 32.0
+offset_bottom = 68.0
 texture = ExtResource("5_p5ima")
+expand_mode = 4
 stretch_mode = 1
+
+[node name="VBox" type="VBoxContainer" parent="TileContainer" unique_id=1965634077]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 52.0
+theme_override_constants/separation = 13
+
+[node name="MarginContainer" type="MarginContainer" parent="TileContainer/VBox" unique_id=840588889]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+
+[node name="Brick" type="TextureButton" parent="TileContainer/VBox/MarginContainer" unique_id=1106591555]
+unique_name_in_owner = true
+layout_mode = 2
+texture_normal = ExtResource("11_a5obw")
+script = ExtResource("12_vh02k")
+cost = 10
+AtlasCoordinates = Vector2i(272, 64)
+
+[node name="MarginContainer2" type="MarginContainer" parent="TileContainer/VBox" unique_id=1861456747]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+
+[node name="StoneBrick" type="TextureButton" parent="TileContainer/VBox/MarginContainer2" unique_id=1625840180]
+unique_name_in_owner = true
+layout_mode = 2
+texture_normal = ExtResource("12_cwa1k")
+script = ExtResource("12_vh02k")
+cost = 15
 
 [node name="StatsPanel" type="MarginContainer" parent="." unique_id=971184535]
 unique_name_in_owner = true
@@ -747,4 +771,6 @@ layout_mode = 2
 text = "test"
 justification_flags = 162
 
-[connection signal="button_up" from="TowerContainer/MarginContainer/Ballista" to="." method="_on_ballista_button_up"]
+[connection signal="SendBuildInfo" from="TowerContainer/VBox/MarginContainer/Ballista" to="." method="_on_ballista_send_build_info"]
+[connection signal="SendTileInfo" from="TileContainer/VBox/MarginContainer/Brick" to="." method="_on_brick_send_tile_info"]
+[connection signal="SendTileInfo" from="TileContainer/VBox/MarginContainer2/StoneBrick" to="." method="_on_stone_brick_send_tile_info"]

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dnbrsh5txxmn4"
-path="res://.godot/imported/Namnlös.jpg-46ec298dc48d745578fbe78f33be2a76.ctex"
+uid="uid://b3k8p786tfmsj"
+path="res://.godot/imported/StoneBrick.png-c6f848a9720f908f3092a1d5dbbbb3e4.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Raw_sprites/Namnlös.jpg"
-dest_files=["res://.godot/imported/Namnlös.jpg-46ec298dc48d745578fbe78f33be2a76.ctex"]
+source_file="res://Raw_sprites/TileMap/UiTerrainTextures/StoneBrick.png"
+dest_files=["res://.godot/imported/StoneBrick.png-c6f848a9720f908f3092a1d5dbbbb3e4.ctex"]
 
 [params]
 
