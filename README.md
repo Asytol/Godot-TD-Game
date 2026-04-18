@@ -16,7 +16,7 @@
 - [X] Add StunDuration to weapons instead of enemies
 - [X] Give enemies a StunResistance that decreases the StunDuration that is applied
 - [X] Make enemies accept iframes for more than just the base_weapon script
-- [ ] Have Levels not be able to overflow
+- [X] Have Levels not be able to overflow
 - [/] Fix so that placed tiles also auto adjust like terrain
 - [ ] Make so the stone tiles and hole tiles don't look wierd and fit the terrain.
 - [ ] Change Start button ui
@@ -24,11 +24,10 @@
 - [ ] Add more weapons to the character obviously
 - [X] Have block ui be part of ui maybe and not a sprite2D   (only maybe, it works fine ig)
 - [X] Hide blocks when round started
-- [ ] Add timer before round starts aswell
 - [X] Add ability to actually place towers
 - [ ] Figure out how to make it into rebirth theme
-
-
+- [ ] Add Wave Counter
+- [ ] Change Background
 
 
  - Add some particles ig, save that for last though

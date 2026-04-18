@@ -6,7 +6,7 @@ using System;
 public partial class TowerShooterBase : TowerBase
 {
 	[ExportGroup("ShooterBase")] 
-    [Export] public float base_damage = 80;
+    [Export] public float base_damage = 10;
 	public float damage = 80;
 	//
 	[Export] public float Cooldown = 2;

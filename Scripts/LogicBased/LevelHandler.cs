@@ -48,7 +48,6 @@ public partial class LevelHandler : Node
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
-		GD.Print(EnemiesAlive);
 	}
 	public static void OnEnemyDeath()
 	{
@@ -63,7 +62,7 @@ public partial class LevelHandler : Node
 
 	private void OnStart()
 	{
-		if (RoundOver)
+		if (RoundOver && CurrentWave <= ThisLevel.Length)
 		{
 			foreach (SpawnPreset preset in ThisLevel[CurrentWave].SpawnPresets)
 			{

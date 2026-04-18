@@ -1,6 +1,6 @@
-using Godot;
-using System.IO;
 using System;
+using System.IO;
+using Godot;
 
 public partial class PathNode
 {
@@ -8,12 +8,14 @@ public partial class PathNode
     public int y;
     private Grid_class<PathNode> grid;
 
-    public int g_cost;
-    public int h_cost;
+    public int g_cost = int.MaxValue;
+    public int h_cost = int.MaxValue;
     public int f_cost;
+    public int cost;
     public bool is_obstruction;
     public Vector2I tilemap_position;
     public PathNode previousCell;
+    public bool inactive;
 
     public PathNode(Grid_class<PathNode> grid,int x, int y){
         this.x = x;
@@ -22,6 +24,6 @@ public partial class PathNode
     }
 
     public void CalculateFCost(){
-        f_cost = g_cost + h_cost;
+        f_cost = g_cost + h_cost + cost;
     }
 }

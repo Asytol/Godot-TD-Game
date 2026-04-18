@@ -19,6 +19,7 @@ size = Vector2(32, 32)
 script = ExtResource("9_63dlw")
 
 [node name="TextureRect" type="TextureRect" parent="." unique_id=842042576]
+z_index = -12
 texture_filter = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -30,6 +31,7 @@ texture = ExtResource("1_64wbe")
 stretch_mode = 1
 
 [node name="MainCharacter" parent="." unique_id=1541007265 instance=ExtResource("2_63dlw")]
+z_index = 1
 position = Vector2(412, 568)
 gravity_scale = 0.0
 speed = 5
@@ -119,7 +121,10 @@ text = "10"
 
 [node name="BallistaTower" parent="." unique_id=1380105968 instance=ExtResource("11_ytlt0")]
 position = Vector2(232, 456)
+base_damage = 10.0
 base_range = 80.0
+
+[node name="SniperTower" type="Area2D" parent="." unique_id=1065266753]
 
 [connection signal="button_up" from="Ui/MarginContainer/Start" to="." method="_on_start_button_up"]
 [connection signal="button_up" from="Ui/MarginContainer/Start" to="Ui" method="_on_button_button_up"]

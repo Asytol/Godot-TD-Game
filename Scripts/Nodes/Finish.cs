@@ -24,14 +24,14 @@ public partial class Finish : Area2D
     {
     	GD.Print("enemy reached flag");
         health--;
+        if (body is Enemy_base script)
+		{
+			script.Damage(int.MaxValue,0,"finishflag");
+		}
         HealthNum.Text = health.ToString();
         if (health == 0)
         {
             OnDefeat();
-            if (body is Enemy_base script)
-            {
-            	script.Damage(int.MaxValue,0,"");
-            }
         }
     }
     private void OnDefeat()

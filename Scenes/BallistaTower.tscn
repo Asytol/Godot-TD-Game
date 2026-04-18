@@ -6,12 +6,11 @@
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ei7of"]
 
-[node name="Area2D" type="Area2D" unique_id=1380105968]
+[node name="Ballista" type="Area2D" unique_id=1380105968]
 collision_layer = 4
 collision_mask = 2
 script = ExtResource("1_ugw7c")
 projectile = ExtResource("2_xxiu3")
-base_range = null
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=2060543455]
 texture = ExtResource("2_ojg5m")

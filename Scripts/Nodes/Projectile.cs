@@ -1,9 +1,9 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Numerics;
 using Godot;
 using static Godot.TextServer;
-using System.Collections.Generic;
-using System.Collections;
-using System.Numerics;
-using System;
 
 public partial class Projectile : Area2D
 {
@@ -27,15 +27,15 @@ public partial class Projectile : Area2D
 	{
 		this.BodyEntered += OnBodyEntered;
 	}
-	public void instantiate(Godot.Vector2 direction, float speed=30, float Extra_spread = 0,List<int> ExLayers = null, List<int> IncLayers=null){
-		
+	public void instantiate(Godot.Vector2 direction, float speed=30, float Extra_spread = 0,float damage = 10,List<int> ExLayers = null, List<int> IncLayers=null){
 		if (Extra_spread != 0){
 			direction = add_spread(direction,Extra_spread);
 		}
 		this.Direction = direction.Normalized();
 		this.Rotation = Direction.Angle() + Mathf.Pi/2;
-		this.speed = speed;
-		if (IncLayers == null){IncLayers = new List<int>{2};}
+        this.speed = speed;
+        this.damage = damage;
+        if (IncLayers == null){IncLayers = new List<int>{2};}
 		this.ActiveLayers = IncLayers;
 		foreach (int layer in ActiveLayers)
 		{

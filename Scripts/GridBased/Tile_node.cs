@@ -7,10 +7,10 @@ public class Tile_node
     public bool breakable = false;
     public int source_id;
 
-    private int x;
-    private int y;
-    public Tile_node(Grid_class<Tile_node> grid,int x, int y){
+    private readonly int x;
+    private readonly int y;
+    public Tile_node(int x, int y){
         this.x = x;
         this.y = y;
-    }   
+    }
 }

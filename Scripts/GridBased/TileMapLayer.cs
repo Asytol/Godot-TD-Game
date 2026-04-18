@@ -26,17 +26,18 @@ public partial class TileMapLayer : Godot.TileMapLayer
 	private bool mouse_down = false;
 
 	private static Grid_class<Tile_node> grid;
-	[Export] public int width = 72;
-	[Export] public int height = 41;
+	public const int width = 72;
+	public const int height = 41;
 	private const int cellsize = 16;
 	public static int money = 0;
 	public static Label MoneyNum;
 
 	private Sprite2D TileSignifier;
 
-
-	//Towers
-	TextureButton Ballista;
+    [Signal]
+    public delegate void CustomTileChangedEventHandler();
+    //Towers
+    TextureButton Ballista;
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
     {
@@ -60,7 +61,7 @@ public partial class TileMapLayer : Godot.TileMapLayer
 
 
         MoneyNum = GetNode<Label>("%MoneyNum");
-		grid = new Grid_class<Tile_node>(width,height,cellsize,new Godot.Vector2(0,0), (Grid_class<Tile_node> g, int x, int y) => new Tile_node(g,x,y));
+		grid = new Grid_class<Tile_node>(width,height,cellsize,new Godot.Vector2(0,0), (Grid_class<Tile_node> g, int x, int y) => new Tile_node(x:x,y:y));
 
 		foreach (Vector2I cell in GetUsedCells()){
 			Tile_node Tile = grid.GetGridObject(cell.X,cell.Y);
@@ -155,10 +156,12 @@ public partial class TileMapLayer : Godot.TileMapLayer
 	}
 	private void CreateBuilding(Godot.Vector2 GlobalPosition)
     {
-    	Godot.Vector2I Position = ((Vector2I)GlobalPosition/cellsize)*cellsize;
+        Godot.Vector2I Position = ((Vector2I)GlobalPosition / cellsize) * cellsize;
+        Godot.Vector2 LocalPos = ToLocal(GlobalPosition);
+		Vector2I TilePos = LocalToMap(LocalPos);
         //if (grid.GetGridObject(Position.X,Position.Y))
-        if (GetCellSourceId(Position) != -1 && !(bool)GetCellTileData(Position).GetCustomData("Buildable")) {return;}
-        
+        if (GetCellSourceId(TilePos) != -1 && !(bool)GetCellTileData(TilePos).GetCustomData("Buildable")) {return;}
+
         money -= BuildScript.cost;
 		GD.Print(BuildScript.cost);
 		MoneyNum.Text = money.ToString();
@@ -190,12 +193,13 @@ public partial class TileMapLayer : Godot.TileMapLayer
 		Godot.Vector2 LocalPos = this.ToLocal(GlobalPosition);
 		Vector2I TilePos = this.LocalToMap(LocalPos);
 		Tile_node Tile = grid.GetGridObject(TilePos.X,TilePos.Y);
-		Tile.health -= damage * (float)GetPhysicsProcessDeltaTime();
+		Tile.health -= damage;
 
 		if (Tile.health < 0 && Tile.breakable == true){
-			SetCell(TilePos,-1,Godot.Vector2I.Zero,-1);
-			return true;
-		}
+            SetCell(TilePos, -1, Godot.Vector2I.Zero, -1);
+            EmitSignal("CustomTileChanged");
+            return true;
+        }
 		return false;
 	}
 	public bool Damage_tileI(Godot.Vector2I TilePos,float damage)
@@ -203,9 +207,10 @@ public partial class TileMapLayer : Godot.TileMapLayer
 		Tile_node Tile = grid.GetGridObject(TilePos.X,TilePos.Y);
 		Tile.health -= damage;
 
-		if (Tile.health < 0 && Tile.breakable == true){
-			SetCell(TilePos,-1,Godot.Vector2I.Zero,-1);
-			return true;
+		if (Tile.health < 0 && Tile.breakable){
+            SetCell(TilePos, -1, Godot.Vector2I.Zero, -1);
+            EmitSignal("CustomTileChanged");
+            return true;
 		}
 		return false;
 	}
@@ -223,29 +228,17 @@ public partial class TileMapLayer : Godot.TileMapLayer
 	public bool Area_damageI(Godot.Vector2I TilePos, float damage)
 	{
 		float raw_dmg = damage;
-		//Left
-		for (int i = -1; i < 2; i++){
-			//left
-			Tile_node Tile = grid.GetGridObject(TilePos.X-1,TilePos.Y+i);
-			Tile.health -= damage;
-			if (Tile.health < 0 && Tile.breakable == true){
-				SetCell(TilePos,-1,Godot.Vector2I.Zero,-1);}
-			//less left
-			Tile = grid.GetGridObject(TilePos.X+1,TilePos.Y+i);
-			Tile.health -= damage;
-			if (Tile.health < 0 && Tile.breakable == true){
-				SetCell(TilePos,-1,Godot.Vector2I.Zero,-1);}
-		}
-		//up and down
-		Tile_node Tile_2 = grid.GetGridObject(TilePos.X,TilePos.Y+1);
-		Tile_2.health -= damage;
-		if (Tile_2.health < 0 && Tile_2.breakable == true){
-			SetCell(TilePos,-1,Godot.Vector2I.Zero,-1);}
-
-		Tile_2 = grid.GetGridObject(TilePos.X,TilePos.Y-1);
-		Tile_2.health -= damage;
-		if (Tile_2.health < 0 && Tile_2.breakable == true){
-			SetCell(TilePos,-1,Godot.Vector2I.Zero,-1);}
+        //Left
+        for (int x = -1; x < 2; x++){
+            for (int y = -1; y < 2; y++){
+                if (x == 0 && y == 0) { continue; }
+                Tile_node Tile = grid.GetGridObject(TilePos.X + x,TilePos.Y + y);
+				Tile.health -= damage;
+				if (Tile.health < 0 && Tile.breakable){
+                    SetCell(TilePos, -1, Godot.Vector2I.Zero, -1);
+                	EmitSignal("CustomTileChanged");}
+            }
+        }
 
 		return Damage_tileI(TilePos, raw_dmg);
 	}
@@ -318,6 +311,9 @@ public partial class TileMapLayer : Godot.TileMapLayer
 ⠀⠀⠀⠀⠀⠀⠉⠀⠀⠀⠉⠀⣸⣿⣿⣿⣿⣿⣿⣷⣦⣤⣭⣴⣾⣿⣿⡿⠋⠠⣶⣶⠚⣓⣀⣿⣿⣿⣿⣿⣧⡘⢿⣿⡇⢦⠜⢿⡆⠫
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣤⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠏⠀⠐⠿⠿⠿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣄⠱⢸⣦⠈⣿⣦
 ⠀⠀⠀⣀⣤⣤⣶⣿⠿⣿⣿⣿⣿⣿⣿⣙⣿⣿⣿⣿⣿⣿⣿⣿⣿⡏⠀⣶⣶⣶⣾⣿⣿⣿⣿⣿⣿⣿⣿⡻⣻⠿⠿⡿⣦⢸⣷⣤⡞⢿
+   ⣀⣤⣤⣶⣿⠿⣿⣿⣿⣿⣿⣿⣙⣿⣿⣿⣿⣿⣿⣿⣿⣿⡏⠀⣶⣶⣶⣾⣿⣿⣿⣿⣿⣿⣿⣿⡻⣻⠿⠿⡿⣦⢸⣷⣤⡞⢿
+   ⣀⣤⣤⣶⣿⠿⣿⣿⣿⣿⣿⣿⣙⣿⣿⣿⣿⣿⣿⣿⣿⣿⡏⠀⣶⣶⣶⣾⣿⣿⣿⣿⣿⣿⣿⣿⡻⣻⠿⠿⡿⣦⢸⣷⣤⡞⢿
+   ⣀⣤⣤⣶⣿⠿⣿⣿⣿⣿⣿⣿⣙⣿⣿⣿⣿⣿⣿⣿⣿⣿⡏⠀⣶⣶⣶⣾⣿⣿⣿⣿⣿⣿⣿⣿⡻⣻⠿⠿⡿⣦⢸⣷⣤⡞⢿
    ⣀⣤⣤⣶⣿⠿⣿⣿⣿⣿⣿⣿⣙⣿⣿⣿⣿⣿⣿⣿⣿⣿⡏⠀⣶⣶⣶⣾⣿⣿⣿⣿⣿⣿⣿⣿⡻⣻⠿⠿⡿⣦⢸⣷⣤⡞⢿
    ⣀⣤⣤⣶⣿⠿⣿⣿⣿⣿⣿⣿⣙⣿⣿⣿⣿⣿⣿⣿⣿⣿⡏⠀⣶⣶⣶⣾⣿⣿⣿⣿⣿⣿⣿⣿⡻⣻⠿⠿⡿⣦⢸⣷⣤⡞⢿
    ⣀⣤⣤⣶⣿⠿⣿⣿⣿⣿⣿⣿⣙⣿⣿⣿⣿⣿⣿⣿⣿⣿⡏⠀⣶⣶⣶⣾⣿⣿⣿⣿⣿⣿⣿⣿⡻⣻⠿⠿⡿⣦⢸⣷⣤⡞⢿
