@@ -1,0 +1,22 @@
+[gd_scene format=3 uid="uid://cy1anx3x5mtib"]
+
+[ext_resource type="Script" uid="uid://c8h417m5yblb3" path="res://Scripts/Nodes/Projectile.cs" id="1_a801j"]
+[ext_resource type="Texture2D" uid="uid://pvwhi8fm6k5f" path="res://Raw_sprites/Towers/Explosion.png" id="2_4okmj"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_k2xjm"]
+radius = 32.0
+
+[node name="Explosion" type="Area2D" unique_id=1745730248]
+collision_mask = 3
+script = ExtResource("1_a801j")
+Decay_time = 0.4
+BaseSpeed = 0.0
+damage = 40.0
+StunDuration = 0.2
+Pierce = 15
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1856284867]
+texture = ExtResource("2_4okmj")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1655648665]
+shape = SubResource("CircleShape2D_k2xjm")

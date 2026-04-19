@@ -9,7 +9,7 @@ public partial class TowerBase : Area2D
 	[Export] public float base_range = 80;
 	public float range = 80;
 	//
-	public List<Node2D> entities_in_area = new List<Node2D>();
+	public List<Node2D> EntitiesInArea = new List<Node2D>();
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -33,7 +33,7 @@ public partial class TowerBase : Area2D
 		GD.Print("added"+body.Name);
 		if (body is CollisionObject2D collider && collider.CollisionLayer == 2)
 		{
-			entities_in_area.Add(body);
+			EntitiesInArea.Add(body);
 		}
 	}
 	private void OnBodyExited(Node2D body)
@@ -41,7 +41,7 @@ public partial class TowerBase : Area2D
 		GD.Print("removed"+body.Name);
 		if (body is CollisionObject2D collider && collider.CollisionLayer == 2)
 		{
-			entities_in_area.Remove(body);
+			EntitiesInArea.Remove(body);
 		}
 	}
 

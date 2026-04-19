@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://cx57td5ml5rfc"]
+
+[ext_resource type="Script" uid="uid://c8h417m5yblb3" path="res://Scripts/Nodes/Projectile.cs" id="1_vaeiy"]
+[ext_resource type="PackedScene" uid="uid://cy1anx3x5mtib" path="res://Scenes/explosion.tscn" id="2_344pp"]
+[ext_resource type="Texture2D" uid="uid://dlb8ga0r41v6d" path="res://Raw_sprites/Towers/CannonBall.png" id="2_syolf"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_veopj"]
+radius = 8.0
+
+[node name="CannonBall" type="Area2D" unique_id=967990509]
+collision_mask = 3
+script = ExtResource("1_vaeiy")
+damage = 15.0
+Pierce = 1
+Shrapnell = ExtResource("2_344pp")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1877986909]
+texture = ExtResource("2_syolf")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2047584130]
+shape = SubResource("CircleShape2D_veopj")

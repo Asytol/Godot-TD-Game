@@ -7,9 +7,10 @@
 [ext_resource type="PackedScene" uid="uid://bvb6dnwk6e2" path="res://Scenes/finish.tscn" id="7_4bbre"]
 [ext_resource type="Script" uid="uid://ckjt0mmch1a6i" path="res://Scripts/LogicBased/Spawner.cs" id="8_dooye"]
 [ext_resource type="Script" uid="uid://c2t62uwun1ntw" path="res://Scripts/LogicBased/LevelHandler.cs" id="9_63dlw"]
-[ext_resource type="Theme" uid="uid://d00o06fmebnxl" path="res://Raw_sprites/GreenTheme.tres" id="10_ei7of"]
-[ext_resource type="Theme" uid="uid://b4ytiaxr0csu4" path="res://Raw_sprites/Box_theme.tres" id="10_ytlt0"]
+[ext_resource type="Theme" uid="uid://d00o06fmebnxl" path="res://Raw_sprites/UI/GreenTheme.tres" id="10_ei7of"]
+[ext_resource type="Theme" uid="uid://b4ytiaxr0csu4" path="res://Raw_sprites/UI/Box_theme.tres" id="10_ytlt0"]
 [ext_resource type="PackedScene" uid="uid://l14itu8jjarh" path="res://Scenes/BallistaTower.tscn" id="11_ytlt0"]
+[ext_resource type="PackedScene" uid="uid://koskhgp3xffg" path="res://Scenes/CannonTower.tscn" id="12_8j02k"]
 [ext_resource type="Texture2D" uid="uid://dcwkdl27nm5g4" path="res://Raw_sprites/TileMap/Coin.png" id="12_kmpqp"]
 
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_kmpqp"]
@@ -121,10 +122,9 @@ text = "10"
 
 [node name="BallistaTower" parent="." unique_id=1380105968 instance=ExtResource("11_ytlt0")]
 position = Vector2(232, 456)
-base_damage = 10.0
-base_range = 80.0
 
-[node name="SniperTower" type="Area2D" parent="." unique_id=1065266753]
+[node name="CanonTower" parent="." unique_id=1591976174 instance=ExtResource("12_8j02k")]
+position = Vector2(190, 490)
 
 [connection signal="button_up" from="Ui/MarginContainer/Start" to="." method="_on_start_button_up"]
 [connection signal="button_up" from="Ui/MarginContainer/Start" to="Ui" method="_on_button_button_up"]

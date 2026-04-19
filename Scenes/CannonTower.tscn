@@ -1,0 +1,93 @@
+[gd_scene format=3 uid="uid://koskhgp3xffg"]
+
+[ext_resource type="Script" uid="uid://gk8eyw3lnmpg" path="res://Scripts/Nodes/TowerShooterBase.cs" id="1_r57ku"]
+[ext_resource type="PackedScene" uid="uid://cx57td5ml5rfc" path="res://Scenes/CannonBall.tscn" id="2_163qn"]
+[ext_resource type="Texture2D" uid="uid://j2hri2bdtdw2" path="res://Raw_sprites/Towers/CannonBase.png" id="2_y5b2k"]
+[ext_resource type="Texture2D" uid="uid://bpmei5lh833wn" path="res://Raw_sprites/Towers/CannonHeadAnimation.png" id="3_163qn"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_r57ku"]
+atlas = ExtResource("3_163qn")
+region = Rect2(0, 0, 20, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_y5b2k"]
+atlas = ExtResource("3_163qn")
+region = Rect2(20, 0, 20, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_163qn"]
+atlas = ExtResource("3_163qn")
+region = Rect2(40, 0, 20, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_75oyh"]
+atlas = ExtResource("3_163qn")
+region = Rect2(60, 0, 20, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4q7sc"]
+atlas = ExtResource("3_163qn")
+region = Rect2(80, 0, 20, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yrann"]
+atlas = ExtResource("3_163qn")
+region = Rect2(100, 0, 20, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_veopj"]
+atlas = ExtResource("3_163qn")
+region = Rect2(0, 0, 20, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_s7j74"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_r57ku")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_y5b2k")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_163qn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_75oyh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4q7sc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yrann")
+}],
+"loop": false,
+"name": &"LoadingUp",
+"speed": 15.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_veopj")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_kmpqp"]
+
+[node name="CanonTower" type="Area2D" unique_id=1591976174]
+collision_layer = 4
+collision_mask = 2
+script = ExtResource("1_r57ku")
+Cooldown = 6.0
+base_spread = 3.0
+projectile = ExtResource("2_163qn")
+base_range = 300.0
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=353195075]
+texture = ExtResource("2_y5b2k")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=276063392]
+sprite_frames = SubResource("SpriteFrames_s7j74")
+animation = &"LoadingUp"
+frame = 5
+frame_progress = 1.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=72605422]
+shape = SubResource("CircleShape2D_kmpqp")
+
+[connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]

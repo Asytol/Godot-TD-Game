@@ -1,10 +1,10 @@
 [gd_scene format=3 uid="uid://b57ejbh8brp7v"]
 
-[ext_resource type="Theme" uid="uid://s4ii41fomu2s" path="res://Raw_sprites/Button_theme.tres" id="1_oepce"]
+[ext_resource type="Theme" uid="uid://s4ii41fomu2s" path="res://Raw_sprites/UI/Button_theme.tres" id="1_oepce"]
 [ext_resource type="Script" uid="uid://csyu14jixahob" path="res://Scripts/LogicBased/MainMenu.cs" id="1_rqe8y"]
 [ext_resource type="Texture2D" uid="uid://dnbrsh5txxmn4" path="res://BigYahu.jpg" id="2_gnxq4"]
 [ext_resource type="Texture2D" uid="uid://b4du7co2ny5mf" path="res://Diabolical.jpg" id="2_w41gr"]
-[ext_resource type="Theme" uid="uid://b4ytiaxr0csu4" path="res://Raw_sprites/Box_theme.tres" id="3_qnbo1"]
+[ext_resource type="Theme" uid="uid://b4ytiaxr0csu4" path="res://Raw_sprites/UI/Box_theme.tres" id="3_qnbo1"]
 [ext_resource type="AudioStream" uid="uid://b1wn8y5apqbpa" path="res://bill-butcher-f-cking-diabolical-the-boys-theboys-billybutcher-butcher-funnymoments-primevideo-amazonprimevideo.mp3" id="6_4xubp"]
 
 [node name="MainMenu" type="Control" unique_id=1009987052]

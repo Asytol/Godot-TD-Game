@@ -13,11 +13,15 @@ public partial class Projectile : Area2D
     [Export] public float current_inact_time = 0;
 	[Export] public float Decay_time = 3;
 
-
-	[Export] public float speed = 30; //. ,
+	[Export] public float BaseSpeed = 30; //. ,
+	public float speed = 30; //. ,
 	[Export] public float damage = 10;
-	[Export] public float StunDuration = 0;
-	private Godot.Vector2 Direction; 
+    [Export] public float StunDuration = 0;
+
+    [Export] public int Pierce = 2;
+    [Export] private PackedScene Shrapnell;
+    private int HitCounter;
+    private Godot.Vector2 Direction; 
 
 	private List<int> ActiveLayers = new List<int>();
 	//
@@ -25,16 +29,17 @@ public partial class Projectile : Area2D
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		this.BodyEntered += OnBodyEntered;
-	}
-	public void instantiate(Godot.Vector2 direction, float speed=30, float Extra_spread = 0,float damage = 10,List<int> ExLayers = null, List<int> IncLayers=null){
+        this.BodyEntered += OnBodyEntered;
+        if (ActiveLayers.Count == 0){CollisionLayer += this.CollisionMask;}
+    }
+	public void instantiate(Godot.Vector2 direction, float SpeedMultiplier=1, float Extra_spread = 0,float damage = int.MaxValue,List<int> ExLayers = null, List<int> IncLayers=null){
 		if (Extra_spread != 0){
 			direction = add_spread(direction,Extra_spread);
 		}
 		this.Direction = direction.Normalized();
 		this.Rotation = Direction.Angle() + Mathf.Pi/2;
-        this.speed = speed;
-        this.damage = damage;
+        this.speed = BaseSpeed * SpeedMultiplier;
+        if (damage != int.MaxValue){this.damage = damage;}
         if (IncLayers == null){IncLayers = new List<int>{2};}
 		this.ActiveLayers = IncLayers;
 		foreach (int layer in ActiveLayers)
@@ -64,8 +69,8 @@ public partial class Projectile : Area2D
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
-	{
-		GlobalPosition += Direction * speed * (float)delta*10;
+    {
+        GlobalPosition += Direction * speed * (float)delta*10;
 		current_time += (float)delta;
 		if (current_time > Decay_time)
 		{
@@ -76,16 +81,22 @@ public partial class Projectile : Area2D
 	private void OnBodyEntered(Node2D body)
 	{
 		if (body is CollisionObject2D collider){
-			foreach(int layer in ActiveLayers){
-				if (collider.CollisionLayer == layer){
-					if (body is Enemy_base enemy){
-						enemy.Damage(damage,StunDuration,Name);
-						Godot.Vector2 Direction = (body.Position - this.Position).Normalized();
-						enemy.Knockback(Direction,1f);
-						break;
-					}
-				}
+			if (body is Enemy_base enemy){
+				GD.Print(Name);
+				GD.Print(damage);
+				enemy.Damage(damage,StunDuration,Name);
+				Godot.Vector2 Direction = (body.Position - this.Position).Normalized();
+				enemy.Knockback(Direction, 1f);
+				HitCounter++;
+				if (Shrapnell != null) { InstantiateShrapnell(); }
+				if (HitCounter == Pierce){QueueFree();}
 			}
 		}
-	}
+    }
+    private void InstantiateShrapnell()
+    {
+        Node2D instance = Shrapnell.Instantiate<Node2D>();
+        GetParent().CallDeferred("add_child", instance);
+		instance.CallDeferred(Node2D.MethodName.SetGlobalPosition, this.GlobalPosition);
+    }
 }

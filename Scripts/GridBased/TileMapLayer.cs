@@ -253,21 +253,9 @@ public partial class TileMapLayer : Godot.TileMapLayer
 
         Node2D temp = BuildScript.building.Instantiate<Node2D>();
         TowerBase BuildingScript = temp as TowerBase;
-        TileSignifier.GetChild<TextureRect>(0).Size = new Godot.Vector2(BuildingScript.range, BuildingScript.range);
 
-        TextureRect rect = TileSignifier.GetChild<TextureRect>(0);
-        rect.Visible = true;
-        rect.AnchorLeft = 0.5f;
-		rect.AnchorRight = 0.5f;
-		rect.AnchorTop = 0.5f;
-        rect.AnchorBottom = 0.5f;
-
-        Godot.Vector2 textureSize = rect.Texture.GetSize();
-
-		rect.OffsetLeft = -textureSize.X / 2;
-		rect.OffsetRight = textureSize.X / 2;
-		rect.OffsetTop = -textureSize.Y / 2;
-		rect.OffsetBottom = textureSize.Y / 2;
+        Sprite2D Sprite = TileSignifier.GetChild<Sprite2D>(0);
+        Sprite.Scale = new Godot.Vector2(BuildingScript.base_range, BuildingScript.base_range) / new Godot.Vector2(64,64);
 
 
 

@@ -1,0 +1,71 @@
+[gd_scene format=3 uid="uid://dpyk8ch0ry6yg"]
+
+[ext_resource type="Script" uid="uid://cm8h1wkvqn26w" path="res://Scripts/CutsceneHandler.cs" id="1_ofndg"]
+[ext_resource type="Texture2D" uid="uid://dnbrsh5txxmn4" path="res://BigYahu.jpg" id="1_wmki0"]
+[ext_resource type="Script" uid="uid://bdyxqlpjygfcj" path="res://Scripts/DialogueHandle.cs" id="2_6qct6"]
+[ext_resource type="Texture2D" uid="uid://bktholecjqbif" path="res://Raw_sprites/UI/DialogueBubble.png" id="4_jlpl6"]
+
+[sub_resource type="Resource" id="Resource_wmki0"]
+script = ExtResource("2_6qct6")
+text = "Fucking"
+metadata/_custom_type_script = "uid://bdyxqlpjygfcj"
+
+[sub_resource type="Resource" id="Resource_jlpl6"]
+script = ExtResource("2_6qct6")
+text = "DIABOLICAL"
+speed = 0.5
+color = Color(1, 0, 0, 1)
+metadata/_custom_type_script = "uid://bdyxqlpjygfcj"
+
+[sub_resource type="Theme" id="Theme_jlpl6"]
+Label/colors/font_color = Color(0, 0, 0, 1)
+Label/colors/font_outline_color = Color(1, 1, 1, 1)
+
+[node name="Background" type="TextureRect" unique_id=1298014254]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+texture = ExtResource("1_wmki0")
+script = ExtResource("1_ofndg")
+Dialogues = Array[Object]([SubResource("Resource_wmki0"), SubResource("Resource_jlpl6")])
+
+[node name="Bubble" type="NinePatchRect" parent="." unique_id=337146498]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.2
+anchor_top = 0.6
+anchor_right = 0.8
+anchor_bottom = 0.95
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("4_jlpl6")
+region_rect = Rect2(0, 0, 64, 48)
+patch_margin_left = 8
+patch_margin_top = 8
+patch_margin_right = 8
+patch_margin_bottom = 8
+metadata/_edit_use_anchors_ = true
+
+[node name="MarginContainer" type="MarginContainer" parent="Bubble" unique_id=746591142]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 10
+
+[node name="Text" type="RichTextLabel" parent="Bubble/MarginContainer" unique_id=973432071]
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 2
+theme = SubResource("Theme_jlpl6")
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+bbcode_enabled = true
+autowrap_mode = 1

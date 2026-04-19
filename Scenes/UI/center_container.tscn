@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://dhn1k01fpibe6"]
 
-[ext_resource type="Theme" uid="uid://s4ii41fomu2s" path="res://Raw_sprites/Button_theme.tres" id="1_gxeva"]
+[ext_resource type="Theme" uid="uid://s4ii41fomu2s" path="res://Raw_sprites/UI/Button_theme.tres" id="1_gxeva"]
 
 [node name="CenterContainer" type="CenterContainer" unique_id=1948420492]
 anchors_preset = 15

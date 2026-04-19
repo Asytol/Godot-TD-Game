@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ctg1ox4rmbbn0"
-path="res://.godot/imported/Item_frame.png-340bbd367f2d63ae3497334457230b26.ctex"
+uid="uid://j2hri2bdtdw2"
+path="res://.godot/imported/CannonBase.png-46d3c4fbcbba0586c29f26b9960d912a.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Raw_sprites/Item_frame.png"
-dest_files=["res://.godot/imported/Item_frame.png-340bbd367f2d63ae3497334457230b26.ctex"]
+source_file="res://Raw_sprites/Towers/CannonBase.png"
+dest_files=["res://.godot/imported/CannonBase.png-46d3c4fbcbba0586c29f26b9960d912a.ctex"]
 
 [params]
 

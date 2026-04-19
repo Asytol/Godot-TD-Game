@@ -1,15 +1,16 @@
-using Godot;
-using System.Collections.Generic;
 using System;
+using System.Collections.Generic;
+using Godot;
 
 
 public partial class TowerShooterBase : TowerBase
 {
 	[ExportGroup("ShooterBase")] 
     [Export] public float base_damage = 10;
-	public float damage = 80;
-	//
-	[Export] public float Cooldown = 2;
+    public float damage = 80;
+    [Export] public float ProjectileSpeedMultiplier = 1;
+    //
+    [Export] public float Cooldown = 2;
 	public bool shooting = false;
 
 	[Export] public float base_spread = 0;
@@ -17,33 +18,44 @@ public partial class TowerShooterBase : TowerBase
 
 	[Export] public PackedScene projectile;
 
+    private AnimatedSprite2D TowerHead;
+    private bool AnimationFinished;
+
     public override void _Ready()
     {
         base._Ready();
         range = base_range; damage = base_damage; spread = base_spread;
-		if (projectile == null) {projectile = GD.Load<PackedScene>("res://Scenes/projectile.tscn"); }
+        if (projectile == null) { projectile = GD.Load<PackedScene>("res://Scenes/Arrow.tscn"); }
+
+        TowerHead = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
+        TowerHead.Play("default");
+        TowerHead.AnimationFinished += OnAnimationFinished;
     }
 
     	public override void _Process(double delta)
 	{
         base._Process(delta);
-		if (entities_in_area.Count > 0 && shooting == false)
+		if (EntitiesInArea.Count > 0)
 		{
-			Node2D closest_entity = entities_in_area[0];
-			float closest_distance = this.Position.DistanceTo(closest_entity.Position);
+			Node2D ClosestEntity = EntitiesInArea[0];
+			float ClosestDistance = this.Position.DistanceTo(ClosestEntity.Position);
 			// (:
-			for (int i = 1; i < entities_in_area.Count; i++){
-				float distance = this.Position.DistanceTo(entities_in_area[i].Position);
-				if (distance < closest_distance){
-					closest_distance = distance; 
-					closest_entity = entities_in_area[i];
+			for (int i = 1; i < EntitiesInArea.Count; i++){
+				float distance = this.Position.DistanceTo(EntitiesInArea[i].Position);
+				if (distance < ClosestDistance){
+					ClosestDistance = distance;
+					ClosestEntity = EntitiesInArea[i];
 				}
 			}
 
-			Godot.Vector2 Direction = GlobalPosition.DirectionTo(closest_entity.GlobalPosition);
-			GD.Print("" + Direction);
-			Summon_projectile(Direction,5,spread);
-			shooting = true;
+            Godot.Vector2 Direction = GlobalPosition.DirectionTo(ClosestEntity.GlobalPosition);
+            TowerHead.GlobalRotation = Direction.Angle() - 1.57079632679f;
+            if (!shooting)
+            {
+                GD.Print("" + Direction);
+				Summon_projectile(Direction,ProjectileSpeedMultiplier,spread);
+				shooting = true;
+            }
 		}
 	}
 
@@ -60,13 +72,24 @@ public partial class TowerShooterBase : TowerBase
 		this.damage *= multiplier;
 	}
 
-    private async void Summon_projectile(Godot.Vector2 direction,float speed=30,float extra_spread=0,List<int> ex_layers = null){
-		Node instance = projectile.Instantiate();
+    private async void Summon_projectile(Godot.Vector2 direction, float SpeedMultiplier = 1, float extra_spread = 0, List<int> ex_layers = null)
+    {
+        TowerHead.Play("LoadingUp");
+        while (!AnimationFinished)
+        {
+			await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+        }
+
+        Node instance = projectile.Instantiate();
 		AddChild(instance);
 		Projectile script = instance as Projectile;
-		script.instantiate(direction, speed, extra_spread,ExLayers:ex_layers);
+		script.instantiate(direction, SpeedMultiplier, extra_spread,ExLayers:ex_layers);
 
 		await ToSignal(GetTree().CreateTimer(Cooldown), SceneTreeTimer.SignalName.Timeout);
-		shooting = false;
+        shooting = false;
+        TowerHead.Play("default");
+    }
+    private void OnAnimationFinished(){
+		AnimationFinished = true;
 	}
 }

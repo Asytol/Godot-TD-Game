@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b7dg54h7i3hl3"
-path="res://.godot/imported/Blue.png-b890e3d2bcd3919f860474d0181921b2.ctex"
+uid="uid://pvwhi8fm6k5f"
+path="res://.godot/imported/Explosion.png-a96e9d97a5d64dc85b6289d4316b298f.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Raw_sprites/Blue.png"
-dest_files=["res://.godot/imported/Blue.png-b890e3d2bcd3919f860474d0181921b2.ctex"]
+source_file="res://Raw_sprites/Towers/Explosion.png"
+dest_files=["res://.godot/imported/Explosion.png-a96e9d97a5d64dc85b6289d4316b298f.ctex"]
 
 [params]
 

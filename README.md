@@ -28,6 +28,9 @@
 - [ ] Figure out how to make it into rebirth theme
 - [ ] Add Wave Counter
 - [ ] Change Background
+- [ ] Sort out if tower or the projectile set the damage
+- [ ] Make projectiles animated sprites
+- [ ] Be unable to place towers or tiles on the select tower ui in the corner.
 
 
  - Add some particles ig, save that for last though
