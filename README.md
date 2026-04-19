@@ -9,7 +9,7 @@
 - [ ] Add more enemies.
 - [X] Add a level script that handles what enemies spawn from what spawnpoints.
 - [ ] Add more towers.
-- [ ] Add non-generic Towers, projectiles 
+- [X] Add non-generic Towers, projectiles 
 - [X] Give The chest a healthbar and add a way for game to end
 - [X] Add enemies shrinking when dying.
 - [X] Make the enemies break the blocks slower, for fucks sake they break it soooo quickly.
@@ -31,7 +31,10 @@
 - [ ] Sort out if tower or the projectile set the damage
 - [ ] Make projectiles animated sprites
 - [ ] Be unable to place towers or tiles on the select tower ui in the corner.
-
+- [/] Add cutscenes
+- [/] Add a story
+- [ ] Balance towers and enemies
+- [ ] Maybe make enemies get path from spawners instead of running their own pathfinding, since finish is stationary
 
  - Add some particles ig, save that for last though
 

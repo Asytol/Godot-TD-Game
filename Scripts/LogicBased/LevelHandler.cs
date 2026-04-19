@@ -6,7 +6,7 @@ using Godot;
 
 public partial class LevelHandler : Node
 {
-	public static WavePreset[] ThisLevel;
+	[Export] WavePreset[] Waves;
 	public static int CurrentWave;
 	[Export] public int MaxWaves = 4;
 	public static bool RoundOver = true;
@@ -21,16 +21,8 @@ public partial class LevelHandler : Node
 
 		GetNode<Button>("%Start").ButtonUp += OnStart;
 		//if/or is sadly faster than reflection ):
-		if (Name.ToString() == "Main_test_scene")
-		{
-			ThisLevel = LevelDictionary.Main_test_scene;
-		}
-		else if (CantFindIsDigitFunction(Name.ToString()[-1]))
-		{
-			ThisLevel = LevelDictionary.Levels[Name.ToString()[-1]];
-		}
-		TileMapLayer.money += ThisLevel[0].WaveMoney;
-		TileMapLayer.MoneyNum.Text = ThisLevel[0].WaveMoney.ToString();
+		TileMapLayer.money += Waves[0].WaveMoney;
+		TileMapLayer.MoneyNum.Text = Waves[0].WaveMoney.ToString();
 
 		RoundOver = true;
 	}
@@ -49,22 +41,22 @@ public partial class LevelHandler : Node
 	public override void _Process(double delta)
 	{
 	}
-	public static void OnEnemyDeath()
+	public void OnEnemyDeath()
 	{
 		EnemiesAlive--;
 		if (EnemiesAlive == 0)
 		{
 			RoundOver = true;
-            TileMapLayer.money += ThisLevel[CurrentWave].WaveMoney;
+            TileMapLayer.money += Waves[CurrentWave].WaveMoney;
             TileMapLayer.MoneyNum.Text = TileMapLayer.money.ToString();
         }
 	}
 
 	private void OnStart()
 	{
-		if (RoundOver && CurrentWave <= ThisLevel.Length)
+		if (RoundOver && CurrentWave <= Waves.Length)
 		{
-			foreach (SpawnPreset preset in ThisLevel[CurrentWave].SpawnPresets)
+			foreach (SpawnPreset preset in Waves[CurrentWave].Spawns)
 			{
 				EnemiesAlive += preset.amount;
 				Node2D SpawnNode = GetNode<Node2D>($"%{preset.SpawnerName}");

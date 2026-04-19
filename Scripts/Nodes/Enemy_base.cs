@@ -46,12 +46,12 @@ public partial class Enemy_base : RigidBody2D
         if (this_line == null){this_line = GetNode<Line2D>("Line2D"); }
 		og_line_width = this_line.Points[0].X;
 
-		Godot.Vector2 temp_pos = GetTree().Root.GetNode<Area2D>("/root/Main_test_scene/Finish").Position;
+		Godot.Vector2 temp_pos = GetTree().Root.GetChild(1).GetNode<Area2D>("%Finish").Position;
 		finish_position = new Vector2I(Mathf.RoundToInt(temp_pos.X/cellsize),//->
 		Mathf.RoundToInt(temp_pos.Y/cellsize)); //<-
 		finish_position = finish_position.Abs();
 
-		pathFinder = new PathFinder(mapwidth,mapheight, tilemap); 
+		pathFinder = new PathFinder(mapwidth,mapheight, tilemap);
 
 		GetNode<Area2D>("Area2D").AreaEntered += OnAreaEntered;
 		GetNode<Area2D>("Area2D").BodyEntered += OnBodyEntered;
@@ -70,7 +70,6 @@ public partial class Enemy_base : RigidBody2D
 				pathFinder.GetGrid().GetXY(new Godot.Vector2 (0,0),out int x, out int y);
 				Vector2I position = new Vector2I (Mathf.FloorToInt(this.GlobalPosition.X/cellsize),Mathf.FloorToInt(this.GlobalPosition.Y/cellsize));
 
-				//What the actual fuck, why does the code break when the total width compared to the end position is smaller than 10! what! wtf!
 				path = pathFinder.FindPath(position.X,position.Y,finish_position.X,finish_position.Y);
 				path_updated = true;
 				//-
@@ -204,7 +203,7 @@ public partial class Enemy_base : RigidBody2D
 	private async void KillYourself()
 	{
 		KillingSelf = true;
-		LevelHandler.OnEnemyDeath();
+		GetTree().Root.GetChild<LevelHandler>(1).OnEnemyDeath();
 		Tween tween = CreateTween();
 
 		AngularVelocity = 4000;
@@ -217,7 +216,6 @@ public partial class Enemy_base : RigidBody2D
 		pathFinder.GetGrid().GetXY(new Godot.Vector2 (0,0),out int x, out int y);
 		Vector2I position = new Vector2I (Mathf.FloorToInt(this.GlobalPosition.X/cellsize),Mathf.FloorToInt(this.GlobalPosition.Y/cellsize));
 
-		//What the actual fuck, why does the code break when the total width compared to the end position is smaller than 10! what! wtf!
 		path = pathFinder.FindPath(position.X,position.Y,finish_position.X,finish_position.Y);
 		path_updated = true;
     }

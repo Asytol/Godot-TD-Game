@@ -37,9 +37,9 @@ public partial class TileMapLayer : Godot.TileMapLayer
     [Signal]
     public delegate void CustomTileChangedEventHandler();
     //Towers
-    TextureButton Ballista;
-	// Called when the node enters the scene tree for the first time.
-	public override void _Ready()
+    private bool ButtonPressed;
+    // Called when the node enters the scene tree for the first time.
+    public override void _Ready()
     {
         TowerContainer = GetNode<TextureRect>("%TowerContainer");
         TileContainer = GetNode<TextureRect>("%TileContainer");
@@ -57,7 +57,6 @@ public partial class TileMapLayer : Godot.TileMapLayer
             child.Connect("SendBuildInfo", new Callable(this, nameof(ChangeCurrentBuilding)));
             ChangeCurrentBuilding(child);
         }
-        //GetNode<TextureButton>("%Ballista").
 
 
         MoneyNum = GetNode<Label>("%MoneyNum");
@@ -81,7 +80,7 @@ public partial class TileMapLayer : Godot.TileMapLayer
 		if (@event is InputEventMouseButton eventMouseButton)
 		{
 			mouse_down = !mouse_down;
-			if (mouse_down && LevelHandler.RoundOver)
+			if (mouse_down && LevelHandler.RoundOver && !ButtonPressed && ((int)eventMouseButton.ButtonIndex) == 1)
 			{
 				if (PlaceTiles)
 				{
@@ -91,7 +90,7 @@ public partial class TileMapLayer : Godot.TileMapLayer
 						CreateTile(MousePos,TileScript.SourceId);
 					}
                 }
-                if (PlaceBuildings)
+                else if (PlaceBuildings)
 				{
 					if (money >= BuildScript.cost)
 					{
@@ -99,12 +98,26 @@ public partial class TileMapLayer : Godot.TileMapLayer
 					}
 				}
             }
-		}
+            if (mouse_down && LevelHandler.RoundOver && !ButtonPressed && ((int)eventMouseButton.ButtonIndex) == 2)
+            {
+                if (PlaceTiles)
+                {
+                	Godot.Vector2 MousePos = eventMouseButton.Position;
+                    SellTile(MousePos);
+                }
+                else if (PlaceBuildings)
+                {
+                	Godot.Vector2 MousePos = eventMouseButton.Position;
+                    SellBuilding(MousePos);
+                }
+            }
+        }
 		if (@event is InputEventMouseMotion eventMouseMotion)
 		{
 			TileSignifier.GlobalPosition = ((Vector2I)eventMouseMotion.Position/cellsize)*cellsize;
-		}
-	}
+        }
+        ButtonPressed = false;
+    }
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
@@ -140,35 +153,43 @@ public partial class TileMapLayer : Godot.TileMapLayer
 		Godot.Vector2 LocalPos = ToLocal(GlobalPosition);
 		Vector2I TilePos = LocalToMap(LocalPos);
 
-		if (GetCellSourceId(TilePos) == -1)
+		Tile_node Tile = grid.GetGridObject(TilePos.X,TilePos.Y);
+        if (GetCellSourceId(TilePos) == -1 && !Tile.occupied)
 		{
 			money -= TileScript.cost;
 			MoneyNum.Text = money.ToString();
 			SetCell(TilePos,sourceId,TileScript.AtlasCoordinates/cellsize,0);
-			Tile_node Tile = grid.GetGridObject(TilePos.X,TilePos.Y);
 			if (Tile != null)
 			{
 				Tile.health = (float)GetCellTileData(TilePos).GetCustomData("health");
 				Tile.breakable = (bool)GetCellTileData(TilePos).GetCustomData("breakable");
-			}
-			//UpdateTerrain(TilePos,3);
-		}
+            }
+            Tile.occupied = true;
+            Tile.IndentedMoney = Mathf.RoundToInt(TileScript.cost * 0.75f);
+            EmitSignal("CustomTileChanged");
+            //UpdateTerrain(TilePos,3);
+        }
 	}
 	private void CreateBuilding(Godot.Vector2 GlobalPosition)
     {
         Godot.Vector2I Position = ((Vector2I)GlobalPosition / cellsize) * cellsize;
         Godot.Vector2 LocalPos = ToLocal(GlobalPosition);
-		Vector2I TilePos = LocalToMap(LocalPos);
+        Vector2I TilePos = LocalToMap(LocalPos);
+        Tile_node Tile = grid.GetGridObject(TilePos.X,TilePos.Y);
         //if (grid.GetGridObject(Position.X,Position.Y))
-        if (GetCellSourceId(TilePos) != -1 && !(bool)GetCellTileData(TilePos).GetCustomData("Buildable")) {return;}
+        if (GetCellSourceId(TilePos) == -1 || (!Tile.occupied && (bool)GetCellTileData(TilePos).GetCustomData("Buildable")))
+        {
+			money -= BuildScript.cost;
+			GD.Print(BuildScript.cost);
+			MoneyNum.Text = money.ToString();
 
-        money -= BuildScript.cost;
-		GD.Print(BuildScript.cost);
-		MoneyNum.Text = money.ToString();
-
-		Node2D Instance = BuildScript.building.Instantiate<Node2D>();
-		AddChild(Instance);
-		Instance.GlobalPosition = new Godot.Vector2(Position.X + cellsize/2, Position.Y + cellsize/2);
+			Node2D Instance = BuildScript.building.Instantiate<Node2D>();
+			AddChild(Instance);
+            Instance.GlobalPosition = new Godot.Vector2(Position.X + cellsize / 2, Position.Y + cellsize / 2);
+            Tile.occupied = true;
+            Tile.BuildingPointer = (Area2D)Instance;
+            Tile.IndentedMoney = Mathf.RoundToInt(BuildScript.cost * 0.75f);
+        }
 	}
 
 	private void UpdateTerrain(Vector2I MidPoint,int size)
@@ -197,7 +218,8 @@ public partial class TileMapLayer : Godot.TileMapLayer
 
 		if (Tile.health < 0 && Tile.breakable == true){
             SetCell(TilePos, -1, Godot.Vector2I.Zero, -1);
-            EmitSignal("CustomTileChanged");
+            //EmitSignal("CustomTileChanged");
+            Tile.occupied = false;
             return true;
         }
 		return false;
@@ -209,7 +231,8 @@ public partial class TileMapLayer : Godot.TileMapLayer
 
 		if (Tile.health < 0 && Tile.breakable){
             SetCell(TilePos, -1, Godot.Vector2I.Zero, -1);
-            EmitSignal("CustomTileChanged");
+            //EmitSignal("CustomTileChanged");
+            Tile.occupied = false;
             return true;
 		}
 		return false;
@@ -236,16 +259,41 @@ public partial class TileMapLayer : Godot.TileMapLayer
 				Tile.health -= damage;
 				if (Tile.health < 0 && Tile.breakable){
                     SetCell(TilePos, -1, Godot.Vector2I.Zero, -1);
-                	EmitSignal("CustomTileChanged");}
+                    //EmitSignal("CustomTileChanged");
+                    Tile.occupied = false;
+                }
             }
         }
 
 		return Damage_tileI(TilePos, raw_dmg);
-	}
+    }
+
+    private void SellTile(Godot.Vector2 GlobalPosition)
+    {
+		Godot.Vector2 LocalPos = this.ToLocal(GlobalPosition);
+        Vector2I TilePos = this.LocalToMap(LocalPos);
+
+        if (GetCellSourceId(TilePos) != -1)
+        {
+        	money += grid.GetGridObject(TilePos.X,TilePos.Y).IndentedMoney;
+            Damage_tileI(TilePos, int.MaxValue);
+            MoneyNum.Text = money.ToString();
+        }
+    }
+    private void SellBuilding(Godot.Vector2 GlobalPosition)
+    {
+		Godot.Vector2 LocalPos = this.ToLocal(GlobalPosition);
+        Vector2I TilePos = this.LocalToMap(LocalPos);
+
+        if (grid.GetGridObject(TilePos.X,TilePos.Y).BuildingPointer == null) {return;}
+        money += grid.GetGridObject(TilePos.X,TilePos.Y).IndentedMoney;
+        grid.GetGridObject(TilePos.X, TilePos.Y).BuildingPointer.QueueFree();
+        MoneyNum.Text = money.ToString();
+    }
 
 
-	//Tiles
-	private void ChangeCurrentBuilding(TextureButton button)
+    //Tiles
+    private void ChangeCurrentBuilding(TextureButton button)
 	{
 		PlaceTiles = false;
 		PlaceBuildings = true;
@@ -260,6 +308,7 @@ public partial class TileMapLayer : Godot.TileMapLayer
 
 
         TileSignifier.Texture = button.TextureNormal;
+        ButtonPressed = true;
     }
 
     private void ChangeCurrentTile(TextureButton button)
@@ -267,9 +316,10 @@ public partial class TileMapLayer : Godot.TileMapLayer
         PlaceTiles = true;
         PlaceBuildings = false;
         TileScript = button as Terrain_tile_button;
-        TileSignifier.GetChild<TextureRect>(0).Visible = false;
+        TileSignifier.GetChild<Sprite2D>(0).Visible = false;
 
         TileSignifier.Texture = button.TextureNormal;
+        ButtonPressed = true;
     }
 }
 
@@ -299,6 +349,11 @@ public partial class TileMapLayer : Godot.TileMapLayer
 ⠀⠀⠀⠀⠀⠀⠉⠀⠀⠀⠉⠀⣸⣿⣿⣿⣿⣿⣿⣷⣦⣤⣭⣴⣾⣿⣿⡿⠋⠠⣶⣶⠚⣓⣀⣿⣿⣿⣿⣿⣧⡘⢿⣿⡇⢦⠜⢿⡆⠫
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣤⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠏⠀⠐⠿⠿⠿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣄⠱⢸⣦⠈⣿⣦
 ⠀⠀⠀⣀⣤⣤⣶⣿⠿⣿⣿⣿⣿⣿⣿⣙⣿⣿⣿⣿⣿⣿⣿⣿⣿⡏⠀⣶⣶⣶⣾⣿⣿⣿⣿⣿⣿⣿⣿⡻⣻⠿⠿⡿⣦⢸⣷⣤⡞⢿
+   ⣀⣤⣤⣶⣿⠿⣿⣿⣿⣿⣿⣿⣙⣿⣿⣿⣿⣿⣿⣿⣿⣿⡏⠀⣶⣶⣶⣾⣿⣿⣿⣿⣿⣿⣿⣿⡻⣻⠿⠿⡿⣦⢸⣷⣤⡞⢿
+   ⣀⣤⣤⣶⣿⠿⣿⣿⣿⣿⣿⣿⣙⣿⣿⣿⣿⣿⣿⣿⣿⣿⡏⠀⣶⣶⣶⣾⣿⣿⣿⣿⣿⣿⣿⣿⡻⣻⠿⠿⡿⣦⢸⣷⣤⡞⢿
+   ⣀⣤⣤⣶⣿⠿⣿⣿⣿⣿⣿⣿⣙⣿⣿⣿⣿⣿⣿⣿⣿⣿⡏⠀⣶⣶⣶⣾⣿⣿⣿⣿⣿⣿⣿⣿⡻⣻⠿⠿⡿⣦⢸⣷⣤⡞⢿
+   ⣀⣤⣤⣶⣿⠿⣿⣿⣿⣿⣿⣿⣙⣿⣿⣿⣿⣿⣿⣿⣿⣿⡏⠀⣶⣶⣶⣾⣿⣿⣿⣿⣿⣿⣿⣿⡻⣻⠿⠿⡿⣦⢸⣷⣤⡞⢿
+   ⣀⣤⣤⣶⣿⠿⣿⣿⣿⣿⣿⣿⣙⣿⣿⣿⣿⣿⣿⣿⣿⣿⡏⠀⣶⣶⣶⣾⣿⣿⣿⣿⣿⣿⣿⣿⡻⣻⠿⠿⡿⣦⢸⣷⣤⡞⢿
    ⣀⣤⣤⣶⣿⠿⣿⣿⣿⣿⣿⣿⣙⣿⣿⣿⣿⣿⣿⣿⣿⣿⡏⠀⣶⣶⣶⣾⣿⣿⣿⣿⣿⣿⣿⣿⡻⣻⠿⠿⡿⣦⢸⣷⣤⡞⢿
    ⣀⣤⣤⣶⣿⠿⣿⣿⣿⣿⣿⣿⣙⣿⣿⣿⣿⣿⣿⣿⣿⣿⡏⠀⣶⣶⣶⣾⣿⣿⣿⣿⣿⣿⣿⣿⡻⣻⠿⠿⡿⣦⢸⣷⣤⡞⢿
    ⣀⣤⣤⣶⣿⠿⣿⣿⣿⣿⣿⣿⣙⣿⣿⣿⣿⣿⣿⣿⣿⣿⡏⠀⣶⣶⣶⣾⣿⣿⣿⣿⣿⣿⣿⣿⡻⣻⠿⠿⡿⣦⢸⣷⣤⡞⢿

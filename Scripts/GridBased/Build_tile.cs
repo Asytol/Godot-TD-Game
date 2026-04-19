@@ -8,7 +8,7 @@ public partial class Build_tile : TextureButton
 
     private float damage;
     private float AttackSpeed;
-    private string Name;
+    private string name;
 
     [Signal]
 	public delegate void SendBuildInfoEventHandler(TextureButton button);
@@ -25,7 +25,7 @@ public partial class Build_tile : TextureButton
 			TowerShooterBase BuildingScript = temp as TowerShooterBase;
             damage = BuildingScript.base_damage;
             AttackSpeed = BuildingScript.Cooldown;
-            Name = BuildingScript.Name.ToString();
+            name = BuildingScript.Name.ToString();
         }
     }
 
@@ -37,7 +37,7 @@ public partial class Build_tile : TextureButton
 
 		Label label = StatsPanel.GetChild<Label>(1);
         label.Text = $"cost: {cost}" + "\n" +
-        $"building: {Name}" + "\n" +
+        $"building: {name}" + "\n" +
         $"damage: {damage}" + "\n" +
         $"AttackSpeed: {AttackSpeed}"
         ;

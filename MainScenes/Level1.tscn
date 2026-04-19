@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://b8ari8v45kaiy"]
+
+[ext_resource type="Script" uid="uid://c2t62uwun1ntw" path="res://Scripts/LogicBased/LevelHandler.cs" id="1_lda15"]
+[ext_resource type="Script" uid="uid://dl1twe57s3hf0" path="res://Scripts/LogicBased/SpawnPreset.cs" id="2_6c20t"]
+[ext_resource type="Script" uid="uid://bxq7b72m4anqj" path="res://Scripts/LogicBased/WavePreset.cs" id="3_i3w5r"]
+
+[sub_resource type="Resource" id="Resource_b6y2y"]
+script = ExtResource("2_6c20t")
+metadata/_custom_type_script = "uid://dl1twe57s3hf0"
+
+[sub_resource type="Resource" id="Resource_l0c2k"]
+script = ExtResource("3_i3w5r")
+Spawns = Array[Object]([SubResource("Resource_b6y2y")])
+WaveMoney = 1
+metadata/_custom_type_script = "uid://bxq7b72m4anqj"
+
+[node name="Base" type="Node2D" unique_id=1891918392]
+script = ExtResource("1_lda15")
+Waves = Array[Resource]([SubResource("Resource_l0c2k")])
