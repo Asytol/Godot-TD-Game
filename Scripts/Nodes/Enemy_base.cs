@@ -66,15 +66,17 @@ public partial class Enemy_base : RigidBody2D
 		if (!stunned)
 		{
 			GlobalPosition += GlobalVelocity;
-			if (current_pathfinding_delay == PathFinding_delay){
-				pathFinder.GetGrid().GetXY(new Godot.Vector2 (0,0),out int x, out int y);
-				Vector2I position = new Vector2I (Mathf.FloorToInt(this.GlobalPosition.X/cellsize),Mathf.FloorToInt(this.GlobalPosition.Y/cellsize));
+			if (current_pathfinding_delay == PathFinding_delay)
+			{
+				pathFinder.GetGrid().GetXY(new Godot.Vector2(0, 0), out int x, out int y);
+				Vector2I position = new Vector2I(Mathf.FloorToInt(this.GlobalPosition.X / cellsize), Mathf.FloorToInt(this.GlobalPosition.Y / cellsize));
 
-				path = pathFinder.FindPath(position.X,position.Y,finish_position.X,finish_position.Y);
+				path = pathFinder.FindPath(position.X, position.Y, finish_position.X, finish_position.Y);
 				path_updated = true;
 				//-
 				current_pathfinding_delay = 0;
 			}
+			if (GlobalRotation != 0){StandStraight();}
 		}
 		else{
 			C_StunDuration += (float)delta;
@@ -94,12 +96,6 @@ public partial class Enemy_base : RigidBody2D
 		if (path_updated)
 		{
 			WalkAlongNodes(path);
-		}
-		QueueRedraw();
-	}
-	public override void _Draw(){
-		for (int i = 1; i < path.Count; i++){
-			DrawLine(new Godot.Vector2(path[i -1].x, path[i-1].y)*16 -this.GlobalPosition+new Godot.Vector2(8,8), new Godot.Vector2(path[i].x, path[i].y)*16-this.GlobalPosition+new Godot.Vector2(8,8),Colors.Red, 1.0f);
 		}
 	}
 

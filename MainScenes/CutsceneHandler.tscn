@@ -2,20 +2,7 @@
 
 [ext_resource type="Script" uid="uid://cm8h1wkvqn26w" path="res://Scripts/CutsceneHandler.cs" id="1_ofndg"]
 [ext_resource type="Texture2D" uid="uid://dnbrsh5txxmn4" path="res://BigYahu.jpg" id="1_wmki0"]
-[ext_resource type="Script" uid="uid://bdyxqlpjygfcj" path="res://Scripts/DialogueHandle.cs" id="2_6qct6"]
 [ext_resource type="Texture2D" uid="uid://bktholecjqbif" path="res://Raw_sprites/UI/DialogueBubble.png" id="4_jlpl6"]
-
-[sub_resource type="Resource" id="Resource_wmki0"]
-script = ExtResource("2_6qct6")
-text = "Fucking"
-metadata/_custom_type_script = "uid://bdyxqlpjygfcj"
-
-[sub_resource type="Resource" id="Resource_jlpl6"]
-script = ExtResource("2_6qct6")
-text = "DIABOLICAL"
-speed = 0.5
-color = Color(1, 0, 0, 1)
-metadata/_custom_type_script = "uid://bdyxqlpjygfcj"
 
 [sub_resource type="Theme" id="Theme_jlpl6"]
 Label/colors/font_color = Color(0, 0, 0, 1)
@@ -31,7 +18,7 @@ size_flags_horizontal = 4
 size_flags_vertical = 8
 texture = ExtResource("1_wmki0")
 script = ExtResource("1_ofndg")
-Dialogues = Array[Object]([SubResource("Resource_wmki0"), SubResource("Resource_jlpl6")])
+Dialogues = Array[Object]([])
 
 [node name="Bubble" type="NinePatchRect" parent="." unique_id=337146498]
 layout_mode = 1
@@ -68,4 +55,3 @@ layout_mode = 2
 theme = SubResource("Theme_jlpl6")
 theme_override_colors/default_color = Color(0, 0, 0, 1)
 bbcode_enabled = true
-autowrap_mode = 1

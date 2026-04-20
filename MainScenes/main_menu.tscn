@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://b4du7co2ny5mf" path="res://Diabolical.jpg" id="2_w41gr"]
 [ext_resource type="Theme" uid="uid://b4ytiaxr0csu4" path="res://Raw_sprites/UI/Box_theme.tres" id="3_qnbo1"]
 [ext_resource type="AudioStream" uid="uid://b1wn8y5apqbpa" path="res://bill-butcher-f-cking-diabolical-the-boys-theboys-billybutcher-butcher-funnymoments-primevideo-amazonprimevideo.mp3" id="6_4xubp"]
+[ext_resource type="Script" uid="uid://caqq0qxyumwr0" path="res://Scripts/LogicBased/GeneralButtonClass.cs" id="7_xqaau"]
 
 [node name="MainMenu" type="Control" unique_id=1009987052]
 layout_mode = 3
@@ -75,6 +76,7 @@ text = "Test Level
 "
 
 [node name="LevelSelect" type="CenterContainer" parent="." unique_id=452464053]
+unique_name_in_owner = true
 visible = false
 layout_mode = 1
 anchors_preset = 15
@@ -101,18 +103,25 @@ offset_right = 20.0
 text = "X
 "
 
-[node name="GridContainer" type="GridContainer" parent="LevelSelect/Panel" unique_id=1976333802]
+[node name="LevelTab" type="GridContainer" parent="LevelSelect/Panel" unique_id=1976333802]
+unique_name_in_owner = true
 layout_mode = 2
 columns = 5
 
-[node name="Button" type="Button" parent="LevelSelect/Panel/GridContainer" unique_id=542082849]
+[node name="Level1" type="Button" parent="LevelSelect/Panel/LevelTab" unique_id=542082849]
 layout_mode = 2
 text = "Level 1"
+script = ExtResource("7_xqaau")
+SendMessage = true
+message = "Level1"
 
-[node name="Button2" type="Button" parent="LevelSelect/Panel/GridContainer" unique_id=1450859488]
+[node name="Level2" type="Button" parent="LevelSelect/Panel/LevelTab" unique_id=1450859488]
 layout_mode = 2
 text = "Level 2
 "
+script = ExtResource("7_xqaau")
+SendMessage = true
+message = "Level2"
 
 [connection signal="finished" from="AudioStreamPlayer2D" to="." method="_on_audio_stream_player_2d_finished"]
 [connection signal="button_up" from="CenterContainer/VBoxContainer/Level select" to="." method="_on_button_button_up"]

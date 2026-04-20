@@ -10,9 +10,13 @@ public partial class CutsceneHandler : TextureRect
     private string CurrentText;
     private int CurrentLetter = 0;
 
+    [Signal]
+    public delegate void CutsceneFinishedEventHandler();
+
     public override void _Ready()
     {
         TextLabel = GetChild<NinePatchRect>(0).GetChild<MarginContainer>(0).GetChild<RichTextLabel>(0);
+        Visible = true;
         RenderText();
     }
 
@@ -20,7 +24,7 @@ public partial class CutsceneHandler : TextureRect
     {
         foreach (DialogueHandle handle in Dialogues)
         {
-            if (handle.Background != null){this.Texture = handle.Background;}
+            if (handle.Background != null) { this.Texture = handle.Background; }
             if (handle.NewBubble)
             {
                 await ToSignal(GetTree().CreateTimer(handle.TimeBeforeNextBubble), SceneTreeTimer.SignalName.Timeout);
@@ -36,12 +40,12 @@ public partial class CutsceneHandler : TextureRect
             TextLabel.PopAll();
             TextLabel.VisibleCharacters = CurrentLetter;
 
-            float AwaitTime = 1/handle.speed;
+            float AwaitTime = 1 / handle.speed;
             while (CurrentLetter < TextLabel.GetTotalCharacterCount())
             {
                 CurrentLetter++;
                 TextLabel.VisibleCharacters = CurrentLetter;
-                await ToSignal(GetTree().CreateTimer(handle.TimeBeforeNextBubble), SceneTreeTimer.SignalName.Timeout);
+                await ToSignal(GetTree().CreateTimer(AwaitTime), SceneTreeTimer.SignalName.Timeout);
             }
 
             if (handle.WaitForEnter)
@@ -51,6 +55,13 @@ public partial class CutsceneHandler : TextureRect
                     await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
                 }
             }
+            if (handle.TimeBoforeNewLine != 0)
+            {
+                await ToSignal(GetTree().CreateTimer(handle.TimeBoforeNewLine), SceneTreeTimer.SignalName.Timeout);
+            }
         }
+        EmitSignal(SignalName.CutsceneFinished);
+        Visible = false;
+        QueueFree();
     }
 }

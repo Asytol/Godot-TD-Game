@@ -13,18 +13,29 @@ public partial class LevelHandler : Node
 	public static int EnemiesAlive = 0;
 	//[Export] private WavePreset[] WavePresets;
 
+	private TextureRect CutSceneHandler;
+
 	[Signal]
 	public delegate void StartGameEventHandler();
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-
 		GetNode<Button>("%Start").ButtonUp += OnStart;
 		//if/or is sadly faster than reflection ):
 		TileMapLayer.money += Waves[0].WaveMoney;
 		TileMapLayer.MoneyNum.Text = Waves[0].WaveMoney.ToString();
 
 		RoundOver = true;
+
+		CutSceneHandler = GetNodeOrNull<TextureRect>("%Cutscene");
+		if (CutSceneHandler != null)
+		{
+			CutSceneHandler.Connect("CutsceneFinished", new Callable(this, nameof(ResumeScene)));
+			//Getting the DONT TOUCH node, yeah im touching it. But only i can, not anyone else.
+			GetNode<Node2D>("%DontTouch").PropagateCall("set_process", [false]);
+			GetNode<Node2D>("%DontTouch").Visible = false;
+			GetNode<Control>("Ui").Visible = false;
+		}
 	}
 	private bool CantFindIsDigitFunction(char c)
 	{
@@ -66,6 +77,13 @@ public partial class LevelHandler : Node
 			RoundOver = false;
 			CurrentWave++;
 		}
+	}
+
+	private void ResumeScene()
+	{
+		GetNode<Node2D>("%DontTouch").PropagateCall("set_process", [true]);
+		GetNode<Node2D>("%DontTouch").Visible = true;
+		GetNode<Control>("Ui").Visible = true;
 	}
 
 

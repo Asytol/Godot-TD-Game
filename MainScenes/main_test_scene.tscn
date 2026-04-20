@@ -178,6 +178,5 @@ position = Vector2(232, 456)
 [node name="CanonTower" parent="." unique_id=1591976174 instance=ExtResource("12_8j02k")]
 position = Vector2(190, 490)
 
-[connection signal="changed" from="TileMap" to="Spawner" method="_on_tile_map_changed"]
 [connection signal="button_up" from="Ui/MarginContainer/Start" to="." method="_on_start_button_up"]
 [connection signal="button_up" from="Ui/MarginContainer/Start" to="Ui" method="_on_button_button_up"]

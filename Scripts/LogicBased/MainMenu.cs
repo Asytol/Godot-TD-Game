@@ -20,6 +20,11 @@ public partial class MainMenu : Control
         GetNode<Button>("%Quit").ButtonUp += QuitGame;
         GetNode<Button>("%TestLevel1").ButtonUp += TestLevel;
         GetNode<Button>("%Rebirth").ButtonUp += OnRebirth;
+
+        foreach (BaseButton level in GetNode<GridContainer>("%LevelTab").GetChildren())
+        {
+            level.Connect("SendString",new Callable(this, nameof(GoToLevel)));
+        }
     }
 
     private void LevelSelect()
@@ -53,6 +58,16 @@ public partial class MainMenu : Control
         GetChild<TextureRect>(0).Texture = RegularTexture;
         Changing = false;
     }
+
+    private void GoToLevel(string level)
+    {
+        GD.Print(level);
+        CanvasLayer Transitioner = GetTree().Root.GetChild<CanvasLayer>(0);
+        SceneTransitioner script = Transitioner as SceneTransitioner;
+        script.GoToScene(level);
+    }
 }
+
+
 
 
