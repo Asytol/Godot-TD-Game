@@ -15,6 +15,7 @@
 [ext_resource type="PackedScene" uid="uid://l14itu8jjarh" path="res://Scenes/BallistaTower.tscn" id="11_ytlt0"]
 [ext_resource type="PackedScene" uid="uid://koskhgp3xffg" path="res://Scenes/CannonTower.tscn" id="12_8j02k"]
 [ext_resource type="Texture2D" uid="uid://dcwkdl27nm5g4" path="res://Raw_sprites/TileMap/Coin.png" id="12_kmpqp"]
+[ext_resource type="PackedScene" uid="uid://bi678rx01tgmm" path="res://Scenes/WizardTower.tscn" id="16_s7j74"]
 
 [sub_resource type="Resource" id="Resource_dooye"]
 script = ExtResource("2_4bbre")
@@ -174,9 +175,14 @@ text = "10"
 
 [node name="BallistaTower" parent="." unique_id=1380105968 instance=ExtResource("11_ytlt0")]
 position = Vector2(232, 456)
+Cooldown = 1.5
 
 [node name="CanonTower" parent="." unique_id=1591976174 instance=ExtResource("12_8j02k")]
 position = Vector2(190, 490)
+
+[node name="WizardTower" parent="." unique_id=696809066 instance=ExtResource("16_s7j74")]
+position = Vector2(173, 524)
+base_damage = 15.0
 
 [connection signal="button_up" from="Ui/MarginContainer/Start" to="." method="_on_start_button_up"]
 [connection signal="button_up" from="Ui/MarginContainer/Start" to="Ui" method="_on_button_button_up"]

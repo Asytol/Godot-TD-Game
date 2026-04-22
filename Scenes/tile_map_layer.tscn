@@ -14,8 +14,10 @@
 [ext_resource type="Texture2D" uid="uid://bi82ketkd1p5m" path="res://Raw_sprites/TileMap/UiTerrainTextures/Brick.png" id="11_a5obw"]
 [ext_resource type="Theme" uid="uid://b4ytiaxr0csu4" path="res://Raw_sprites/UI/Box_theme.tres" id="11_yehf8"]
 [ext_resource type="StyleBox" uid="uid://c0xoc2o2yqhdc" path="res://Raw_sprites/UI/StyleBoxBlueTheme.tres" id="12_6cgyq"]
+[ext_resource type="Texture2D" uid="uid://d3a6vnxuuhj1f" path="res://Raw_sprites/Towers/WizardTower.png" id="12_ad2yu"]
 [ext_resource type="Texture2D" uid="uid://b3k8p786tfmsj" path="res://Raw_sprites/TileMap/UiTerrainTextures/StoneBrick.png" id="12_cwa1k"]
 [ext_resource type="Script" uid="uid://ijp6ng4aw433" path="res://Scripts/GridBased/Terrain_tile_button.cs" id="12_vh02k"]
+[ext_resource type="PackedScene" uid="uid://bi678rx01tgmm" path="res://Scenes/WizardTower.tscn" id="13_lbmh7"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_r5nid"]
 texture = ExtResource("2_p1nli")
@@ -725,7 +727,7 @@ texture_filter = 1
 texture_repeat = 2
 offset_left = 40.0
 offset_right = 72.0
-offset_bottom = 72.0
+offset_bottom = 104.0
 size_flags_horizontal = 0
 mouse_filter = 2
 texture = ExtResource("5_p5ima")
@@ -746,7 +748,6 @@ theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 16
 
 [node name="Ballista" type="TextureButton" parent="TowerContainer/VBox/MarginContainer" unique_id=1282572473]
-unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
@@ -756,6 +757,7 @@ texture_hover = ExtResource("8_bsuvp")
 texture_disabled = ExtResource("8_bsuvp")
 texture_focused = ExtResource("8_bsuvp")
 script = ExtResource("9_p5ima")
+cost = 40
 building = ExtResource("10_u5ca1")
 
 [node name="MarginContainer2" type="MarginContainer" parent="TowerContainer/VBox" unique_id=25204517]
@@ -766,7 +768,6 @@ theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 16
 
 [node name="Cannon" type="TextureButton" parent="TowerContainer/VBox/MarginContainer2" unique_id=1285990446]
-unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
@@ -777,6 +778,26 @@ texture_disabled = ExtResource("10_pbh26")
 texture_focused = ExtResource("10_pbh26")
 script = ExtResource("9_p5ima")
 building = ExtResource("10_vh02k")
+
+[node name="MarginContainer3" type="MarginContainer" parent="TowerContainer/VBox" unique_id=798543521]
+layout_mode = 2
+theme_override_constants/margin_left = 48
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 16
+
+[node name="WizardTower" type="TextureButton" parent="TowerContainer/VBox/MarginContainer3" unique_id=289800539]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+texture_normal = ExtResource("12_ad2yu")
+texture_pressed = ExtResource("12_ad2yu")
+texture_hover = ExtResource("12_ad2yu")
+texture_disabled = ExtResource("12_ad2yu")
+texture_focused = ExtResource("12_ad2yu")
+script = ExtResource("9_p5ima")
+cost = 50
+building = ExtResource("13_lbmh7")
 
 [node name="TileContainer" type="TextureRect" parent="." unique_id=242744489]
 unique_name_in_owner = true

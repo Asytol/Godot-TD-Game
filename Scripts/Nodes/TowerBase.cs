@@ -30,7 +30,6 @@ public partial class TowerBase : Area2D
 
 	private void OnBodyEntered(Node2D body)
 	{
-		GD.Print("added"+body.Name);
 		if (body is CollisionObject2D collider && collider.CollisionLayer == 2)
 		{
 			EntitiesInArea.Add(body);
@@ -38,7 +37,6 @@ public partial class TowerBase : Area2D
 	}
 	private void OnBodyExited(Node2D body)
 	{
-		GD.Print("removed"+body.Name);
 		if (body is CollisionObject2D collider && collider.CollisionLayer == 2)
 		{
 			EntitiesInArea.Remove(body);

@@ -10,9 +10,9 @@ radius = 8.0
 [node name="CannonBall" type="Area2D" unique_id=967990509]
 collision_mask = 3
 script = ExtResource("1_vaeiy")
-damage = 15.0
 Pierce = 1
 Shrapnell = ExtResource("2_344pp")
+ShrapnellAmount = 1
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1877986909]
 texture = ExtResource("2_syolf")

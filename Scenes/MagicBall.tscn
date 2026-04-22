@@ -1,0 +1,38 @@
+[gd_scene format=3 uid="uid://b27h7y346txvu"]
+
+[ext_resource type="Script" uid="uid://b75uqkv3yfff7" path="res://Scripts/Nodes/HomingProjectile.cs" id="1_anqnq"]
+[ext_resource type="Texture2D" uid="uid://cckrfve15cy0p" path="res://Raw_sprites/Towers/MagicBall.png" id="1_hhuqs"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_qnaon"]
+radius = 5.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_anqnq"]
+radius = 40.0
+
+[node name="MagicBall" type="Area2D" unique_id=22025453]
+collision_layer = 4
+collision_mask = 2
+script = ExtResource("1_anqnq")
+PivotStrength = 1.0
+Decay_time = 6.0
+BaseSpeed = 4.0
+damage = 15.0
+StunDuration = 0.2
+Pierce = 3
+ShrapnellSpread = 20.0
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=718395344]
+texture = ExtResource("1_hhuqs")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1050977836]
+shape = SubResource("CircleShape2D_qnaon")
+
+[node name="EnemyDetectionCollider" type="Area2D" parent="." unique_id=372882601]
+collision_layer = 4
+collision_mask = 2
+
+[node name="EnemyDetectionCollider" type="CollisionShape2D" parent="EnemyDetectionCollider" unique_id=1018327300]
+shape = SubResource("CircleShape2D_anqnq")
+
+[connection signal="area_entered" from="EnemyDetectionCollider" to="." method="_on_enemy_detection_collider_area_entered"]
+[connection signal="area_exited" from="EnemyDetectionCollider" to="." method="_on_enemy_detection_collider_area_exited"]

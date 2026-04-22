@@ -52,7 +52,6 @@ public partial class TowerShooterBase : TowerBase
             TowerHead.GlobalRotation = Direction.Angle() - 1.57079632679f;
             if (!shooting)
             {
-                GD.Print("" + Direction);
 				Summon_projectile(Direction,ProjectileSpeedMultiplier,spread);
 				shooting = true;
             }

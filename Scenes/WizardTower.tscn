@@ -1,0 +1,44 @@
+[gd_scene format=3 uid="uid://bi678rx01tgmm"]
+
+[ext_resource type="Script" uid="uid://gk8eyw3lnmpg" path="res://Scripts/Nodes/TowerShooterBase.cs" id="1_312rr"]
+[ext_resource type="Texture2D" uid="uid://d3a6vnxuuhj1f" path="res://Raw_sprites/Towers/WizardTower.png" id="1_721mr"]
+[ext_resource type="PackedScene" uid="uid://b27h7y346txvu" path="res://Scenes/MagicBall.tscn" id="2_45217"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_s7j74"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_721mr")
+}],
+"loop": false,
+"name": &"LoadingUp",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_721mr")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_oplss"]
+
+[node name="WizardTower" type="Area2D" unique_id=696809066]
+collision_layer = 4
+collision_mask = 2
+script = ExtResource("1_312rr")
+projectile = ExtResource("2_45217")
+base_range = 100.0
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1872716987]
+texture = ExtResource("1_721mr")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1145655840]
+sprite_frames = SubResource("SpriteFrames_s7j74")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=165424082]
+shape = SubResource("CircleShape2D_oplss")
+
+[connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]

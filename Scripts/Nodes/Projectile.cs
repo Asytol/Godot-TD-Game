@@ -19,9 +19,11 @@ public partial class Projectile : Area2D
     [Export] public float StunDuration = 0;
 
     [Export] public int Pierce = 2;
-    [Export] private PackedScene Shrapnell;
+	[Export] private PackedScene Shrapnell;
+	[Export] private int ShrapnellAmount;
+	[Export] private float ShrapnellSpread;
     private int HitCounter;
-    private Godot.Vector2 Direction; 
+    public Godot.Vector2 Direction; 
 
 	private List<int> ActiveLayers = new List<int>();
 	//
@@ -88,15 +90,26 @@ public partial class Projectile : Area2D
 				Godot.Vector2 Direction = (body.Position - this.Position).Normalized();
 				enemy.Knockback(Direction, 1f);
 				HitCounter++;
-				if (Shrapnell != null) { InstantiateShrapnell(); }
+				if (Shrapnell != null){
+					float ExtraSpread = Direction.Angle();
+					for (int i = 0; i < ShrapnellAmount; i++){
+						ExtraSpread += ShrapnellSpread;
+						InstantiateShrapnell(ExtraSpread);
+					}
+				}
 				if (HitCounter == Pierce){QueueFree();}
 			}
 		}
     }
-    private void InstantiateShrapnell()
-    {
+    private void InstantiateShrapnell(float ExtraSpread)
+	{
         Node2D instance = Shrapnell.Instantiate<Node2D>();
-        GetParent().CallDeferred("add_child", instance);
+		GetParent().CallDeferred("add_child", instance);
+		if (instance is Projectile projectile)
+		{
+			Godot.Vector2 ExtraDirection = new Godot.Vector2(Mathf.Cos(ExtraSpread), Mathf.Sin(ExtraSpread));
+			projectile.instantiate((Direction + ExtraDirection).Normalized());
+		}
 		instance.CallDeferred(Node2D.MethodName.SetGlobalPosition, this.GlobalPosition);
     }
 }
