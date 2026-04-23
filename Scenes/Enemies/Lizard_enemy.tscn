@@ -1,7 +1,85 @@
 [gd_scene format=3 uid="uid://d0fwc6pi0u3cn"]
 
-[ext_resource type="Texture2D" uid="uid://cpavbtoa18o8k" path="res://Raw_sprites/Enemies/lizard_m_idle_anim_f0.png" id="1_mgyyx"]
 [ext_resource type="Script" uid="uid://i8xt60ymkima" path="res://Scripts/Nodes/Enemy_base.cs" id="1_r88v8"]
+[ext_resource type="Texture2D" uid="uid://pomy66dfgb0a" path="res://Raw_sprites/Enemies/LizardWalking.png" id="2_6m7yp"]
+[ext_resource type="LabelSettings" uid="uid://dmkdg2tuhl5nm" path="res://Raw_sprites/UI/DamageLabel.tres" id="3_shveq"]
+[ext_resource type="Texture2D" uid="uid://d0pido6gcpqk3" path="res://Raw_sprites/UI/PlainWhite.png" id="4_m4v34"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_shveq"]
+atlas = ExtResource("2_6m7yp")
+region = Rect2(32, 0, 16, 22)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_m4v34"]
+atlas = ExtResource("2_6m7yp")
+region = Rect2(48, 0, 16, 22)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_l0d1y"]
+atlas = ExtResource("2_6m7yp")
+region = Rect2(64, 0, 16, 22)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dcpct"]
+atlas = ExtResource("2_6m7yp")
+region = Rect2(80, 0, 16, 22)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dv41o"]
+atlas = ExtResource("2_6m7yp")
+region = Rect2(96, 0, 16, 22)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8edya"]
+atlas = ExtResource("2_6m7yp")
+region = Rect2(112, 0, 16, 22)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uoto7"]
+atlas = ExtResource("2_6m7yp")
+region = Rect2(128, 0, 16, 22)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1qpqk"]
+atlas = ExtResource("2_6m7yp")
+region = Rect2(16, 0, 16, 22)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6017r"]
+atlas = ExtResource("2_6m7yp")
+region = Rect2(0, 0, 16, 22)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_060ur"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_shveq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_m4v34")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_l0d1y")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dcpct")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dv41o")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8edya")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uoto7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1qpqk")
+}],
+"loop": true,
+"name": &"Walking",
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6017r")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_r88v8"]
 size = Vector2(13, 14)
@@ -9,17 +87,46 @@ size = Vector2(13, 14)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_vbq21"]
 size = Vector2(15, 16)
 
-[node name="RigidBody2D2" type="RigidBody2D" unique_id=447939803]
+[sub_resource type="ViewportTexture" id="ViewportTexture_m4v34"]
+viewport_path = NodePath("SubViewport")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_l0d1y"]
+lifetime_randomness = 0.2
+particle_flag_disable_z = true
+angle_min = -9.9999895
+angle_max = 10.0000105
+inherit_velocity_ratio = 1.0
+velocity_pivot = Vector3(0, 10, 0)
+direction = Vector3(0.3, -1, 0)
+spread = 20.0
+initial_velocity_min = 90.0
+initial_velocity_max = 100.0
+gravity = Vector3(0, 98, 0)
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_dcpct"]
+particle_flag_disable_z = true
+angle_min = 70.000015
+angle_max = 170.00002
+inherit_velocity_ratio = 1.0
+spread = 180.0
+initial_velocity_min = 50.0
+initial_velocity_max = 100.0
+gravity = Vector3(0, 30, 0)
+damping_max = 82.031006
+
+[node name="Enemy" type="RigidBody2D" unique_id=447939803]
 collision_layer = 2
 collision_mask = 4
 script = ExtResource("1_r88v8")
 Speed = 20
 RotationSpeed = 0.5
 
-[node name="Sprite2D" type="Sprite2D" parent="." unique_id=535382408]
+[node name="Sprite2D" type="AnimatedSprite2D" parent="." unique_id=341377181]
 z_index = 1
-position = Vector2(0, -6)
-texture = ExtResource("1_mgyyx")
+position = Vector2(0, -1)
+sprite_frames = SubResource("SpriteFrames_060ur")
+animation = &"Walking"
+frame_progress = 0.08498057
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=965911700]
 position = Vector2(0.5, 0)
@@ -38,6 +145,50 @@ collision_mask = 6
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=2118569006]
 position = Vector2(0.5, 0)
 shape = SubResource("RectangleShape2D_vbq21")
+
+[node name="SubViewport" type="SubViewport" parent="." unique_id=1057847909]
+disable_3d = true
+transparent_bg = true
+size = Vector2i(128, 128)
+
+[node name="DamageDisplay" type="Label" parent="SubViewport" unique_id=1387670762]
+unique_name_in_owner = true
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -28.0
+offset_top = -11.5
+offset_right = 28.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.8, 0.8)
+text = "100"
+label_settings = ExtResource("3_shveq")
+
+[node name="Particle" type="GPUParticles2D" parent="." unique_id=434021387]
+unique_name_in_owner = true
+position = Vector2(1, 0)
+emitting = false
+texture = SubResource("ViewportTexture_m4v34")
+process_material = SubResource("ParticleProcessMaterial_l0d1y")
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="Particle" unique_id=245418238]
+modulate = Color(0.4583333, 0.05132379, 0.05132379, 1)
+emitting = false
+amount = 30
+texture = ExtResource("4_m4v34")
+lifetime = 0.2
+one_shot = true
+speed_scale = 0.6
+explosiveness = 0.77
+trail_enabled = true
+trail_lifetime = 0.05
+trail_sections = 7
+trail_section_subdivisions = 3
+process_material = SubResource("ParticleProcessMaterial_dcpct")
 
 [connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]

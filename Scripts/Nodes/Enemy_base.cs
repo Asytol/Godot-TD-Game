@@ -7,7 +7,12 @@ using Godot;
 
 public partial class Enemy_base : RigidBody2D
 {
+	private AnimatedSprite2D Sprite;
 	[Export] public Line2D this_line;
+	[Export] private Label DamageDisplay;
+	private GpuParticles2D Particles2D;
+	private RandomNumberGenerator rng = new RandomNumberGenerator();
+	
 	private float og_line_width;
 	[Export] public int Speed = 1;
 	private Godot.Vector2 GlobalVelocity;
@@ -23,7 +28,7 @@ public partial class Enemy_base : RigidBody2D
 	[Export] public int MoneyDrops;
 	private PathFinder pathFinder;
 	[Export] public TileMapLayer tilemap;
-	private bool path_updated = false;
+	public bool path_updated = false;
 	private const int cellsize=16;
 	private const int mapheight = 41;
 	private const int mapwidth = 73;
@@ -40,11 +45,15 @@ public partial class Enemy_base : RigidBody2D
 
 	public override void _Ready()
 	{
-        //Child(0) is sceene transitioner :crying_emoji:
-        if (tilemap == null) { tilemap = GetTree().Root.GetChild(1).GetNode<TileMapLayer>("%TileMap"); }
+		Sprite = GetChild<AnimatedSprite2D>(0);
+		DamageDisplay = GetNode<Label>("%DamageDisplay");
+		Particles2D = GetNode<GpuParticles2D>("%Particle");
+		//Child(0) is sceene transitioner :crying_emoji:
+		if (tilemap == null) { tilemap = GetTree().Root.GetChild(1).GetNode<TileMapLayer>("%TileMap"); }
 
-        if (this_line == null){this_line = GetNode<Line2D>("Line2D"); }
+		if (this_line == null){this_line = GetNode<Line2D>("Line2D"); }
 		og_line_width = this_line.Points[0].X;
+		this_line.Visible = false;
 
 		Godot.Vector2 temp_pos = GetTree().Root.GetChild(1).GetNode<Area2D>("%Finish").Position;
 		finish_position = new Vector2I(Mathf.RoundToInt(temp_pos.X/cellsize),//->
@@ -55,9 +64,9 @@ public partial class Enemy_base : RigidBody2D
 
 		GetNode<Area2D>("Area2D").AreaEntered += OnAreaEntered;
 		GetNode<Area2D>("Area2D").BodyEntered += OnBodyEntered;
-        GetNode<Area2D>("Area2D").BodyExited += OnBodyExited;
-        ForceReCalculatePath();
-    }
+		GetNode<Area2D>("Area2D").BodyExited += OnBodyExited;
+		ForceReCalculatePath();
+	}
 	public override void _PhysicsProcess(double delta)
 	{
 		UpdateIFrameList((float) delta);
@@ -65,18 +74,9 @@ public partial class Enemy_base : RigidBody2D
 
 		if (!stunned)
 		{
+			if (GlobalRotation != 0) { StandStraight(); }
 			GlobalPosition += GlobalVelocity;
-			if (current_pathfinding_delay == PathFinding_delay)
-			{
-				pathFinder.GetGrid().GetXY(new Godot.Vector2(0, 0), out int x, out int y);
-				Vector2I position = new Vector2I(Mathf.FloorToInt(this.GlobalPosition.X / cellsize), Mathf.FloorToInt(this.GlobalPosition.Y / cellsize));
-
-				path = pathFinder.FindPath(position.X, position.Y, finish_position.X, finish_position.Y);
-				path_updated = true;
-				//-
-				current_pathfinding_delay = 0;
-			}
-			if (GlobalRotation != 0){StandStraight();}
+			Sprite.Play("Walking");
 		}
 		else{
 			C_StunDuration += (float)delta;
@@ -95,17 +95,23 @@ public partial class Enemy_base : RigidBody2D
 
 		if (path_updated)
 		{
+			GD.Print(path.Count);
 			WalkAlongNodes(path);
 		}
 	}
 
 	public void Damage(float damage,float StunDuration,StringName name)
 	{
-		if (CheckIFrames(name)){return;} //in list
+		if (CheckIFrames(name)) { return; } //in list
+		this_line.Visible = true;
+		DamageDisplay.Text = damage.ToString();
+		Godot.Vector2 ParticleVelocity = new Godot.Vector2(rng.RandfRange(-10, 10), 10);
+		Particles2D.EmitParticle(this.Transform, ParticleVelocity, Colors.Black, Colors.Black, 2);
+		Particles2D.GetChild<GpuParticles2D>(0).Restart();
 		IFrameList.Add(new I_frame_obj(name,StunDuration+ExtraIFrames));
-
 		health -= damage;
-		if (health <= 0 && !KillingSelf){KillYourself();}
+		if (health <= 0 && !KillingSelf) { KillYourself(); }
+		Sprite.Play("default");
 
 		this_line.SetPointPosition(0,new Godot.Vector2(og_line_width * (health/Max_health),0));
 
@@ -161,10 +167,10 @@ public partial class Enemy_base : RigidBody2D
 			if (Mathf.Abs(GlobalPosition.X - cell_positon2.X) < cellsize && Mathf.Abs(GlobalPosition.Y - cell_positon2.Y) < cellsize){continue;}
 			//
 			if (nodes[i].is_obstruction){
-                TileMapLayer script = tilemap as TileMapLayer;
-                Godot.Vector2I TileMapPosition = nodes[i].tilemap_position;
-                GlobalVelocity = Godot.Vector2.Zero;
-                while (true){
+				TileMapLayer script = tilemap as TileMapLayer;
+				Godot.Vector2I TileMapPosition = nodes[i].tilemap_position;
+				GlobalVelocity = Godot.Vector2.Zero;
+				while (true){
 					if (script.Area_damageI(TileMapPosition, wall_damage*(float)GetPhysicsProcessDeltaTime()) == true){break;}
 					await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
 				}
@@ -206,13 +212,30 @@ public partial class Enemy_base : RigidBody2D
 		tween.TweenProperty(this, "scale",Godot.Vector2.Zero,1);
 		await ToSignal(tween, Tween.SignalName.Finished);
 		QueueFree();
-    }
-    private void ForceReCalculatePath()
-    {
+	}
+	private void ForceReCalculatePath()
+	{
 		pathFinder.GetGrid().GetXY(new Godot.Vector2 (0,0),out int x, out int y);
 		Vector2I position = new Vector2I (Mathf.FloorToInt(this.GlobalPosition.X/cellsize),Mathf.FloorToInt(this.GlobalPosition.Y/cellsize));
 
 		path = pathFinder.FindPath(position.X,position.Y,finish_position.X,finish_position.Y);
 		path_updated = true;
-    }
+	}
+
+
+	public void ExternallySetPath(List<PathNode> path)
+	{
+		this.path = path;
+	}
+
+	private void NewParticles(GpuParticles2D GPUParticles2D)
+	{
+		Node node = GPUParticles2D.Duplicate();
+		GpuParticles2D NewParticle = (GpuParticles2D)node;
+		NewParticle.GlobalPosition = GPUParticles2D.GlobalPosition;
+		AddChild(NewParticle);
+		NewParticle.Restart();
+		NewParticle.Emitting = true;
+		NewParticle.Connect("finished",new Callable(NewParticle, nameof(QueueFree)));
+	}
 }

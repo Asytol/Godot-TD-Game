@@ -32,7 +32,8 @@ public partial class TileMapLayer : Godot.TileMapLayer
 	public static int money = 0;
 	public static Label MoneyNum;
 
-	private Sprite2D TileSignifier;
+    private Sprite2D TileSignifier;
+    private GpuParticles2D Particles2D;
 
     [Signal]
     public delegate void CustomTileChangedEventHandler();
@@ -44,7 +45,8 @@ public partial class TileMapLayer : Godot.TileMapLayer
         TowerContainer = GetNode<TextureRect>("%TowerContainer");
         TileContainer = GetNode<TextureRect>("%TileContainer");
         //Get all TextureButton signals
-        if (TileSignifier == null){TileSignifier = GetNode<Sprite2D>("%TileSignifier");}
+        if (TileSignifier == null) { TileSignifier = GetNode<Sprite2D>("%TileSignifier"); }
+        Particles2D = TileSignifier.GetChild<GpuParticles2D>(1);
 
         foreach (MarginContainer container in TileContainer.GetChild<VBoxContainer>(0).GetChildren())
         {
@@ -155,7 +157,9 @@ public partial class TileMapLayer : Godot.TileMapLayer
 
 		Tile_node Tile = grid.GetGridObject(TilePos.X,TilePos.Y);
         if (GetCellSourceId(TilePos) == -1 && !Tile.occupied)
-		{
+        {
+            NewParticles(Particles2D);
+
 			money -= TileScript.cost;
 			MoneyNum.Text = money.ToString();
 			SetCell(TilePos,sourceId,TileScript.AtlasCoordinates/cellsize,0);
@@ -179,6 +183,8 @@ public partial class TileMapLayer : Godot.TileMapLayer
         //if (grid.GetGridObject(Position.X,Position.Y))
         if (GetCellSourceId(TilePos) == -1 || (!Tile.occupied && (bool)GetCellTileData(TilePos).GetCustomData("Buildable")))
         {
+            Particles2D.Restart();
+
 			money -= BuildScript.cost;
 			GD.Print(BuildScript.cost);
 			MoneyNum.Text = money.ToString();
@@ -220,6 +226,7 @@ public partial class TileMapLayer : Godot.TileMapLayer
             SetCell(TilePos, -1, Godot.Vector2I.Zero, -1);
             //EmitSignal("CustomTileChanged");
             Tile.occupied = false;
+            Particles2D.Restart();
             return true;
         }
 		return false;
@@ -233,6 +240,7 @@ public partial class TileMapLayer : Godot.TileMapLayer
             SetCell(TilePos, -1, Godot.Vector2I.Zero, -1);
             //EmitSignal("CustomTileChanged");
             Tile.occupied = false;
+            Particles2D.Restart();
             return true;
 		}
 		return false;
@@ -260,6 +268,7 @@ public partial class TileMapLayer : Godot.TileMapLayer
 				if (Tile.health < 0 && Tile.breakable){
                     SetCell(TilePos, -1, Godot.Vector2I.Zero, -1);
                     //EmitSignal("CustomTileChanged");
+                    Particles2D.Restart();
                     Tile.occupied = false;
                 }
             }
@@ -275,6 +284,7 @@ public partial class TileMapLayer : Godot.TileMapLayer
 
         if (GetCellSourceId(TilePos) != -1)
         {
+            Particles2D.Restart();
         	money += grid.GetGridObject(TilePos.X,TilePos.Y).IndentedMoney;
             Damage_tileI(TilePos, int.MaxValue);
             MoneyNum.Text = money.ToString();
@@ -285,7 +295,8 @@ public partial class TileMapLayer : Godot.TileMapLayer
 		Godot.Vector2 LocalPos = this.ToLocal(GlobalPosition);
         Vector2I TilePos = this.LocalToMap(LocalPos);
 
-        if (grid.GetGridObject(TilePos.X,TilePos.Y).BuildingPointer == null) {return;}
+        if (grid.GetGridObject(TilePos.X, TilePos.Y).BuildingPointer == null) { return; }
+        Particles2D.Restart();
         money += grid.GetGridObject(TilePos.X,TilePos.Y).IndentedMoney;
         grid.GetGridObject(TilePos.X, TilePos.Y).BuildingPointer.QueueFree();
         MoneyNum.Text = money.ToString();
@@ -321,6 +332,17 @@ public partial class TileMapLayer : Godot.TileMapLayer
         TileSignifier.Texture = button.TextureNormal;
         ButtonPressed = true;
     }
+
+    private void NewParticles(GpuParticles2D GPUParticles2D)
+	{
+		Node node = GPUParticles2D.Duplicate();
+        GpuParticles2D NewParticle = (GpuParticles2D)node;
+        NewParticle.GlobalPosition = GPUParticles2D.GlobalPosition;
+		AddChild(NewParticle);
+		NewParticle.Restart();
+		NewParticle.Emitting = true;
+		NewParticle.Connect("finished",new Callable(NewParticle, nameof(QueueFree)));
+	}
 }
 
 

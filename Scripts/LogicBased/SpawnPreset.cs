@@ -8,5 +8,5 @@ public partial class SpawnPreset : Resource
     [Export] public float wait;
     [Export] public float SpawnTime; 
     [Export] public PackedScene EnemyScene;
-    [Export] public string SpawnerName;
+    [Export] public string SpawnerName = "Spawner";
 }

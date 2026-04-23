@@ -1,0 +1,9 @@
+[gd_resource type="LabelSettings" format=3 uid="uid://dmkdg2tuhl5nm"]
+
+[sub_resource type="SystemFont" id="SystemFont_0tl4g"]
+font_italic = true
+
+[resource]
+font = SubResource("SystemFont_0tl4g")
+font_size = 15
+font_color = Color(0.24479169, 0.029961478, 0.029961478, 1)

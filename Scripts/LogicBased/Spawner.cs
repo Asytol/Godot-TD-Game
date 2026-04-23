@@ -42,7 +42,6 @@ public partial class Spawner : Node2D
     public async void StartSpawn(SpawnPreset EnemyClump)
     {
         await ToSignal(GetTree().CreateTimer(global_wait), SceneTreeTimer.SignalName.Timeout);
-        
         spawn_clump(EnemyClump);
     }
 
@@ -56,6 +55,11 @@ public partial class Spawner : Node2D
             Node instance = preset.EnemyScene.Instantiate();
             AddChild(instance);
             Node2D obj = instance as Node2D;
+            if (obj is Enemy_base script)
+            {
+                script.ExternallySetPath(path);
+                script.path_updated = true;
+            }
             obj.GlobalPosition = GlobalPosition;
             GD.Print(obj.GlobalPosition);
             await ToSignal(GetTree().CreateTimer(preset.SpawnTime), SceneTreeTimer.SignalName.Timeout);

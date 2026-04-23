@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://bwdn5f2xgiq16" path="res://Scenes/MainCharacter.tscn" id="2_63dlw"]
 [ext_resource type="PackedScene" uid="uid://d0fwc6pi0u3cn" path="res://Scenes/Enemies/Lizard_enemy.tscn" id="2_dooye"]
 [ext_resource type="PackedScene" uid="uid://yw8eau6lycgh" path="res://Scenes/tile_map_layer.tscn" id="4_ytlt0"]
+[ext_resource type="PackedScene" uid="uid://dvedtw87ptkk1" path="res://Scenes/Enemies/DemonEnemy.tscn" id="5_s7j74"]
 [ext_resource type="Script" uid="uid://djqav5vuqv6ke" path="res://Scripts/Nodes/Finish.cs" id="6_ytlt0"]
 [ext_resource type="PackedScene" uid="uid://bvb6dnwk6e2" path="res://Scenes/finish.tscn" id="7_4bbre"]
 [ext_resource type="PackedScene" uid="uid://d3wo35pdropd7" path="res://Scenes/Enemies/spawner.tscn" id="7_kmpqp"]
@@ -23,7 +24,6 @@ amount = 7
 wait = 1.0
 SpawnTime = 1.0
 EnemyScene = ExtResource("2_dooye")
-SpawnerName = "Spawner"
 metadata/_custom_type_script = "uid://dl1twe57s3hf0"
 
 [sub_resource type="Resource" id="Resource_veopj"]
@@ -32,7 +32,6 @@ amount = 6
 wait = 2.0
 SpawnTime = 1.0
 EnemyScene = ExtResource("2_dooye")
-SpawnerName = "Spawner"
 metadata/_custom_type_script = "uid://dl1twe57s3hf0"
 
 [sub_resource type="Resource" id="Resource_4bbre"]
@@ -47,7 +46,6 @@ amount = 20
 wait = 1.0
 SpawnTime = 2.0
 EnemyScene = ExtResource("2_dooye")
-SpawnerName = "Spawner"
 metadata/_custom_type_script = "uid://dl1twe57s3hf0"
 
 [sub_resource type="Resource" id="Resource_oplss"]
@@ -56,12 +54,19 @@ amount = 20
 wait = 3.0
 SpawnTime = 0.4
 EnemyScene = ExtResource("2_dooye")
-SpawnerName = "Spawner"
+metadata/_custom_type_script = "uid://dl1twe57s3hf0"
+
+[sub_resource type="Resource" id="Resource_qnaon"]
+script = ExtResource("2_4bbre")
+amount = 3
+wait = 2.0
+SpawnTime = 3.0
+EnemyScene = ExtResource("5_s7j74")
 metadata/_custom_type_script = "uid://dl1twe57s3hf0"
 
 [sub_resource type="Resource" id="Resource_8j02k"]
 script = ExtResource("2_8j02k")
-Spawns = Array[Object]([SubResource("Resource_s7j74"), SubResource("Resource_oplss")])
+Spawns = Array[Object]([SubResource("Resource_s7j74"), SubResource("Resource_oplss"), SubResource("Resource_qnaon")])
 WaveMoney = 300
 metadata/_custom_type_script = "uid://bxq7b72m4anqj"
 
