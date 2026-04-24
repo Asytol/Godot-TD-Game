@@ -2,11 +2,38 @@
 
 [ext_resource type="Script" uid="uid://c8h417m5yblb3" path="res://Scripts/Nodes/Projectile.cs" id="1_a801j"]
 [ext_resource type="Texture2D" uid="uid://pvwhi8fm6k5f" path="res://Raw_sprites/Towers/Explosion.png" id="2_4okmj"]
+[ext_resource type="Texture2D" uid="uid://dmrawa55x0hwn" path="res://Raw_sprites/UI/SmokeParticle.png" id="3_4okmj"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_k2xjm"]
 radius = 32.0
 
-[node name="Explosion" type="Area2D" unique_id=1745730248]
+[sub_resource type="Gradient" id="Gradient_k2xjm"]
+offsets = PackedFloat32Array(0, 0.14893617, 0.34042552, 0.55744684, 0.7446808, 0.9276596)
+colors = PackedColorArray(0.9869792, 0.96962994, 0.8944499, 1, 0.9529412, 0.7490196, 0.16862746, 1, 0.9607843, 0.5568628, 0.15294118, 1, 0.78431374, 0.24705882, 0.07450981, 1, 0.5803922, 0.14901961, 0.043137256, 1, 0.2838542, 0.085618116, 0.036960173, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_bvnfy"]
+gradient = SubResource("Gradient_k2xjm")
+
+[sub_resource type="Curve" id="Curve_61lnk"]
+_limits = [0.0, 6.0, 0.0, 1.0]
+_data = [Vector2(0, 5.7850246), 0.0, 0.0, 0, 0, Vector2(1, 1.1988978), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_14ogo"]
+curve = SubResource("Curve_61lnk")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_48id1"]
+particle_flag_disable_z = true
+spread = 180.0
+initial_velocity_min = 80.0
+initial_velocity_max = 100.0
+gravity = Vector3(0, 0, 0)
+damping_min = 60.000004
+damping_max = 80.0
+scale_curve = SubResource("CurveTexture_14ogo")
+color_ramp = SubResource("GradientTexture1D_bvnfy")
+
+[node name="Explosion" type="Area2D" unique_id=1745730248 node_paths=PackedStringArray("SpawnParticles2D")]
 collision_mask = 3
 script = ExtResource("1_a801j")
 Decay_time = 0.4
@@ -14,9 +41,21 @@ BaseSpeed = 0.0
 damage = 20.0
 StunDuration = 0.5
 Pierce = 8
+SpawnParticles2D = NodePath("GPUParticles2D")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1856284867]
 texture = ExtResource("2_4okmj")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1655648665]
 shape = SubResource("CircleShape2D_k2xjm")
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="." unique_id=948682309]
+emitting = false
+amount = 40
+texture = ExtResource("3_4okmj")
+lifetime = 0.8
+one_shot = true
+speed_scale = 1.4
+explosiveness = 0.7
+trail_sections = 4
+process_material = SubResource("ParticleProcessMaterial_48id1")

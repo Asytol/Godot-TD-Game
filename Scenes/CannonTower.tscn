@@ -4,6 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://cx57td5ml5rfc" path="res://Scenes/CannonBall.tscn" id="2_163qn"]
 [ext_resource type="Texture2D" uid="uid://j2hri2bdtdw2" path="res://Raw_sprites/Towers/CannonBase.png" id="2_y5b2k"]
 [ext_resource type="Texture2D" uid="uid://bpmei5lh833wn" path="res://Raw_sprites/Towers/CannonHeadAnimation.png" id="3_163qn"]
+[ext_resource type="Texture2D" uid="uid://dmrawa55x0hwn" path="res://Raw_sprites/UI/SmokeParticle.png" id="5_163qn"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_r57ku"]
 atlas = ExtResource("3_163qn")
@@ -69,13 +70,44 @@ animations = [{
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_kmpqp"]
 
-[node name="CanonTower" type="Area2D" unique_id=1591976174]
+[sub_resource type="Gradient" id="Gradient_75oyh"]
+offsets = PackedFloat32Array(0, 0.27542374, 1)
+colors = PackedColorArray(0, 0, 0, 1, 0.18489581, 0.18345131, 0.18345131, 1, 0.6822916, 0.625434, 0.625434, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_4q7sc"]
+gradient = SubResource("Gradient_75oyh")
+
+[sub_resource type="Curve" id="Curve_yrann"]
+_limits = [0.0, 1.5, 0.0, 1.0]
+_data = [Vector2(0, 1.4375571), 0.0, 0.0, 0, 0, Vector2(0.689781, 0.8042085), 0.0, 0.0, 0, 0, Vector2(0.91240877, 0.2957456), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_yl5v7"]
+curve = SubResource("Curve_yrann")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_stx6c"]
+lifetime_randomness = 0.4
+particle_flag_disable_z = true
+angle_min = 1.0728835e-05
+angle_max = 360.00003
+direction = Vector3(0, 1, 0)
+spread = 25.0
+initial_velocity_min = 40.0
+initial_velocity_max = 70.0
+gravity = Vector3(0, 2, 0)
+damping_min = 50.000004
+damping_max = 60.000004
+scale_curve = SubResource("CurveTexture_yl5v7")
+color_ramp = SubResource("GradientTexture1D_4q7sc")
+
+[node name="CanonTower" type="Area2D" unique_id=1591976174 node_paths=PackedStringArray("Particles2D")]
 collision_layer = 4
 collision_mask = 2
 script = ExtResource("1_r57ku")
 Cooldown = 6.0
 base_spread = 3.0
 projectile = ExtResource("2_163qn")
+Particles2D = NodePath("GPUParticles2D")
 base_range = 300.0
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=353195075]
@@ -89,5 +121,15 @@ frame_progress = 1.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=72605422]
 shape = SubResource("CircleShape2D_kmpqp")
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="." unique_id=1175354898]
+z_index = -1
+emitting = false
+amount = 18
+texture = ExtResource("5_163qn")
+one_shot = true
+explosiveness = 0.9
+randomness = 0.3
+process_material = SubResource("ParticleProcessMaterial_stx6c")
 
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]

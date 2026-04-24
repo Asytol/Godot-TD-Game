@@ -17,6 +17,8 @@
 [ext_resource type="PackedScene" uid="uid://koskhgp3xffg" path="res://Scenes/CannonTower.tscn" id="12_8j02k"]
 [ext_resource type="Texture2D" uid="uid://dcwkdl27nm5g4" path="res://Raw_sprites/TileMap/Coin.png" id="12_kmpqp"]
 [ext_resource type="PackedScene" uid="uid://bi678rx01tgmm" path="res://Scenes/WizardTower.tscn" id="16_s7j74"]
+[ext_resource type="PackedScene" uid="uid://b3pfsr0pb5v88" path="res://Scenes/Enemies/BigDemonEnemy.tscn" id="18_oplss"]
+[ext_resource type="Shader" uid="uid://crpvac2bxkg8n" path="res://Raw_sprites/UI/Fog.gdshader" id="19_qnaon"]
 
 [sub_resource type="Resource" id="Resource_dooye"]
 script = ExtResource("2_4bbre")
@@ -37,6 +39,7 @@ metadata/_custom_type_script = "uid://dl1twe57s3hf0"
 [sub_resource type="Resource" id="Resource_4bbre"]
 script = ExtResource("2_8j02k")
 Spawns = Array[Object]([SubResource("Resource_dooye"), SubResource("Resource_veopj")])
+UsedSpawners = PackedStringArray("Spawner")
 WaveMoney = 300
 metadata/_custom_type_script = "uid://bxq7b72m4anqj"
 
@@ -67,15 +70,119 @@ metadata/_custom_type_script = "uid://dl1twe57s3hf0"
 [sub_resource type="Resource" id="Resource_8j02k"]
 script = ExtResource("2_8j02k")
 Spawns = Array[Object]([SubResource("Resource_s7j74"), SubResource("Resource_oplss"), SubResource("Resource_qnaon")])
+UsedSpawners = PackedStringArray("Spawner")
 WaveMoney = 300
+metadata/_custom_type_script = "uid://bxq7b72m4anqj"
+
+[sub_resource type="Resource" id="Resource_1ev2f"]
+script = ExtResource("2_4bbre")
+amount = 12
+SpawnTime = 1.0
+EnemyScene = ExtResource("2_dooye")
+metadata/_custom_type_script = "uid://dl1twe57s3hf0"
+
+[sub_resource type="Resource" id="Resource_ugl54"]
+script = ExtResource("2_4bbre")
+amount = 12
+wait = 1.0
+SpawnTime = 1.0
+EnemyScene = ExtResource("2_dooye")
+SpawnerName = "Spawner2"
+metadata/_custom_type_script = "uid://dl1twe57s3hf0"
+
+[sub_resource type="Resource" id="Resource_8pko7"]
+script = ExtResource("2_4bbre")
+amount = 6
+wait = 1.0
+SpawnTime = 2.5
+EnemyScene = ExtResource("5_s7j74")
+metadata/_custom_type_script = "uid://dl1twe57s3hf0"
+
+[sub_resource type="Resource" id="Resource_k6ckn"]
+script = ExtResource("2_4bbre")
+amount = 2
+wait = 3.0
+SpawnTime = 2.0
+EnemyScene = ExtResource("5_s7j74")
+SpawnerName = "Spawner2"
+metadata/_custom_type_script = "uid://dl1twe57s3hf0"
+
+[sub_resource type="Resource" id="Resource_k8a30"]
+script = ExtResource("2_4bbre")
+amount = 4
+wait = 8.0
+SpawnTime = 5.0
+EnemyScene = ExtResource("18_oplss")
+metadata/_custom_type_script = "uid://dl1twe57s3hf0"
+
+[sub_resource type="Resource" id="Resource_awtb3"]
+script = ExtResource("2_8j02k")
+Spawns = Array[Object]([SubResource("Resource_1ev2f"), SubResource("Resource_ugl54"), SubResource("Resource_8pko7"), SubResource("Resource_k6ckn"), SubResource("Resource_k8a30")])
+UsedSpawners = PackedStringArray("Spawner", "Spawner2")
+WaveMoney = 400
 metadata/_custom_type_script = "uid://bxq7b72m4anqj"
 
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_kmpqp"]
 size = Vector2(32, 32)
 
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_awtb3"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_qnaon"]
+noise = SubResource("FastNoiseLite_awtb3")
+
+[sub_resource type="Gradient" id="Gradient_awtb3"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_1ev2f"]
+seed = 1
+frequency = 0.02
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_ugl54"]
+width = 200
+height = 200
+noise = SubResource("FastNoiseLite_1ev2f")
+color_ramp = SubResource("Gradient_awtb3")
+seamless = true
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_qnaon"]
+seed = 1
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_8pko7"]
+width = 200
+height = 200
+noise = SubResource("FastNoiseLite_qnaon")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_oplss"]
+shader = ExtResource("19_qnaon")
+shader_parameter/fog_color = Color(1, 1, 1, 0.5803922)
+shader_parameter/center_pos = Vector2(576, 324)
+shader_parameter/inner_radius = 240.0
+shader_parameter/outer_radius = 1300.0
+shader_parameter/use_noise_layer_1 = true
+shader_parameter/noise_texture_1 = SubResource("NoiseTexture2D_ugl54")
+shader_parameter/noise_scale_1 = 4.0
+shader_parameter/noise_velocity_1 = Vector2(0.03, 0.02)
+shader_parameter/noise_edge_influence_1 = 1.0
+shader_parameter/noise_edge_hardness_1 = 40.0000019
+shader_parameter/use_noise_layer_2 = true
+shader_parameter/noise_texture_2 = SubResource("NoiseTexture2D_8pko7")
+shader_parameter/noise_scale_2 = 8.5
+shader_parameter/noise_velocity_2 = Vector2(-0.015, 0.025)
+shader_parameter/noise_edge_influence_2 = 0.4
+shader_parameter/noise_edge_hardness_2 = 40.0000019
+shader_parameter/use_density_noise = true
+shader_parameter/density_noise_influence = 0.286000013585
+shader_parameter/use_fog_texture = false
+shader_parameter/fog_texture = SubResource("NoiseTexture2D_qnaon")
+shader_parameter/fog_texture_scale = Vector2(1, 1)
+shader_parameter/fog_texture_velocity = Vector2(0.01, 0.005)
+shader_parameter/fog_texture_influence = 0.5
+shader_parameter/use_distance_tint = true
+shader_parameter/clear_area_tint = Color(0.765625, 0.74768066, 0.711792, 1)
+shader_parameter/tint_feather = 100.0000047025
+
 [node name="Main_test_scene" type="Node" unique_id=731922039]
 script = ExtResource("9_63dlw")
-Waves = Array[Resource]([SubResource("Resource_4bbre"), SubResource("Resource_8j02k")])
+Waves = Array[Resource]([SubResource("Resource_4bbre"), SubResource("Resource_8j02k"), SubResource("Resource_awtb3")])
 
 [node name="TextureRect" type="TextureRect" parent="." unique_id=842042576]
 z_index = -12
@@ -110,7 +217,12 @@ script = ExtResource("6_ytlt0")
 unique_name_in_owner = true
 position = Vector2(120, 578)
 
+[node name="Spawner2" parent="." unique_id=1010954909 instance=ExtResource("7_kmpqp")]
+unique_name_in_owner = true
+position = Vector2(944, 576)
+
 [node name="Ui" type="Control" parent="." unique_id=1480055819]
+z_index = 1
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -184,10 +296,20 @@ Cooldown = 1.5
 
 [node name="CanonTower" parent="." unique_id=1591976174 instance=ExtResource("12_8j02k")]
 position = Vector2(190, 490)
+base_spread = 5.0
 
 [node name="WizardTower" parent="." unique_id=696809066 instance=ExtResource("16_s7j74")]
 position = Vector2(173, 524)
 base_damage = 15.0
+base_spread = 10.0
+
+[node name="Fog" type="ColorRect" parent="." unique_id=1359454979]
+material = SubResource("ShaderMaterial_oplss")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [connection signal="button_up" from="Ui/MarginContainer/Start" to="." method="_on_start_button_up"]
 [connection signal="button_up" from="Ui/MarginContainer/Start" to="Ui" method="_on_button_button_up"]

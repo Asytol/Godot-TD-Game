@@ -16,6 +16,7 @@ public partial class Spawner : Node2D
 	private const int mapheight = 41;
     private const int mapwidth = 73;
     private Godot.Vector2I finish_position;
+    public bool DrawPath = false;
 
     private TileMapLayer tilemap;
     public override void _Ready()
@@ -75,8 +76,10 @@ public partial class Spawner : Node2D
         path = pathFinder.FindPath(position.X, position.Y, finish_position.X, finish_position.Y);
         QueueRedraw();
     }
-    public override void _Draw(){
-		for (int i = 1; i < path.Count; i++){
+    public override void _Draw()
+    {
+        if (!DrawPath){return;}
+        for (int i = 1; i < path.Count; i++){
 			DrawLine(new Godot.Vector2(path[i -1].x, path[i-1].y)*16 -this.GlobalPosition+new Godot.Vector2(8,8), new Godot.Vector2(path[i].x, path[i].y)*16-this.GlobalPosition+new Godot.Vector2(8,8),Colors.Red, 1.0f);
 		}
 	}

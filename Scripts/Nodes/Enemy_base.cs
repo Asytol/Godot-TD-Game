@@ -18,8 +18,9 @@ public partial class Enemy_base : RigidBody2D
 	private Godot.Vector2 GlobalVelocity;
 	[Export] public float Max_health = 100;
 	[Export] public float health = 100;
-	[Export] public float wall_damage = 0.5f;
-	[Export] public bool stunned = false;
+    [Export] private float wall_damage = 0.5f;
+    [Export] private bool AreaDamage;
+    [Export] public bool stunned = false;
 	private float StunDuration = 2;
 	[Export] public float StunResistance = 1;
 	[Export] public float ExtraIFrames = 0.2f;
@@ -169,12 +170,22 @@ public partial class Enemy_base : RigidBody2D
 			if (nodes[i].is_obstruction){
 				TileMapLayer script = tilemap as TileMapLayer;
 				Godot.Vector2I TileMapPosition = nodes[i].tilemap_position;
-				GlobalVelocity = Godot.Vector2.Zero;
-				while (true){
-					if (script.Area_damageI(TileMapPosition, wall_damage*(float)GetPhysicsProcessDeltaTime()) == true){break;}
-					await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
-				}
-				nodes[i].is_obstruction = false;
+                GlobalVelocity = Godot.Vector2.Zero;
+                if (AreaDamage)
+                {
+					while (true){
+						if (script.Area_damageI(TileMapPosition, 1)){break;}
+						await ToSignal(GetTree().CreateTimer(1/wall_damage), SceneTreeTimer.SignalName.Timeout);
+					}
+                }
+                else
+                {
+					while (true){
+						if (script.Damage_tileI(TileMapPosition, 1)){break;}
+						await ToSignal(GetTree().CreateTimer(1/wall_damage), SceneTreeTimer.SignalName.Timeout);
+					}
+                }
+                nodes[i].is_obstruction = false;
 			}
 
 			while ((distance > 4) && !path_updated){
@@ -204,8 +215,9 @@ public partial class Enemy_base : RigidBody2D
 
 	private async void KillYourself()
 	{
-		KillingSelf = true;
-		GetTree().Root.GetChild<LevelHandler>(1).OnEnemyDeath();
+        KillingSelf = true;
+        TileMapLayer.money += MoneyDrops;
+        GetTree().Root.GetChild<LevelHandler>(1).OnEnemyDeath();
 		Tween tween = CreateTween();
 
 		AngularVelocity = 4000;

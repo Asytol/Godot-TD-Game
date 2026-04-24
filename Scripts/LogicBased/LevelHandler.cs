@@ -23,9 +23,17 @@ public partial class LevelHandler : Node
 		GetNode<Button>("%Start").ButtonUp += OnStart;
 		//if/or is sadly faster than reflection ):
 		TileMapLayer.money += Waves[0].WaveMoney;
-		TileMapLayer.MoneyNum.Text = Waves[0].WaveMoney.ToString();
+        TileMapLayer.MoneyNum.Text = Waves[0].WaveMoney.ToString();
 
-		RoundOver = true;
+        foreach (string SpawnerName in Waves[0].UsedSpawners)
+        {
+            Node2D SpawnNode = GetNodeOrNull<Node2D>($"%{SpawnerName}");
+            if (SpawnNode == null) {continue;}
+            Spawner script = SpawnNode as Spawner;
+            script.DrawPath = true;
+        }
+
+        RoundOver = true;
 
 		CutSceneHandler = GetNodeOrNull<TextureRect>("%Cutscene");
 		if (CutSceneHandler != null)
@@ -56,8 +64,22 @@ public partial class LevelHandler : Node
 	{
 		EnemiesAlive--;
 		if (EnemiesAlive == 0)
-		{
-			RoundOver = true;
+        {
+			foreach (string SpawnerName in Waves[CurrentWave-1].UsedSpawners)
+			{
+                Node2D SpawnNode = GetNodeOrNull<Node2D>($"%{SpawnerName}");
+                if (SpawnNode == null) {continue;}
+                Spawner script = SpawnNode as Spawner;
+				script.DrawPath = false;
+            }
+            foreach (string SpawnerName in Waves[CurrentWave].UsedSpawners)
+			{
+                Node2D SpawnNode = GetNodeOrNull<Node2D>($"%{SpawnerName}");
+                if (SpawnNode == null) {continue;}
+                Spawner script = SpawnNode as Spawner;
+				script.DrawPath = true;
+			}
+            RoundOver = true;
             TileMapLayer.money += Waves[CurrentWave].WaveMoney;
             TileMapLayer.MoneyNum.Text = TileMapLayer.money.ToString();
         }
@@ -65,13 +87,14 @@ public partial class LevelHandler : Node
 
 	private void OnStart()
 	{
-		if (RoundOver && CurrentWave <= Waves.Length)
+		if (RoundOver && CurrentWave < Waves.Length)
 		{
 			foreach (SpawnPreset preset in Waves[CurrentWave].Spawns)
 			{
 				EnemiesAlive += preset.amount;
-				Node2D SpawnNode = GetNode<Node2D>($"%{preset.SpawnerName}");
-				Spawner script = SpawnNode as Spawner;
+                Node2D SpawnNode = GetNodeOrNull<Node2D>($"%{preset.SpawnerName}");
+                if (SpawnNode == null) {continue;}
+                Spawner script = SpawnNode as Spawner;
 				script.StartSpawn(preset);
 			}
 			RoundOver = false;

@@ -781,6 +781,7 @@ texture = ExtResource("5_cwa1k")
 
 [node name="GPUParticles2D" type="GPUParticles2D" parent="TileSignifier" unique_id=1612945520]
 modulate = Color(0.7760417, 0.7760417, 0.7760417, 0.6039216)
+z_index = -1
 position = Vector2(8, 8)
 emitting = false
 amount = 50

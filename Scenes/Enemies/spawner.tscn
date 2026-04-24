@@ -2,9 +2,79 @@
 
 [ext_resource type="Script" uid="uid://ckjt0mmch1a6i" path="res://Scripts/LogicBased/Spawner.cs" id="1_j1qj0"]
 [ext_resource type="Texture2D" uid="uid://ch5y0m5fsp5ci" path="res://Raw_sprites/Enemies/EnemySpawnPoint.png" id="2_i0vcd"]
+[ext_resource type="Texture2D" uid="uid://d0pido6gcpqk3" path="res://Raw_sprites/UI/PlainWhite.png" id="3_i0vcd"]
+
+[sub_resource type="Gradient" id="Gradient_x5u7d"]
+colors = PackedColorArray(0.6666666, 0.09548612, 0.09548612, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_jfci1"]
+gradient = SubResource("Gradient_x5u7d")
+
+[sub_resource type="Gradient" id="Gradient_i0vcd"]
+colors = PackedColorArray(0.6745098, 0.24313726, 0.14509805, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_x5u7d"]
+gradient = SubResource("Gradient_i0vcd")
+
+[sub_resource type="Curve" id="Curve_txc7l"]
+_limits = [0.0, 100.0, 0.0, 1.0]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.27106225, 16.995865), 0.0, 0.0, 0, 0, Vector2(1, 92.83417), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_1kwjo"]
+curve = SubResource("Curve_txc7l")
+
+[sub_resource type="Curve" id="Curve_jfci1"]
+_limits = [-50.0, 50.0, 0.0, 1.0]
+_data = [Vector2(0, 50), 0.0, 0.0, 0, 0, Vector2(0.25, -50), 0.0, 0.0, 0, 0, Vector2(0.5, 50), 0.0, 0.0, 0, 0, Vector2(0.75, -50), 0.0, 0.0, 0, 0, Vector2(1, 50), 0.0, 0.0, 0, 0]
+point_count = 5
+
+[sub_resource type="CurveXYZTexture" id="CurveXYZTexture_txc7l"]
+curve_x = SubResource("Curve_jfci1")
+
+[sub_resource type="Curve" id="Curve_1kcc6"]
+_limits = [0.0, 2.0, 0.0, 1.0]
+_data = [Vector2(0.01098901, 1.4983921), 0.0, 0.0, 0, 0, Vector2(0.87912077, 1.0684427), 0.0, 0.0, 0, 0, Vector2(1, 0.55489206), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_ka0b3"]
+curve = SubResource("Curve_1kcc6")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_x5u7d"]
+lifetime_randomness = 0.1
+particle_flag_disable_z = true
+emission_shape_offset = Vector3(0, 8, 0)
+direction = Vector3(0, 1, 0)
+initial_velocity_min = 5.0
+initial_velocity_max = 10.0
+directional_velocity_min = -2.000016
+directional_velocity_max = 1.9999839
+directional_velocity_curve = SubResource("CurveXYZTexture_txc7l")
+gravity = Vector3(0, -50, 0)
+damping_min = 1.0
+damping_max = 1.0
+damping_curve = SubResource("CurveTexture_1kwjo")
+scale_min = 1.6999999
+scale_max = 2.0
+scale_curve = SubResource("CurveTexture_ka0b3")
+color_ramp = SubResource("GradientTexture1D_x5u7d")
+color_initial_ramp = SubResource("GradientTexture1D_jfci1")
+hue_variation_min = -2.2351742e-08
+hue_variation_max = 0.09999997
 
 [node name="Spawner" type="Node2D" unique_id=1605035797]
 script = ExtResource("1_j1qj0")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=619206680]
 texture = ExtResource("2_i0vcd")
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="." unique_id=1942591620]
+modulate = Color(0.6744791, 0.24348873, 0.14402941, 1)
+amount = 40
+texture = ExtResource("3_i0vcd")
+lifetime = 2.0
+speed_scale = 0.9
+trail_lifetime = 0.09999999999999999
+trail_sections = 2
+trail_section_subdivisions = 1
+process_material = SubResource("ParticleProcessMaterial_x5u7d")

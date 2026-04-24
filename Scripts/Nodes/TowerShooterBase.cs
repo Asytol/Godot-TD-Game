@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Godot;
+using System.Numerics;
 
 
 public partial class TowerShooterBase : TowerBase
@@ -17,6 +18,7 @@ public partial class TowerShooterBase : TowerBase
 	public float spread = 0;
 
 	[Export] public PackedScene projectile;
+	[Export] private GpuParticles2D Particles2D;
 
     private AnimatedSprite2D TowerHead;
     private bool AnimationFinished;
@@ -74,11 +76,15 @@ public partial class TowerShooterBase : TowerBase
     private async void Summon_projectile(Godot.Vector2 direction, float SpeedMultiplier = 1, float extra_spread = 0, List<int> ex_layers = null)
     {
         TowerHead.Play("LoadingUp");
-        while (!AnimationFinished)
-        {
+		while (!AnimationFinished)
+		{
 			await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
-        }
-
+		}
+		if (Particles2D != null){
+			Particles2D.ProcessMaterial.Set("direction", new Godot.Vector3(direction.X, direction.Y, 0));
+			Particles2D.Restart(); 
+		}
+		
         Node instance = projectile.Instantiate();
 		AddChild(instance);
 		Projectile script = instance as Projectile;

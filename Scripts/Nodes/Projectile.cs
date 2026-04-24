@@ -11,19 +11,23 @@ public partial class Projectile : Area2D
 	private float current_time = 0;
 	[Export] public float Inactive_time = 0.5f;
     [Export] public float current_inact_time = 0;
-	[Export] public float Decay_time = 3;
+    [Export] public float Decay_time = 3;
 
-	[Export] public float BaseSpeed = 30; //. ,
+    [Export] public float BaseSpeed = 30; //. ,
 	public float speed = 30; //. ,
 	[Export] public float damage = 10;
     [Export] public float StunDuration = 0;
 
     [Export] public int Pierce = 2;
-	[Export] private PackedScene Shrapnell;
-	[Export] private int ShrapnellAmount;
+    [Export] private PackedScene Shrapnell;
+    [Export] private GpuParticles2D SpawnParticles2D;
+	[Export] private GpuParticles2D DeathParticles2D;
+
+
+    [Export] private int ShrapnellAmount;
 	[Export] private float ShrapnellSpread;
     private int HitCounter;
-    public Godot.Vector2 Direction; 
+    public Godot.Vector2 Direction;
 
 	private List<int> ActiveLayers = new List<int>();
 	//
@@ -32,7 +36,8 @@ public partial class Projectile : Area2D
 	public override void _Ready()
 	{
         this.BodyEntered += OnBodyEntered;
-        if (ActiveLayers.Count == 0){CollisionLayer += this.CollisionMask;}
+        if (ActiveLayers.Count == 0) { CollisionLayer += this.CollisionMask; }
+        if (SpawnParticles2D != null) { SpawnParticles2D.Restart();}
     }
 	public void instantiate(Godot.Vector2 direction, float SpeedMultiplier=1, float Extra_spread = 0,float damage = int.MaxValue,List<int> ExLayers = null, List<int> IncLayers=null){
 		if (Extra_spread != 0){
@@ -76,8 +81,9 @@ public partial class Projectile : Area2D
 		current_time += (float)delta;
 		if (current_time > Decay_time)
 		{
-			QueueFree();
-		}
+            QueueFree();
+            if (DeathParticles2D != null) {DeathParticles2D.Restart();}
+        }
 	}
 
 	private void OnBodyEntered(Node2D body)
@@ -97,8 +103,12 @@ public partial class Projectile : Area2D
 						InstantiateShrapnell(ExtraSpread);
 					}
 				}
-				if (HitCounter == Pierce){QueueFree();}
-			}
+                if (HitCounter == Pierce)
+                {
+                    QueueFree();
+                    if (DeathParticles2D != null) { DeathParticles2D.Restart(); }
+                }
+            }
 		}
     }
     private void InstantiateShrapnell(float ExtraSpread)

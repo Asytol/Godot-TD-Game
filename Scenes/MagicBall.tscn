@@ -2,12 +2,28 @@
 
 [ext_resource type="Script" uid="uid://b75uqkv3yfff7" path="res://Scripts/Nodes/HomingProjectile.cs" id="1_anqnq"]
 [ext_resource type="Texture2D" uid="uid://cckrfve15cy0p" path="res://Raw_sprites/Towers/MagicBall.png" id="1_hhuqs"]
+[ext_resource type="Texture2D" uid="uid://dmrawa55x0hwn" path="res://Raw_sprites/UI/SmokeParticle.png" id="3_8o3m4"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_qnaon"]
 radius = 5.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_anqnq"]
 radius = 40.0
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ju7te"]
+particle_flag_disable_z = true
+spread = 180.0
+initial_velocity_min = 10.0
+initial_velocity_max = 20.0
+angular_velocity_min = -1.6093254e-05
+angular_velocity_max = 49.99998
+orbit_velocity_min = -0.29999992
+orbit_velocity_max = 0.3000001
+gravity = Vector3(0, 0, 0)
+damping_min = 15.530001
+damping_max = 15.530001
+scale_min = 0.19999999
+scale_max = 0.29999998
 
 [node name="MagicBall" type="Area2D" unique_id=22025453]
 collision_layer = 4
@@ -33,6 +49,13 @@ collision_mask = 2
 
 [node name="EnemyDetectionCollider" type="CollisionShape2D" parent="EnemyDetectionCollider" unique_id=1018327300]
 shape = SubResource("CircleShape2D_anqnq")
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="." unique_id=1813635823]
+modulate = Color(0.17787, 0.18881945, 0.4114583, 1)
+z_index = -1
+amount = 20
+texture = ExtResource("3_8o3m4")
+process_material = SubResource("ParticleProcessMaterial_ju7te")
 
 [connection signal="area_entered" from="EnemyDetectionCollider" to="." method="_on_enemy_detection_collider_area_entered"]
 [connection signal="area_exited" from="EnemyDetectionCollider" to="." method="_on_enemy_detection_collider_area_exited"]

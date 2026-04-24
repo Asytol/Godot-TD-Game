@@ -266,7 +266,7 @@ public partial class TileMapLayer : Godot.TileMapLayer
                 Tile_node Tile = grid.GetGridObject(TilePos.X + x,TilePos.Y + y);
 				Tile.health -= damage;
 				if (Tile.health < 0 && Tile.breakable){
-                    SetCell(TilePos, -1, Godot.Vector2I.Zero, -1);
+                    SetCell(new Vector2I(TilePos.X + x, TilePos.Y + y), -1, Godot.Vector2I.Zero, -1);
                     //EmitSignal("CustomTileChanged");
                     Particles2D.Restart();
                     Tile.occupied = false;
