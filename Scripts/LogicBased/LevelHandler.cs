@@ -11,11 +11,11 @@ public partial class LevelHandler : Node
 	[Export] public int MaxWaves = 4;
 	public static bool RoundOver = true;
 	public static int EnemiesAlive = 0;
-	//[Export] private WavePreset[] WavePresets;
+    //[Export] private WavePreset[] WavePresets;
 
-	private TextureRect CutSceneHandler;
+    private TextureRect CutSceneHandler;
 
-	[Signal]
+    [Signal]
 	public delegate void StartGameEventHandler();
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -65,20 +65,7 @@ public partial class LevelHandler : Node
 		EnemiesAlive--;
 		if (EnemiesAlive == 0)
         {
-			foreach (string SpawnerName in Waves[CurrentWave-1].UsedSpawners)
-			{
-                Node2D SpawnNode = GetNodeOrNull<Node2D>($"%{SpawnerName}");
-                if (SpawnNode == null) {continue;}
-                Spawner script = SpawnNode as Spawner;
-				script.DrawPath = false;
-            }
-            foreach (string SpawnerName in Waves[CurrentWave].UsedSpawners)
-			{
-                Node2D SpawnNode = GetNodeOrNull<Node2D>($"%{SpawnerName}");
-                if (SpawnNode == null) {continue;}
-                Spawner script = SpawnNode as Spawner;
-				script.DrawPath = true;
-			}
+        	DisableAndEnableSpawners();
             RoundOver = true;
             TileMapLayer.money += Waves[CurrentWave].WaveMoney;
             TileMapLayer.MoneyNum.Text = TileMapLayer.money.ToString();
@@ -108,7 +95,39 @@ public partial class LevelHandler : Node
 		GetNode<Node2D>("%DontTouch").Visible = true;
 		GetNode<Control>("Ui").Visible = true;
 	}
-
-
-	//Getting nodes
-}
+    private void DisableAndEnableSpawners()
+    {
+        foreach (string SpawnerName in Waves[CurrentWave-1].UsedSpawners)
+		{
+			Node2D SpawnNode = GetNodeOrNull<Node2D>($"%{SpawnerName}");
+			if (SpawnNode == null) {continue;}
+			Spawner script = SpawnNode as Spawner;
+            script.DrawPath = false;
+            script.SomeoneIsFat = false;
+        }
+		foreach (string SpawnerName in Waves[CurrentWave].UsedSpawners)
+		{
+			Node2D SpawnNode = GetNodeOrNull<Node2D>($"%{SpawnerName}");
+			if (SpawnNode == null) {continue;}
+			Spawner script = SpawnNode as Spawner;
+            script.DrawPath = true;
+        }
+        foreach (SpawnPreset spawn in Waves[CurrentWave].Spawns)
+		{
+            if (CheckIfSomeoneIsFat(spawn.EnemyScene))
+            {
+                Node2D SpawnNode = GetNodeOrNull<Node2D>($"%{spawn.SpawnerName}");
+                if (SpawnNode == null) {continue;}
+				Spawner script = SpawnNode as Spawner;
+                script.SomeoneIsFat = true;
+                script.QueueRedraw();
+                break;
+            }
+        }
+    }
+    private bool CheckIfSomeoneIsFat(PackedScene Enemy)
+    {
+        Node2D Instance = Enemy.Instantiate<Node2D>();
+        return Instance is FatEnemy_base;
+    }
+}   

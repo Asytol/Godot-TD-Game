@@ -10,27 +10,29 @@ public partial class Enemy_base : RigidBody2D
 	private AnimatedSprite2D Sprite;
 	[Export] public Line2D this_line;
 	[Export] private Label DamageDisplay;
-	private GpuParticles2D Particles2D;
-	private RandomNumberGenerator rng = new RandomNumberGenerator();
+    private GpuParticles2D Particles2D;
+    [Export] private GpuParticles2D DeathParticles;
+    private RandomNumberGenerator rng = new RandomNumberGenerator();
 	
 	private float og_line_width;
 	[Export] public int Speed = 1;
-	private Godot.Vector2 GlobalVelocity;
+	public Godot.Vector2 GlobalVelocity;
 	[Export] public float Max_health = 100;
 	[Export] public float health = 100;
-    [Export] private float wall_damage = 0.5f;
-    [Export] private bool AreaDamage;
+    [Export] public float wall_damage = 0.5f;
+    [Export] public bool AreaDamage;
+    public bool Fat = false;
     [Export] public bool stunned = false;
 	private float StunDuration = 2;
 	[Export] public float StunResistance = 1;
-	[Export] public float ExtraIFrames = 0.2f;
+	[Export] public float ExtraIFrames = 1000f;
 	private float C_StunDuration = 0;
 	[Export] public float RotationSpeed = 5;
 	[Export] public int MoneyDrops;
 	private PathFinder pathFinder;
 	[Export] public TileMapLayer tilemap;
 	public bool path_updated = false;
-	private const int cellsize=16;
+	public const int cellsize=16;
 	private const int mapheight = 41;
 	private const int mapwidth = 73;
 
@@ -42,9 +44,10 @@ public partial class Enemy_base : RigidBody2D
 
 	private bool KillingSelf = false;
 
-	public List<I_frame_obj> IFrameList = new List<I_frame_obj> {};
+    public List<I_frame_obj> IFrameList = new List<I_frame_obj> { };
 
-	public override void _Ready()
+
+    public override void _Ready()
 	{
 		Sprite = GetChild<AnimatedSprite2D>(0);
 		DamageDisplay = GetNode<Label>("%DamageDisplay");
@@ -94,7 +97,7 @@ public partial class Enemy_base : RigidBody2D
 			}
 		}
 
-		if (path_updated)
+		if (path_updated && !Fat)
 		{
 			GD.Print(path.Count);
 			WalkAlongNodes(path);
@@ -154,45 +157,35 @@ public partial class Enemy_base : RigidBody2D
 		tween.TweenProperty(this,"rotation",Mathf.DegToRad(0),time);
 		await ToSignal(tween, Tween.SignalName.Finished);
 	}
-	private async void WalkAlongNodes(List<PathNode> nodes){
+	public virtual async void WalkAlongNodes(List<PathNode> nodes){
 		path_updated = false;
 		for (int i = 0; i < nodes.Count; i++){
 			if (path_updated){break;}
 			Godot.Vector2 Velocity = Godot.Vector2.Zero;
-
-			Godot.Vector2 cell_positon = new Godot.Vector2(nodes[i].x * cellsize, nodes[i].y * cellsize+8);
-			Godot.Vector2 cell_positon2 = new Godot.Vector2(nodes[i].x * cellsize, nodes[i].y * cellsize+8);
-			float distance = GlobalPosition.DistanceTo(cell_positon);
-			float distance2 = GlobalPosition.DistanceTo(cell_positon2);
-			if (distance > distance2){continue;}
+			Godot.Vector2 cell_positon = new Godot.Vector2(nodes[i].x * cellsize, nodes[i].y * cellsize) + new Godot.Vector2(8,8);
+            Godot.Vector2 cell_positon2 = new Godot.Vector2(nodes[i].x * cellsize, nodes[i].y * cellsize) + new Godot.Vector2(8,8);
+            GD.Print(cell_positon);
+            float distance = GlobalPosition.DistanceTo(cell_positon);
+            float distance2 = GlobalPosition.DistanceTo(cell_positon2);
+            
+            if (distance > distance2){continue;}
 			if (Mathf.Abs(GlobalPosition.X - cell_positon2.X) < cellsize && Mathf.Abs(GlobalPosition.Y - cell_positon2.Y) < cellsize){continue;}
 			//
 			if (nodes[i].is_obstruction){
 				TileMapLayer script = tilemap as TileMapLayer;
 				Godot.Vector2I TileMapPosition = nodes[i].tilemap_position;
                 GlobalVelocity = Godot.Vector2.Zero;
-                if (AreaDamage)
-                {
-					while (true){
-						if (script.Area_damageI(TileMapPosition, 1)){break;}
-						await ToSignal(GetTree().CreateTimer(1/wall_damage), SceneTreeTimer.SignalName.Timeout);
-					}
-                }
-                else
-                {
-					while (true){
-						if (script.Damage_tileI(TileMapPosition, 1)){break;}
-						await ToSignal(GetTree().CreateTimer(1/wall_damage), SceneTreeTimer.SignalName.Timeout);
-					}
-                }
+				while (true){
+					if (script.Area_damageI(TileMapPosition, 1)){break;}
+					await ToSignal(GetTree().CreateTimer(1/wall_damage), SceneTreeTimer.SignalName.Timeout);
+				}
                 nodes[i].is_obstruction = false;
-			}
-
-			while ((distance > 4) && !path_updated){
-				if (distance > distance2){break;}
-				if (Mathf.Abs(GlobalPosition.X - cell_positon2.X) < cellsize && Mathf.Abs(GlobalPosition.Y - cell_positon2.Y) < cellsize){break;}
-
-				Velocity = GlobalPosition.DirectionTo(cell_positon) * Speed * (float)GetPhysicsProcessDeltaTime();
+            }
+            while ((Mathf.Abs(GlobalPosition.X - cell_positon.X) > 1 || Mathf.Abs(GlobalPosition.Y - cell_positon.Y) > 1) && !path_updated)
+            {
+                if (distance > distance2) { break; }
+                //if (Mathf.Abs(GlobalPosition.X - cell_positon2.X) < cellsize && Mathf.Abs(GlobalPosition.Y - cell_positon2.Y) < cellsize){break;}
+                Velocity = GlobalPosition.DirectionTo(cell_positon) * Speed * (float)GetPhysicsProcessDeltaTime();
 				GlobalVelocity = Velocity;
 
 				distance = GlobalPosition.DistanceTo(cell_positon);
@@ -249,5 +242,5 @@ public partial class Enemy_base : RigidBody2D
 		NewParticle.Restart();
 		NewParticle.Emitting = true;
 		NewParticle.Connect("finished",new Callable(NewParticle, nameof(QueueFree)));
-	}
+    }
 }

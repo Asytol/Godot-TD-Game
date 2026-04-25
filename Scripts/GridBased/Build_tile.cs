@@ -32,8 +32,9 @@ public partial class Build_tile : TextureButton
 	private void OnHover()
 	{
 		MarginContainer StatsPanel = GetNode<MarginContainer>("%StatsPanel");
-		StatsPanel.Visible = true;
-		StatsPanel.GlobalPosition = new Vector2(this.GlobalPosition.X +16,this.GlobalPosition.Y +16);
+        StatsPanel.Visible = true;
+        TileMapLayer.HoveringOnSumShit = true;
+        StatsPanel.GlobalPosition = new Vector2(this.GlobalPosition.X +16,this.GlobalPosition.Y +16);
 
 		Label label = StatsPanel.GetChild<Label>(1);
         label.Text = $"cost: {cost}" + "\n" +
@@ -44,8 +45,9 @@ public partial class Build_tile : TextureButton
     }
 	private void NoHover()
 	{
-		GetNode<MarginContainer>("%StatsPanel").Visible = false;
-	}
+        GetNode<MarginContainer>("%StatsPanel").Visible = false;
+        TileMapLayer.HoveringOnSumShit = false;
+    }
 	private void SendBuildInfo_local()
 	{
 		EmitSignal(SignalName.SendBuildInfo,this);

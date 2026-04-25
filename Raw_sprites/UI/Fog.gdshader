@@ -1,3 +1,9 @@
+// !!!!
+//
+//Shader made by Wabsa Studios
+//
+// !!!!
+
 // 2D Fog Shader - Advanced Version for Godot 4
 // Apply this to a ColorRect covering the screen.
 shader_type canvas_item;

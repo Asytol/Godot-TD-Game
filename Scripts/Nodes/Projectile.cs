@@ -19,13 +19,11 @@ public partial class Projectile : Area2D
     [Export] public float StunDuration = 0;
 
     [Export] public int Pierce = 2;
-    [Export] private PackedScene Shrapnell;
     [Export] private GpuParticles2D SpawnParticles2D;
 	[Export] private GpuParticles2D DeathParticles2D;
 
-
-    [Export] private int ShrapnellAmount;
-	[Export] private float ShrapnellSpread;
+	[Export] ShrapnellResource[] Shrapnell;
+	[Export(PropertyHint.Range,"0,360")] private float ShrapnellSpread;
     private int HitCounter;
     public Godot.Vector2 Direction;
 
@@ -98,9 +96,9 @@ public partial class Projectile : Area2D
 				HitCounter++;
 				if (Shrapnell != null){
 					float ExtraSpread = Direction.Angle();
-					for (int i = 0; i < ShrapnellAmount; i++){
+					foreach (ShrapnellResource Projectile in Shrapnell){
 						ExtraSpread += ShrapnellSpread;
-						InstantiateShrapnell(ExtraSpread);
+						InstantiateShrapnell(ExtraSpread,Projectile);
 					}
 				}
                 if (HitCounter == Pierce)
@@ -111,15 +109,24 @@ public partial class Projectile : Area2D
             }
 		}
     }
-    private void InstantiateShrapnell(float ExtraSpread)
+    private void InstantiateShrapnell(float ExtraSpread,ShrapnellResource Projectile)
 	{
-        Node2D instance = Shrapnell.Instantiate<Node2D>();
+        Node2D instance = Projectile.Projectile.Instantiate<Node2D>();
 		GetParent().CallDeferred("add_child", instance);
 		if (instance is Projectile projectile)
-		{
-			Godot.Vector2 ExtraDirection = new Godot.Vector2(Mathf.Cos(ExtraSpread), Mathf.Sin(ExtraSpread));
-			projectile.instantiate((Direction + ExtraDirection).Normalized());
+        {
+            Godot.Vector2 ProjDirection = Projectile.Direction;
+            if (Projectile.InheritDirection == 1)
+            {
+				ProjDirection = Direction;
+            }
+            float ProjVelocity = Projectile.RelativeVelocity;
+            ProjVelocity += speed * Projectile.InheritVelocity;
+
+
+            Godot.Vector2 ExtraDirection = new Godot.Vector2(Mathf.Cos(ExtraSpread), Mathf.Sin(ExtraSpread));
+			projectile.instantiate((ProjDirection + ExtraDirection).Normalized(),ProjVelocity);
 		}
-		instance.CallDeferred(Node2D.MethodName.SetGlobalPosition, this.GlobalPosition);
+		instance.CallDeferred(Node2D.MethodName.SetGlobalPosition, this.GlobalPosition + Projectile.LocalPosition);
     }
 }

@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using Godot;
 
-public class PathFinder
+public class FatPathFinder
 {
     private readonly Godot.TileMapLayer Tilemap;
     private readonly Grid_class<PathNode> grid;
@@ -11,15 +11,18 @@ public class PathFinder
     private List<PathNode> searched_cells;
 
     private const int cellsize = 16;
-    private const int HoleNeighborCost = 2;
+    private const int HoleNeighborCost = 3;
 
-    public PathFinder(int width, int height, Godot.TileMapLayer tileMap){
+    private bool AreaDamager = false;
+    public FatPathFinder(int width, int height, Godot.TileMapLayer tileMap){
         this.Tilemap = tileMap;
-        grid = new Grid_class<PathNode>(width,height,cellsize, Godot.Vector2.Zero, (Grid_class<PathNode> g, int x, int y) => new PathNode(g,x,y));
+        grid = new Grid_class<PathNode>(width, height, cellsize, Godot.Vector2.Zero, (Grid_class<PathNode> g, int x, int y) => new PathNode(g, x, y));
     }
 
-    public List<PathNode> FindPath(int startX, int startY, int endX, int endY)
+    public List<PathNode> FindPath(int startX, int startY, int endX, int endY,bool AreaDamage)
     {
+        this.AreaDamager = AreaDamage;
+
         PathNode startnode = grid.GetGridObject(startX, startY);
         PathNode endnode = grid.GetGridObject(endX, endY);
 
@@ -45,7 +48,7 @@ public class PathFinder
                     continue;
                 }
                 node.inactive = false;
-                node.cost = CheckTileCost(Tilemap, TileCoordinates,node);
+                node.cost = CheckTileCost(Tilemap, TileCoordinates,node,AreaDamager);
             }
         }
 
@@ -127,28 +130,56 @@ public class PathFinder
         Vector2I tilemap_coordinates = tilemap.LocalToMap(coordinates);
         return tilemap_coordinates;
     }
-    private static int CheckTileCost(Godot.TileMapLayer tilemap, Vector2I coordinates,PathNode node){
-        int id = tilemap.GetCellSourceId(coordinates);
-
-        if (id != -1){
-            Variant cost = tilemap.GetCellTileData(coordinates).GetCustomData("cost");
-            node.is_obstruction = true;
-            node.tilemap_position = coordinates;
-            if (cost.VariantType == Variant.Type.Float){
-                return Mathf.RoundToInt((float)cost);
+    private static int CheckTileCost(Godot.TileMapLayer tilemap, Vector2I coordinates, PathNode node, bool AreaDamager)
+    {
+        float addative = 0;
+        int id = 0;
+        for (int x = -1; x < 2; x++){
+            for (int y = -1; y < 2; y++)
+            {
+                Godot.Vector2I cords = new Godot.Vector2I(coordinates.X + x, coordinates.Y + y);
+                id = tilemap.GetCellSourceId(cords);
+                if (id != -1){
+                    node.is_obstruction = true;
+                    if (!AreaDamager)
+                    {
+                        Variant cost = tilemap.GetCellTileData(cords).GetCustomData("cost");
+                        if (cost.VariantType == Variant.Type.Float){
+                            addative += (float)cost;
+                        }
+                    }
+                }
+            }
+        }
+        id = tilemap.GetCellSourceId(coordinates);
+        node.tilemap_position = coordinates;
+        if (AreaDamager)
+        {
+            if (id != -1){
+                Variant cost = tilemap.GetCellTileData(coordinates).GetCustomData("cost");
+                if (cost.VariantType == Variant.Type.Float){
+                    return Mathf.RoundToInt((float)cost*1.25);
+                }
             }
         }
 
-        return 0;
+        return Mathf.RoundToInt((float)addative);
     }
-    private static bool CheckBreakable(Godot.TileMapLayer tilemap, Vector2I coordinates){
-        int id = tilemap.GetCellSourceId(coordinates);
-        if (id != -1)
-        {
-            Variant breakable = tilemap.GetCellTileData(coordinates).GetCustomData("breakable");
-            return (bool)breakable;
+    private static bool CheckBreakable(Godot.TileMapLayer tilemap, Vector2I coordinates)
+    {
+        bool breakable = true;
+        for (int x = -1; x < 2; x++){
+            for (int y = -1; y < 2; y++)
+            {
+                Godot.Vector2I cords = new Godot.Vector2I(coordinates.X + x, coordinates.Y + y);
+                int id = tilemap.GetCellSourceId(cords);
+                if (id != -1){
+                    breakable = (bool)tilemap.GetCellTileData(cords).GetCustomData("breakable");
+                    if (!breakable){break;}
+                }
+            }
         }
-        return true;
+        return breakable;
     }
 
     private List<PathNode> GetNeighbourList(PathNode current_node){

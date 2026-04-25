@@ -11,19 +11,26 @@ public partial class Spawner : Node2D
     private PackedScene current_enemy;
 
     private PathFinder pathFinder;
+    private FatPathFinder fatPathFinder;
     public List<PathNode> path = new List<PathNode>();
+    public List<PathNode> FatPath = new List<PathNode>();
+    public List<PathNode> FatPeasantPath = new List<PathNode>();
     private const int cellsize=16;
 	private const int mapheight = 41;
     private const int mapwidth = 73;
     private Godot.Vector2I finish_position;
     public bool DrawPath = false;
 
+    public bool SomeoneIsFat = false;
+
     private TileMapLayer tilemap;
     public override void _Ready()
     {
         tilemap = GetNode<TileMapLayer>("%TileMap");
         tilemap.Connect("CustomTileChanged", new Callable(this, nameof(ForceReCalculatePath)));
+        tilemap.Connect("CustomTileChanged", new Callable(this, nameof(ForceReCalculateFatPath)));
         pathFinder = new PathFinder(mapwidth, mapheight, tilemap);
+        fatPathFinder = new FatPathFinder(mapwidth,mapheight,tilemap);
 
         Godot.Vector2 temp_pos = GetTree().Root.GetChild(1).GetNode<Area2D>("%Finish").Position;
         finish_position = new Vector2I(Mathf.RoundToInt(temp_pos.X/cellsize),//->
@@ -31,6 +38,7 @@ public partial class Spawner : Node2D
         finish_position = finish_position.Abs();
 
         ForceReCalculatePath();
+        ForceReCalculateFatPath();
     }
 
     public override void _Process(double delta)
@@ -56,11 +64,20 @@ public partial class Spawner : Node2D
             Node instance = preset.EnemyScene.Instantiate();
             AddChild(instance);
             Node2D obj = instance as Node2D;
-            if (obj is Enemy_base script)
+            if (obj is FatEnemy_base FatScript)
+            {
+                FatScript.ExternallySetPath(FatPath);
+                FatScript.path_updated = true;
+            }
+            else if (obj is Enemy_base script)
             {
                 script.ExternallySetPath(path);
                 script.path_updated = true;
             }
+            
+
+
+
             obj.GlobalPosition = GlobalPosition;
             GD.Print(obj.GlobalPosition);
             await ToSignal(GetTree().CreateTimer(preset.SpawnTime), SceneTreeTimer.SignalName.Timeout);
@@ -73,15 +90,43 @@ public partial class Spawner : Node2D
         pathFinder.GetGrid().GetXY(new Godot.Vector2 (0,0),out int x, out int y);
 		Vector2I position = new Vector2I (Mathf.FloorToInt(this.GlobalPosition.X/cellsize),Mathf.FloorToInt(this.GlobalPosition.Y/cellsize));
 
-        path = pathFinder.FindPath(position.X, position.Y, finish_position.X, finish_position.Y);
+        FatPath = pathFinder.FindPath(position.X, position.Y, finish_position.X, finish_position.Y);
+        QueueRedraw();
+    }
+    private void ForceReCalculateFatPath()
+    {
+        GD.Print("bang");
+        fatPathFinder.GetGrid().GetXY(new Godot.Vector2 (0,0),out int x, out int y);
+		Vector2I position = new Vector2I (Mathf.FloorToInt(this.GlobalPosition.X/cellsize),Mathf.FloorToInt(this.GlobalPosition.Y/cellsize));
+
+        path = fatPathFinder.FindPath(position.X, position.Y, finish_position.X, finish_position.Y,true);
         QueueRedraw();
     }
     public override void _Draw()
     {
-        if (!DrawPath){return;}
-        for (int i = 1; i < path.Count; i++){
-			DrawLine(new Godot.Vector2(path[i -1].x, path[i-1].y)*16 -this.GlobalPosition+new Godot.Vector2(8,8), new Godot.Vector2(path[i].x, path[i].y)*16-this.GlobalPosition+new Godot.Vector2(8,8),Colors.Red, 1.0f);
-		}
-	}
-
+        if (!DrawPath) { return; }
+        //Regular path
+        for (int i = 1; i < path.Count; i++)
+        {
+            Godot.Vector2 Pos1 = new Godot.Vector2(path[i - 1].x, path[i - 1].y) * 16;
+            Godot.Vector2 Pos2 =  new Godot.Vector2(path[i].x, path[i].y) * 16;
+            DrawLine(Pos1 - this.GlobalPosition + new Godot.Vector2(8, 8), Pos2 - this.GlobalPosition + new Godot.Vector2(8, 8), Colors.Red, 1.5f);
+            if (path[i].is_obstruction)
+            {
+                //
+            }
+        }
+        //FatPath
+        if (!SomeoneIsFat){ return; }
+        for (int i = 1; i < FatPath.Count; i++)
+        {
+            Godot.Vector2 Pos1 = new Godot.Vector2(FatPath[i - 1].x, FatPath[i - 1].y) * 16;
+            Godot.Vector2 Pos2 =  new Godot.Vector2(FatPath[i].x, FatPath[i].y) * 16;
+            DrawDashedLine(Pos1 - this.GlobalPosition + new Godot.Vector2(8, 8),Pos2 - this.GlobalPosition + new Godot.Vector2(8, 8), Colors.Purple, 1.0f,4);
+            if (path[i].is_obstruction)
+            {
+                //
+            }
+        }
+    }
 }

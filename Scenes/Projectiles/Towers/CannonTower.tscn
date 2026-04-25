@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://koskhgp3xffg"]
 
 [ext_resource type="Script" uid="uid://gk8eyw3lnmpg" path="res://Scripts/Nodes/TowerShooterBase.cs" id="1_r57ku"]
-[ext_resource type="PackedScene" uid="uid://cx57td5ml5rfc" path="res://Scenes/CannonBall.tscn" id="2_163qn"]
+[ext_resource type="PackedScene" uid="uid://cx57td5ml5rfc" path="res://Scenes/Projectiles/CannonBall.tscn" id="2_163qn"]
 [ext_resource type="Texture2D" uid="uid://j2hri2bdtdw2" path="res://Raw_sprites/Towers/CannonBase.png" id="2_y5b2k"]
 [ext_resource type="Texture2D" uid="uid://bpmei5lh833wn" path="res://Raw_sprites/Towers/CannonHeadAnimation.png" id="3_163qn"]
 [ext_resource type="Texture2D" uid="uid://dmrawa55x0hwn" path="res://Raw_sprites/UI/SmokeParticle.png" id="5_163qn"]

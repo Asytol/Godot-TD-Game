@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://l14itu8jjarh"]
 
 [ext_resource type="Script" uid="uid://gk8eyw3lnmpg" path="res://Scripts/Nodes/TowerShooterBase.cs" id="1_ugw7c"]
-[ext_resource type="PackedScene" uid="uid://nrjw7psdb65x" path="res://Scenes/Arrow.tscn" id="2_xxiu3"]
+[ext_resource type="PackedScene" uid="uid://nrjw7psdb65x" path="res://Scenes/Projectiles/Arrow.tscn" id="2_xxiu3"]
 [ext_resource type="Texture2D" uid="uid://bt2g68nqfcixw" path="res://Raw_sprites/Towers/BallistaBase.png" id="3_xxiu3"]
 [ext_resource type="Texture2D" uid="uid://brlie310r53ju" path="res://Raw_sprites/Towers/BallistaHeadAnimation.png" id="4_756yj"]
 
@@ -66,6 +66,7 @@ animations = [{
 collision_layer = 4
 collision_mask = 2
 script = ExtResource("1_ugw7c")
+base_damage = 20.0
 projectile = ExtResource("2_xxiu3")
 base_range = 140.0
 

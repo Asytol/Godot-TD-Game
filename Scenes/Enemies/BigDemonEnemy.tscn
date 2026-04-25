@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://b3pfsr0pb5v88"]
 
-[ext_resource type="Script" uid="uid://i8xt60ymkima" path="res://Scripts/Nodes/Enemy_base.cs" id="1_ffh77"]
+[ext_resource type="Script" uid="uid://dqh3vv0r35l58" path="res://Scripts/Nodes/FatEnemy_base.cs" id="1_ffh77"]
 [ext_resource type="Texture2D" uid="uid://cickocawkcl10" path="res://Raw_sprites/Enemies/BigDemon.png" id="2_4gj6i"]
 [ext_resource type="LabelSettings" uid="uid://dmkdg2tuhl5nm" path="res://Raw_sprites/UI/DamageLabel.tres" id="3_e74gg"]
 [ext_resource type="Texture2D" uid="uid://d0pido6gcpqk3" path="res://Raw_sprites/UI/PlainWhite.png" id="4_q81bn"]

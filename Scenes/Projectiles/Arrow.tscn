@@ -31,18 +31,18 @@ scale_min = 1.9
 scale_max = 2.0
 color_initial_ramp = SubResource("GradientTexture1D_flb3a")
 
-[node name="Projectile" type="Area2D" unique_id=1140131879 node_paths=PackedStringArray("DeathParticles2D")]
+[node name="Projectile" type="Area2D" unique_id=1140131879]
+collision_layer = 4
 collision_mask = 3
 script = ExtResource("1_yr2qt")
-damage = 15.0
-DeathParticles2D = NodePath("DeathParticles")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1679190379]
-visible = false
-shape = SubResource("RectangleShape2D_d4467")
+damage = 20.0
+Shrapnell = Array[Object]([])
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1997404428]
 texture = ExtResource("2_tl4hk")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1679190379]
+shape = SubResource("RectangleShape2D_d4467")
 
 [node name="DeathParticles" type="GPUParticles2D" parent="." unique_id=287408938]
 emitting = false

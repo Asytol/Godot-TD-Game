@@ -1,18 +1,24 @@
 [gd_scene format=3 uid="uid://cx57td5ml5rfc"]
 
 [ext_resource type="Script" uid="uid://c8h417m5yblb3" path="res://Scripts/Nodes/Projectile.cs" id="1_vaeiy"]
-[ext_resource type="PackedScene" uid="uid://cy1anx3x5mtib" path="res://Scenes/explosion.tscn" id="2_344pp"]
+[ext_resource type="PackedScene" uid="uid://cy1anx3x5mtib" path="res://Scenes/Projectiles/explosion.tscn" id="2_f8ju1"]
 [ext_resource type="Texture2D" uid="uid://dlb8ga0r41v6d" path="res://Raw_sprites/Towers/CannonBall.png" id="2_syolf"]
+[ext_resource type="Script" uid="uid://c1exytotivnqr" path="res://Scripts/Nodes/ShrapnellResource.cs" id="3_8ilga"]
+
+[sub_resource type="Resource" id="Resource_0ngh5"]
+script = ExtResource("3_8ilga")
+Projectile = ExtResource("2_f8ju1")
+metadata/_custom_type_script = "uid://c1exytotivnqr"
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_veopj"]
 radius = 8.0
 
 [node name="CannonBall" type="Area2D" unique_id=967990509]
+collision_layer = 7
 collision_mask = 3
 script = ExtResource("1_vaeiy")
 Pierce = 1
-Shrapnell = ExtResource("2_344pp")
-ShrapnellAmount = 1
+Shrapnell = Array[Object]([SubResource("Resource_0ngh5")])
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1877986909]
 texture = ExtResource("2_syolf")

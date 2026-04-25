@@ -114,19 +114,29 @@ initial_velocity_max = 100.0
 gravity = Vector3(0, 30, 0)
 damping_max = 82.031006
 
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_m4v34"]
+particle_flag_disable_z = true
+spread = 180.0
+initial_velocity_min = 60.0
+initial_velocity_max = 80.0
+gravity = Vector3(0, 23, 0)
+damping_min = 80.0
+damping_max = 100.00001
+scale_min = 2.0
+scale_max = 3.0
+
 [node name="Enemy" type="RigidBody2D" unique_id=447939803]
 collision_layer = 2
 collision_mask = 4
 script = ExtResource("1_r88v8")
 Speed = 20
+ExtraIFrames = 0.5
 RotationSpeed = 0.5
 
 [node name="Sprite2D" type="AnimatedSprite2D" parent="." unique_id=341377181]
 z_index = 1
 position = Vector2(0, -1)
 sprite_frames = SubResource("SpriteFrames_060ur")
-animation = &"Walking"
-frame_progress = 0.08498057
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=965911700]
 position = Vector2(0.5, 0)
@@ -189,6 +199,19 @@ trail_lifetime = 0.05
 trail_sections = 7
 trail_section_subdivisions = 3
 process_material = SubResource("ParticleProcessMaterial_dcpct")
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="." unique_id=1768714675]
+modulate = Color(0.45882353, 0.050980393, 0.050980393, 1)
+emitting = false
+amount = 30
+texture = ExtResource("4_m4v34")
+lifetime = 0.7
+one_shot = true
+speed_scale = 3.0
+explosiveness = 0.9
+trail_enabled = true
+trail_lifetime = 0.09999999999999999
+process_material = SubResource("ParticleProcessMaterial_m4v34")
 
 [connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]

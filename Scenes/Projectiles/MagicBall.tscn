@@ -35,6 +35,7 @@ BaseSpeed = 4.0
 damage = 15.0
 StunDuration = 0.2
 Pierce = 3
+Shrapnell = Array[Resource]([])
 ShrapnellSpread = 20.0
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=718395344]

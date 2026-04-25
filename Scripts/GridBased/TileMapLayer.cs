@@ -20,8 +20,6 @@ public partial class TileMapLayer : Godot.TileMapLayer
 	//
     private TextureRect TowerContainer;
     private TextureRect TileContainer;
-
-    private string dir_path = "res://Scenes/Terrain_tiles/";
 	//Grids and cells
 	private bool mouse_down = false;
 
@@ -34,6 +32,8 @@ public partial class TileMapLayer : Godot.TileMapLayer
 
     private Sprite2D TileSignifier;
     private GpuParticles2D Particles2D;
+
+    public static bool HoveringOnSumShit = false;
 
     [Signal]
     public delegate void CustomTileChangedEventHandler();
@@ -123,8 +123,8 @@ public partial class TileMapLayer : Godot.TileMapLayer
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
-	{
-		if (LevelHandler.RoundOver)
+    {
+        if (LevelHandler.RoundOver)
 		{
 			if (hidden)
 			{
@@ -151,8 +151,10 @@ public partial class TileMapLayer : Godot.TileMapLayer
     }
 
 
-    private void CreateTile(Godot.Vector2 GlobalPosition, int sourceId){
-		Godot.Vector2 LocalPos = ToLocal(GlobalPosition);
+    private void CreateTile(Godot.Vector2 GlobalPosition, int sourceId)
+    {
+        if (HoveringOnSumShit){return;}
+        Godot.Vector2 LocalPos = ToLocal(GlobalPosition);
 		Vector2I TilePos = LocalToMap(LocalPos);
 
 		Tile_node Tile = grid.GetGridObject(TilePos.X,TilePos.Y);
@@ -176,12 +178,13 @@ public partial class TileMapLayer : Godot.TileMapLayer
 	}
 	private void CreateBuilding(Godot.Vector2 GlobalPosition)
     {
+        if (HoveringOnSumShit){return;}
         Godot.Vector2I Position = ((Vector2I)GlobalPosition / cellsize) * cellsize;
         Godot.Vector2 LocalPos = ToLocal(GlobalPosition);
         Vector2I TilePos = LocalToMap(LocalPos);
         Tile_node Tile = grid.GetGridObject(TilePos.X,TilePos.Y);
         //if (grid.GetGridObject(Position.X,Position.Y))
-        if (GetCellSourceId(TilePos) == -1 || (!Tile.occupied && (bool)GetCellTileData(TilePos).GetCustomData("Buildable")))
+        if ((GetCellSourceId(TilePos) == -1 && !Tile.occupied) || (!Tile.occupied && (bool)GetCellTileData(TilePos).GetCustomData("Buildable")))
         {
             Particles2D.Restart();
 
@@ -193,6 +196,7 @@ public partial class TileMapLayer : Godot.TileMapLayer
 			AddChild(Instance);
             Instance.GlobalPosition = new Godot.Vector2(Position.X + cellsize / 2, Position.Y + cellsize / 2);
             Tile.occupied = true;
+            GD.Print(Tile.occupied);
             Tile.BuildingPointer = (Area2D)Instance;
             Tile.IndentedMoney = Mathf.RoundToInt(BuildScript.cost * 0.75f);
         }

@@ -1,9 +1,8 @@
-using Godot;
-using static Godot.TextServer;
-using System.Diagnostics;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using Godot;
 
 public partial class HomingProjectile : Projectile
 {
@@ -32,6 +31,8 @@ public partial class HomingProjectile : Projectile
                 float dist = Mathf.Abs(GlobalPosition.DistanceTo(EnemiesInArea[i].GlobalPosition));
                 if (dist < ClosestDistance)
                 {
+                    if (EnemiesInArea[i] is Enemy_base Script){
+                        if (Script.CheckIFrames(Name)){continue;}}
                     ClosestDistance = dist;
                     ClosestEnemy = EnemiesInArea[i];
                 }

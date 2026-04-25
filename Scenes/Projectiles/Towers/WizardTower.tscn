@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://gk8eyw3lnmpg" path="res://Scripts/Nodes/TowerShooterBase.cs" id="1_312rr"]
 [ext_resource type="Texture2D" uid="uid://d3a6vnxuuhj1f" path="res://Raw_sprites/Towers/WizardTower.png" id="1_721mr"]
-[ext_resource type="PackedScene" uid="uid://b27h7y346txvu" path="res://Scenes/MagicBall.tscn" id="2_45217"]
+[ext_resource type="PackedScene" uid="uid://b27h7y346txvu" path="res://Scenes/Projectiles/MagicBall.tscn" id="2_45217"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_s7j74"]
 animations = [{
@@ -29,6 +29,7 @@ animations = [{
 collision_layer = 4
 collision_mask = 2
 script = ExtResource("1_312rr")
+base_damage = 15.0
 projectile = ExtResource("2_45217")
 base_range = 100.0
 

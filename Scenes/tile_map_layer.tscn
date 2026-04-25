@@ -10,15 +10,15 @@
 [ext_resource type="Texture2D" uid="uid://wkgmeftkue50" path="res://Raw_sprites/Towers/Ballista.png" id="8_bsuvp"]
 [ext_resource type="Script" uid="uid://u2ofwnkhaa8l" path="res://Scripts/GridBased/Build_tile.cs" id="9_p5ima"]
 [ext_resource type="Texture2D" uid="uid://j2hri2bdtdw2" path="res://Raw_sprites/Towers/CannonBase.png" id="10_pbh26"]
-[ext_resource type="PackedScene" uid="uid://l14itu8jjarh" path="res://Scenes/BallistaTower.tscn" id="10_u5ca1"]
-[ext_resource type="PackedScene" uid="uid://koskhgp3xffg" path="res://Scenes/CannonTower.tscn" id="10_vh02k"]
+[ext_resource type="PackedScene" uid="uid://l14itu8jjarh" path="res://Scenes/Projectiles/Towers/BallistaTower.tscn" id="10_u5ca1"]
+[ext_resource type="PackedScene" uid="uid://koskhgp3xffg" path="res://Scenes/Projectiles/Towers/CannonTower.tscn" id="10_vh02k"]
 [ext_resource type="Texture2D" uid="uid://bi82ketkd1p5m" path="res://Raw_sprites/TileMap/UiTerrainTextures/Brick.png" id="11_a5obw"]
 [ext_resource type="Theme" uid="uid://b4ytiaxr0csu4" path="res://Raw_sprites/UI/Box_theme.tres" id="11_yehf8"]
 [ext_resource type="StyleBox" uid="uid://c0xoc2o2yqhdc" path="res://Raw_sprites/UI/StyleBoxBlueTheme.tres" id="12_6cgyq"]
 [ext_resource type="Texture2D" uid="uid://d3a6vnxuuhj1f" path="res://Raw_sprites/Towers/WizardTower.png" id="12_ad2yu"]
 [ext_resource type="Texture2D" uid="uid://b3k8p786tfmsj" path="res://Raw_sprites/TileMap/UiTerrainTextures/StoneBrick.png" id="12_cwa1k"]
 [ext_resource type="Script" uid="uid://ijp6ng4aw433" path="res://Scripts/GridBased/Terrain_tile_button.cs" id="12_vh02k"]
-[ext_resource type="PackedScene" uid="uid://bi678rx01tgmm" path="res://Scenes/WizardTower.tscn" id="13_lbmh7"]
+[ext_resource type="PackedScene" uid="uid://bi678rx01tgmm" path="res://Scenes/Projectiles/Towers/WizardTower.tscn" id="13_lbmh7"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_r5nid"]
 texture = ExtResource("2_p1nli")

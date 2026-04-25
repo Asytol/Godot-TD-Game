@@ -13,10 +13,10 @@
 [ext_resource type="Script" uid="uid://c2t62uwun1ntw" path="res://Scripts/LogicBased/LevelHandler.cs" id="9_63dlw"]
 [ext_resource type="Theme" uid="uid://d00o06fmebnxl" path="res://Raw_sprites/UI/GreenTheme.tres" id="10_ei7of"]
 [ext_resource type="Theme" uid="uid://b4ytiaxr0csu4" path="res://Raw_sprites/UI/Box_theme.tres" id="10_ytlt0"]
-[ext_resource type="PackedScene" uid="uid://l14itu8jjarh" path="res://Scenes/BallistaTower.tscn" id="11_ytlt0"]
-[ext_resource type="PackedScene" uid="uid://koskhgp3xffg" path="res://Scenes/CannonTower.tscn" id="12_8j02k"]
+[ext_resource type="PackedScene" uid="uid://l14itu8jjarh" path="res://Scenes/Projectiles/Towers/BallistaTower.tscn" id="11_ytlt0"]
+[ext_resource type="PackedScene" uid="uid://koskhgp3xffg" path="res://Scenes/Projectiles/Towers/CannonTower.tscn" id="12_8j02k"]
 [ext_resource type="Texture2D" uid="uid://dcwkdl27nm5g4" path="res://Raw_sprites/TileMap/Coin.png" id="12_kmpqp"]
-[ext_resource type="PackedScene" uid="uid://bi678rx01tgmm" path="res://Scenes/WizardTower.tscn" id="16_s7j74"]
+[ext_resource type="PackedScene" uid="uid://bi678rx01tgmm" path="res://Scenes/Projectiles/Towers/WizardTower.tscn" id="16_s7j74"]
 [ext_resource type="PackedScene" uid="uid://b3pfsr0pb5v88" path="res://Scenes/Enemies/BigDemonEnemy.tscn" id="18_oplss"]
 [ext_resource type="Shader" uid="uid://crpvac2bxkg8n" path="res://Raw_sprites/UI/Fog.gdshader" id="19_qnaon"]
 
@@ -70,7 +70,7 @@ metadata/_custom_type_script = "uid://dl1twe57s3hf0"
 [sub_resource type="Resource" id="Resource_8j02k"]
 script = ExtResource("2_8j02k")
 Spawns = Array[Object]([SubResource("Resource_s7j74"), SubResource("Resource_oplss"), SubResource("Resource_qnaon")])
-UsedSpawners = PackedStringArray("Spawner")
+UsedSpawners = PackedStringArray("Spawner", "Spawner2")
 WaveMoney = 300
 metadata/_custom_type_script = "uid://bxq7b72m4anqj"
 
@@ -180,6 +180,13 @@ shader_parameter/use_distance_tint = true
 shader_parameter/clear_area_tint = Color(0.765625, 0.74768066, 0.711792, 1)
 shader_parameter/tint_feather = 100.0000047025
 
+[sub_resource type="Environment" id="Environment_qnaon"]
+background_mode = 3
+background_canvas_max_layer = 13
+glow_enabled = true
+glow_intensity = 8.0
+fog_enabled = true
+
 [node name="Main_test_scene" type="Node" unique_id=731922039]
 script = ExtResource("9_63dlw")
 Waves = Array[Resource]([SubResource("Resource_4bbre"), SubResource("Resource_8j02k"), SubResource("Resource_awtb3")])
@@ -195,6 +202,7 @@ grow_vertical = 2
 mouse_filter = 2
 texture = ExtResource("1_64wbe")
 stretch_mode = 1
+metadata/_edit_lock_ = true
 
 [node name="MainCharacter" parent="." unique_id=1541007265 instance=ExtResource("2_63dlw")]
 z_index = 1
@@ -230,6 +238,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
+metadata/_edit_lock_ = true
 
 [node name="MarginContainer" type="MarginContainer" parent="Ui" unique_id=2100704814]
 layout_mode = 1
@@ -291,25 +300,30 @@ layout_mode = 2
 text = "10"
 
 [node name="BallistaTower" parent="." unique_id=1380105968 instance=ExtResource("11_ytlt0")]
-position = Vector2(232, 456)
+position = Vector2(161, 354)
 Cooldown = 1.5
 
 [node name="CanonTower" parent="." unique_id=1591976174 instance=ExtResource("12_8j02k")]
-position = Vector2(190, 490)
+position = Vector2(90, 380)
 base_spread = 5.0
 
 [node name="WizardTower" parent="." unique_id=696809066 instance=ExtResource("16_s7j74")]
-position = Vector2(173, 524)
-base_damage = 15.0
+position = Vector2(207, 361)
 base_spread = 10.0
 
 [node name="Fog" type="ColorRect" parent="." unique_id=1359454979]
+visible = false
 material = SubResource("ShaderMaterial_oplss")
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+color = Color(1, 1, 1, 0.46600002)
+metadata/_edit_lock_ = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1246584213]
+environment = SubResource("Environment_qnaon")
 
 [connection signal="button_up" from="Ui/MarginContainer/Start" to="." method="_on_start_button_up"]
 [connection signal="button_up" from="Ui/MarginContainer/Start" to="Ui" method="_on_button_button_up"]
