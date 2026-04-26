@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Numerics;
 using Godot;
 using static System.Net.Mime.MediaTypeNames;
+using static Godot.GD;
 
 public partial class TileMapLayer : Godot.TileMapLayer
 {
@@ -35,6 +37,9 @@ public partial class TileMapLayer : Godot.TileMapLayer
 
     public static bool HoveringOnSumShit = false;
 
+
+    private List<Vector2I> BuildQueue = new List<Vector2I>();
+
     [Signal]
     public delegate void CustomTileChangedEventHandler();
     //Towers
@@ -42,8 +47,8 @@ public partial class TileMapLayer : Godot.TileMapLayer
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
-        TowerContainer = GetNode<TextureRect>("%TowerContainer");
-        TileContainer = GetNode<TextureRect>("%TileContainer");
+        TowerContainer = GetTree().Root.GetChild(1).GetNode<TextureRect>("%TowerContainer");
+        TileContainer = GetTree().Root.GetChild(1).GetNode<TextureRect>("%TileContainer");
         //Get all TextureButton signals
         if (TileSignifier == null) { TileSignifier = GetNode<Sprite2D>("%TileSignifier"); }
         Particles2D = TileSignifier.GetChild<GpuParticles2D>(1);
@@ -61,7 +66,7 @@ public partial class TileMapLayer : Godot.TileMapLayer
         }
 
 
-        MoneyNum = GetNode<Label>("%MoneyNum");
+        MoneyNum = GetTree().Root.GetChild(1).GetNode<Label>("%MoneyNum");
 		grid = new Grid_class<Tile_node>(width,height,cellsize,new Godot.Vector2(0,0), (Grid_class<Tile_node> g, int x, int y) => new Tile_node(x:x,y:y));
 
 		foreach (Vector2I cell in GetUsedCells()){
@@ -114,16 +119,45 @@ public partial class TileMapLayer : Godot.TileMapLayer
                 }
             }
         }
-		if (@event is InputEventMouseMotion eventMouseMotion)
+
+        //
+        if (@event is InputEventMouseMotion eventMouseMotion)
 		{
 			TileSignifier.GlobalPosition = ((Vector2I)eventMouseMotion.Position/cellsize)*cellsize;
         }
         ButtonPressed = false;
+
+        //
+        if (@event is InputEventMouseMotion mouseMotion)
+        {
+            if (mouse_down)
+            {
+                Vector2I obj = new Vector2I(Mathf.FloorToInt(mouseMotion.Position.X / 16), Mathf.FloorToInt(mouseMotion.Position.Y / 16));
+                if (!BuildQueue.Contains(obj)){
+                    BuildQueue.Add(obj);
+                }
+                else{
+                    int StartIndex = BuildQueue.IndexOf(obj);
+                    if (StartIndex != -1)
+                    {
+                        BuildQueue.RemoveAt(StartIndex);
+                    }
+                }
+                QueueRedraw();
+            }
+            else
+            {
+                BuildQueue.Clear();
+            }
+        }
     }
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
     {
+        if (mouse_down) { GD.Print("mouse down."); }
+        else {GD.Print("mouse not down");}
+
         if (LevelHandler.RoundOver)
 		{
 			if (hidden)
@@ -147,7 +181,12 @@ public partial class TileMapLayer : Godot.TileMapLayer
     }
     public override void _Draw()
     {
-        //DrawCircle(TileSignifier.GlobalPosition,);
+        foreach (Vector2I tile in BuildQueue)
+        {
+            GD.Print("Tiles: ");
+            GD.Print(tile);
+            DrawTexture(TileSignifier.Texture,tile*16,Colors.White);
+        }
     }
 
 
@@ -346,7 +385,7 @@ public partial class TileMapLayer : Godot.TileMapLayer
 		NewParticle.Restart();
 		NewParticle.Emitting = true;
 		NewParticle.Connect("finished",new Callable(NewParticle, nameof(QueueFree)));
-	}
+    }
 }
 
 
@@ -375,6 +414,8 @@ public partial class TileMapLayer : Godot.TileMapLayer
 ⠀⠀⠀⠀⠀⠀⠉⠀⠀⠀⠉⠀⣸⣿⣿⣿⣿⣿⣿⣷⣦⣤⣭⣴⣾⣿⣿⡿⠋⠠⣶⣶⠚⣓⣀⣿⣿⣿⣿⣿⣧⡘⢿⣿⡇⢦⠜⢿⡆⠫
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣤⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠏⠀⠐⠿⠿⠿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣄⠱⢸⣦⠈⣿⣦
 ⠀⠀⠀⣀⣤⣤⣶⣿⠿⣿⣿⣿⣿⣿⣿⣙⣿⣿⣿⣿⣿⣿⣿⣿⣿⡏⠀⣶⣶⣶⣾⣿⣿⣿⣿⣿⣿⣿⣿⡻⣻⠿⠿⡿⣦⢸⣷⣤⡞⢿
+   ⣀⣤⣤⣶⣿⠿⣿⣿⣿⣿⣿⣿⣙⣿⣿⣿⣿⣿⣿⣿⣿⣿⡏⠀⣶⣶⣶⣾⣿⣿⣿⣿⣿⣿⣿⣿⡻⣻⠿⠿⡿⣦⢸⣷⣤⡞⢿
+   ⣀⣤⣤⣶⣿⠿⣿⣿⣿⣿⣿⣿⣙⣿⣿⣿⣿⣿⣿⣿⣿⣿⡏⠀⣶⣶⣶⣾⣿⣿⣿⣿⣿⣿⣿⣿⡻⣻⠿⠿⡿⣦⢸⣷⣤⡞⢿
    ⣀⣤⣤⣶⣿⠿⣿⣿⣿⣿⣿⣿⣙⣿⣿⣿⣿⣿⣿⣿⣿⣿⡏⠀⣶⣶⣶⣾⣿⣿⣿⣿⣿⣿⣿⣿⡻⣻⠿⠿⡿⣦⢸⣷⣤⡞⢿
    ⣀⣤⣤⣶⣿⠿⣿⣿⣿⣿⣿⣿⣙⣿⣿⣿⣿⣿⣿⣿⣿⣿⡏⠀⣶⣶⣶⣾⣿⣿⣿⣿⣿⣿⣿⣿⡻⣻⠿⠿⡿⣦⢸⣷⣤⡞⢿
    ⣀⣤⣤⣶⣿⠿⣿⣿⣿⣿⣿⣿⣙⣿⣿⣿⣿⣿⣿⣿⣿⣿⡏⠀⣶⣶⣶⣾⣿⣿⣿⣿⣿⣿⣿⣿⡻⣻⠿⠿⡿⣦⢸⣷⣤⡞⢿

@@ -14,6 +14,9 @@ public partial class Terrain_tile_button : TextureButton
     private const int height = 32;
     private const int cellsize = 16;
 
+
+    private MarginContainer StatsPanel;
+
     [Signal]
     public delegate void SendTileInfoEventHandler(TextureButton button);
 
@@ -24,14 +27,13 @@ public partial class Terrain_tile_button : TextureButton
 
         this.ButtonUp += SendTileInfo_local;
 
-        
+        StatsPanel = GetTree().Root.GetChild(1).GetNode<TileMapLayer>("%TileMap").GetNode<MarginContainer>("%StatsPanel");
     }
 
     private void OnHover()
-	{
-		MarginContainer StatsPanel = GetNode<MarginContainer>("%StatsPanel");
-		StatsPanel.Visible = true;
-		StatsPanel.GlobalPosition = new Godot.Vector2(this.GlobalPosition.X +16,this.GlobalPosition.Y +16);
+    {
+        StatsPanel.GlobalPosition = new Godot.Vector2(this.GlobalPosition.X - StatsPanel.Size.X-16,this.GlobalPosition.Y + 16);
+        StatsPanel.Visible = true;
 
 		Label label = StatsPanel.GetChild<Label>(1);
         label.Text = $"cost: {cost}" + "\n" +
@@ -40,7 +42,7 @@ public partial class Terrain_tile_button : TextureButton
     }
 	private void NoHover()
 	{
-		GetNode<MarginContainer>("%StatsPanel").Visible = false;
+		StatsPanel.Visible = false;
     }
 
     private void SendTileInfo_local()

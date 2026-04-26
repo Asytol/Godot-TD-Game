@@ -86,7 +86,6 @@ public partial class Spawner : Node2D
     }
     private void ForceReCalculatePath()
     {
-        GD.Print("bang");
         pathFinder.GetGrid().GetXY(new Godot.Vector2 (0,0),out int x, out int y);
 		Vector2I position = new Vector2I (Mathf.FloorToInt(this.GlobalPosition.X/cellsize),Mathf.FloorToInt(this.GlobalPosition.Y/cellsize));
 
@@ -95,7 +94,6 @@ public partial class Spawner : Node2D
     }
     private void ForceReCalculateFatPath()
     {
-        GD.Print("bang");
         fatPathFinder.GetGrid().GetXY(new Godot.Vector2 (0,0),out int x, out int y);
 		Vector2I position = new Vector2I (Mathf.FloorToInt(this.GlobalPosition.X/cellsize),Mathf.FloorToInt(this.GlobalPosition.Y/cellsize));
 

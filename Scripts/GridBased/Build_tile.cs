@@ -10,6 +10,8 @@ public partial class Build_tile : TextureButton
     private float AttackSpeed;
     private string name;
 
+    private MarginContainer StatsPanel;
+
     [Signal]
 	public delegate void SendBuildInfoEventHandler(TextureButton button);
 	public override void _Ready()
@@ -27,14 +29,16 @@ public partial class Build_tile : TextureButton
             AttackSpeed = BuildingScript.Cooldown;
             name = BuildingScript.Name.ToString();
         }
+
+        StatsPanel = GetTree().Root.GetChild(1).GetNode<TileMapLayer>("%TileMap").GetNode<MarginContainer>("%StatsPanel");
     }
 
 	private void OnHover()
-	{
-		MarginContainer StatsPanel = GetNode<MarginContainer>("%StatsPanel");
+    {
+    	StatsPanel.GlobalPosition = new Vector2(this.GlobalPosition.X - StatsPanel.Size.X-16,this.GlobalPosition.Y + 16);
         StatsPanel.Visible = true;
         TileMapLayer.HoveringOnSumShit = true;
-        StatsPanel.GlobalPosition = new Vector2(this.GlobalPosition.X +16,this.GlobalPosition.Y +16);
+        
 
 		Label label = StatsPanel.GetChild<Label>(1);
         label.Text = $"cost: {cost}" + "\n" +
@@ -45,7 +49,7 @@ public partial class Build_tile : TextureButton
     }
 	private void NoHover()
 	{
-        GetNode<MarginContainer>("%StatsPanel").Visible = false;
+        StatsPanel.Visible = false;
         TileMapLayer.HoveringOnSumShit = false;
     }
 	private void SendBuildInfo_local()

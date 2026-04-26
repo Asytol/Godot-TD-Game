@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://cickocawkcl10" path="res://Raw_sprites/Enemies/BigDemon.png" id="2_4gj6i"]
 [ext_resource type="LabelSettings" uid="uid://dmkdg2tuhl5nm" path="res://Raw_sprites/UI/DamageLabel.tres" id="3_e74gg"]
 [ext_resource type="Texture2D" uid="uid://d0pido6gcpqk3" path="res://Raw_sprites/UI/PlainWhite.png" id="4_q81bn"]
+[ext_resource type="Texture2D" uid="uid://dmrawa55x0hwn" path="res://Raw_sprites/UI/SmokeParticle.png" id="5_4gj6i"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_1ev2f"]
 atlas = ExtResource("2_4gj6i")
@@ -107,13 +108,25 @@ initial_velocity_max = 100.0
 gravity = Vector3(0, 30, 0)
 damping_max = 82.031006
 
-[node name="Enemy" type="RigidBody2D" unique_id=2023001021]
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_e74gg"]
+particle_flag_disable_z = true
+direction = Vector3(0, -1, 0)
+spread = 150.0
+initial_velocity_min = 70.0
+initial_velocity_max = 80.0
+gravity = Vector3(0, 20, 0)
+damping_min = 80.0
+damping_max = 90.00001
+scale_max = 1.5
+
+[node name="Enemy" type="RigidBody2D" unique_id=2023001021 node_paths=PackedStringArray("DeathParticles")]
 collision_layer = 2
 collision_mask = 4
 script = ExtResource("1_ffh77")
-Speed = 5
-Max_health = 1000.0
-health = 1000.0
+DeathParticles = NodePath("DeathParticles")
+Speed = 8
+Max_health = 800.0
+health = 800.0
 wall_damage = 2.0
 AreaDamage = true
 StunResistance = 3.0
@@ -131,8 +144,8 @@ position = Vector2(0, -1.5)
 shape = SubResource("RectangleShape2D_r88v8")
 
 [node name="Line2D" type="Line2D" parent="." unique_id=1429623062]
-position = Vector2(-7, -13)
-points = PackedVector2Array(15, 0, 0, 0)
+position = Vector2(-15, -20)
+points = PackedVector2Array(30, 0, 0, 0)
 width = 2.0
 default_color = Color(0.7628233, 0, 0.25860265, 1)
 
@@ -187,6 +200,16 @@ trail_lifetime = 0.05
 trail_sections = 7
 trail_section_subdivisions = 3
 process_material = SubResource("ParticleProcessMaterial_u86bu")
+
+[node name="DeathParticles" type="GPUParticles2D" parent="." unique_id=1132353056]
+self_modulate = Color(0.45882353, 0.050980393, 0.050980393, 1)
+emitting = false
+amount = 30
+texture = ExtResource("5_4gj6i")
+one_shot = true
+speed_scale = 2.0
+explosiveness = 0.8
+process_material = SubResource("ParticleProcessMaterial_e74gg")
 
 [connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]

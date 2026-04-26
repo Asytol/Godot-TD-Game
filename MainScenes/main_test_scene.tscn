@@ -16,9 +16,18 @@
 [ext_resource type="PackedScene" uid="uid://l14itu8jjarh" path="res://Scenes/Projectiles/Towers/BallistaTower.tscn" id="11_ytlt0"]
 [ext_resource type="PackedScene" uid="uid://koskhgp3xffg" path="res://Scenes/Projectiles/Towers/CannonTower.tscn" id="12_8j02k"]
 [ext_resource type="Texture2D" uid="uid://dcwkdl27nm5g4" path="res://Raw_sprites/TileMap/Coin.png" id="12_kmpqp"]
+[ext_resource type="Texture2D" uid="uid://bktholecjqbif" path="res://Raw_sprites/UI/DialogueBubble.png" id="14_awtb3"]
 [ext_resource type="PackedScene" uid="uid://bi678rx01tgmm" path="res://Scenes/Projectiles/Towers/WizardTower.tscn" id="16_s7j74"]
+[ext_resource type="Texture2D" uid="uid://ctg1ox4rmbbn0" path="res://Raw_sprites/UI/Item_frame.png" id="18_k3nk6"]
 [ext_resource type="PackedScene" uid="uid://b3pfsr0pb5v88" path="res://Scenes/Enemies/BigDemonEnemy.tscn" id="18_oplss"]
+[ext_resource type="Texture2D" uid="uid://wkgmeftkue50" path="res://Raw_sprites/Towers/Ballista.png" id="19_hiam4"]
 [ext_resource type="Shader" uid="uid://crpvac2bxkg8n" path="res://Raw_sprites/UI/Fog.gdshader" id="19_qnaon"]
+[ext_resource type="Script" uid="uid://u2ofwnkhaa8l" path="res://Scripts/GridBased/Build_tile.cs" id="20_eon63"]
+[ext_resource type="Texture2D" uid="uid://j2hri2bdtdw2" path="res://Raw_sprites/Towers/CannonBase.png" id="22_a4jea"]
+[ext_resource type="Texture2D" uid="uid://d3a6vnxuuhj1f" path="res://Raw_sprites/Towers/WizardTower.png" id="24_lfes0"]
+[ext_resource type="Texture2D" uid="uid://bi82ketkd1p5m" path="res://Raw_sprites/TileMap/UiTerrainTextures/Brick.png" id="26_25yq8"]
+[ext_resource type="Script" uid="uid://ijp6ng4aw433" path="res://Scripts/GridBased/Terrain_tile_button.cs" id="27_3h30b"]
+[ext_resource type="Texture2D" uid="uid://b3k8p786tfmsj" path="res://Raw_sprites/TileMap/UiTerrainTextures/StoneBrick.png" id="28_6beho"]
 
 [sub_resource type="Resource" id="Resource_dooye"]
 script = ExtResource("2_4bbre")
@@ -36,9 +45,15 @@ SpawnTime = 1.0
 EnemyScene = ExtResource("2_dooye")
 metadata/_custom_type_script = "uid://dl1twe57s3hf0"
 
+[sub_resource type="Resource" id="Resource_11i1w"]
+script = ExtResource("2_4bbre")
+SpawnTime = 1.0
+EnemyScene = ExtResource("18_oplss")
+metadata/_custom_type_script = "uid://dl1twe57s3hf0"
+
 [sub_resource type="Resource" id="Resource_4bbre"]
 script = ExtResource("2_8j02k")
-Spawns = Array[Object]([SubResource("Resource_dooye"), SubResource("Resource_veopj")])
+Spawns = Array[Object]([SubResource("Resource_dooye"), SubResource("Resource_veopj"), SubResource("Resource_11i1w")])
 UsedSpawners = PackedStringArray("Spawner")
 WaveMoney = 300
 metadata/_custom_type_script = "uid://bxq7b72m4anqj"
@@ -70,7 +85,7 @@ metadata/_custom_type_script = "uid://dl1twe57s3hf0"
 [sub_resource type="Resource" id="Resource_8j02k"]
 script = ExtResource("2_8j02k")
 Spawns = Array[Object]([SubResource("Resource_s7j74"), SubResource("Resource_oplss"), SubResource("Resource_qnaon")])
-UsedSpawners = PackedStringArray("Spawner", "Spawner2")
+UsedSpawners = PackedStringArray("Spawner")
 WaveMoney = 300
 metadata/_custom_type_script = "uid://bxq7b72m4anqj"
 
@@ -121,6 +136,39 @@ Spawns = Array[Object]([SubResource("Resource_1ev2f"), SubResource("Resource_ugl
 UsedSpawners = PackedStringArray("Spawner", "Spawner2")
 WaveMoney = 400
 metadata/_custom_type_script = "uid://bxq7b72m4anqj"
+
+[sub_resource type="LabelSettings" id="LabelSettings_11i1w"]
+line_spacing = -6.0
+font_size = 17
+outline_size = 4
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_11i1w"]
+bg_color = Color(0.7109375, 0.56013256, 0.35546875, 1)
+corner_radius_top_left = 15
+corner_radius_top_right = 15
+corner_radius_bottom_right = 15
+corner_radius_bottom_left = 15
+
+[sub_resource type="Theme" id="Theme_wfuso"]
+Panel/styles/panel = SubResource("StyleBoxFlat_11i1w")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wfuso"]
+bg_color = Color(0.5989584, 0.43576562, 0.2121311, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+corner_detail = 4
+expand_margin_left = 4.0
+expand_margin_top = 4.0
+expand_margin_right = 4.0
+expand_margin_bottom = 4.0
+shadow_color = Color(0, 0, 0, 0.70980394)
+shadow_size = 4
+
+[sub_resource type="Theme" id="Theme_k3nk6"]
+Panel/styles/panel = SubResource("StyleBoxFlat_wfuso")
 
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_kmpqp"]
 size = Vector2(32, 32)
@@ -240,16 +288,187 @@ grow_vertical = 2
 mouse_filter = 2
 metadata/_edit_lock_ = true
 
-[node name="MarginContainer" type="MarginContainer" parent="Ui" unique_id=2100704814]
+[node name="Rounds&Tiles" type="HBoxContainer" parent="Ui" unique_id=1304473972]
 layout_mode = 1
-anchors_preset = 3
+anchors_preset = 11
 anchor_left = 1.0
-anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -58.0
-offset_top = -43.0
+offset_left = -100.0
+offset_bottom = -398.0
 grow_horizontal = 0
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="Ui/Rounds&Tiles" unique_id=512317300]
+layout_mode = 2
+theme_override_constants/margin_left = -60
+
+[node name="RoundText" type="Label" parent="Ui/Rounds&Tiles/MarginContainer" unique_id=1252812028]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+text = "Round
+0/4"
+label_settings = SubResource("LabelSettings_11i1w")
+horizontal_alignment = 2
+
+[node name="SideBar" type="Panel" parent="Ui/Rounds&Tiles" unique_id=431035276]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = SubResource("Theme_wfuso")
+
+[node name="TowerAndTiles" type="MarginContainer" parent="Ui/Rounds&Tiles/SideBar" unique_id=947477097]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -34.5
+offset_right = 34.5
+offset_bottom = 108.0
+grow_horizontal = 2
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_bottom = -8
+
+[node name="Panel" type="Panel" parent="Ui/Rounds&Tiles/SideBar/TowerAndTiles" unique_id=1122151907]
+layout_mode = 2
+theme = SubResource("Theme_k3nk6")
+
+[node name="VBoxContainer" type="HBoxContainer" parent="Ui/Rounds&Tiles/SideBar/TowerAndTiles" unique_id=927336857]
+layout_mode = 2
+
+[node name="TowerContainer" type="TextureRect" parent="Ui/Rounds&Tiles/SideBar/TowerAndTiles/VBoxContainer" unique_id=1911848941]
+unique_name_in_owner = true
+texture_filter = 1
+texture_repeat = 2
+layout_mode = 2
+size_flags_horizontal = 0
+mouse_filter = 2
+texture = ExtResource("18_k3nk6")
+stretch_mode = 1
+
+[node name="VBox" type="VBoxContainer" parent="Ui/Rounds&Tiles/SideBar/TowerAndTiles/VBoxContainer/TowerContainer" unique_id=904527679]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -72.0
+offset_bottom = 114.0
+grow_horizontal = 0
+theme_override_constants/separation = -3
+
+[node name="MarginContainer" type="MarginContainer" parent="Ui/Rounds&Tiles/SideBar/TowerAndTiles/VBoxContainer/TowerContainer/VBox" unique_id=1171115226]
+layout_mode = 2
+theme_override_constants/margin_left = 0
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 16
+
+[node name="Ballista" type="TextureButton" parent="Ui/Rounds&Tiles/SideBar/TowerAndTiles/VBoxContainer/TowerContainer/VBox/MarginContainer" unique_id=845775152]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+texture_normal = ExtResource("19_hiam4")
+texture_pressed = ExtResource("19_hiam4")
+texture_hover = ExtResource("19_hiam4")
+texture_disabled = ExtResource("19_hiam4")
+texture_focused = ExtResource("19_hiam4")
+script = ExtResource("20_eon63")
+cost = 40
+building = ExtResource("11_ytlt0")
+
+[node name="MarginContainer2" type="MarginContainer" parent="Ui/Rounds&Tiles/SideBar/TowerAndTiles/VBoxContainer/TowerContainer/VBox" unique_id=738686359]
+layout_mode = 2
+theme_override_constants/margin_left = 0
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 16
+
+[node name="Cannon" type="TextureButton" parent="Ui/Rounds&Tiles/SideBar/TowerAndTiles/VBoxContainer/TowerContainer/VBox/MarginContainer2" unique_id=772836926]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+texture_normal = ExtResource("22_a4jea")
+texture_pressed = ExtResource("22_a4jea")
+texture_hover = ExtResource("22_a4jea")
+texture_disabled = ExtResource("22_a4jea")
+texture_focused = ExtResource("22_a4jea")
+script = ExtResource("20_eon63")
+building = ExtResource("12_8j02k")
+
+[node name="MarginContainer3" type="MarginContainer" parent="Ui/Rounds&Tiles/SideBar/TowerAndTiles/VBoxContainer/TowerContainer/VBox" unique_id=526153558]
+layout_mode = 2
+theme_override_constants/margin_left = 0
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 16
+
+[node name="WizardTower" type="TextureButton" parent="Ui/Rounds&Tiles/SideBar/TowerAndTiles/VBoxContainer/TowerContainer/VBox/MarginContainer3" unique_id=1007356637]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+texture_normal = ExtResource("24_lfes0")
+texture_pressed = ExtResource("24_lfes0")
+texture_hover = ExtResource("24_lfes0")
+texture_disabled = ExtResource("24_lfes0")
+texture_focused = ExtResource("24_lfes0")
+script = ExtResource("20_eon63")
+cost = 50
+building = ExtResource("16_s7j74")
+
+[node name="TileContainer" type="TextureRect" parent="Ui/Rounds&Tiles/SideBar/TowerAndTiles/VBoxContainer" unique_id=2107707053]
+unique_name_in_owner = true
+texture_filter = 1
+texture_repeat = 2
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource("18_k3nk6")
+expand_mode = 4
+stretch_mode = 1
+
+[node name="VBox" type="VBoxContainer" parent="Ui/Rounds&Tiles/SideBar/TowerAndTiles/VBoxContainer/TileContainer" unique_id=388277253]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 52.0
+theme_override_constants/separation = 13
+
+[node name="MarginContainer" type="MarginContainer" parent="Ui/Rounds&Tiles/SideBar/TowerAndTiles/VBoxContainer/TileContainer/VBox" unique_id=229973671]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+
+[node name="Brick" type="TextureButton" parent="Ui/Rounds&Tiles/SideBar/TowerAndTiles/VBoxContainer/TileContainer/VBox/MarginContainer" unique_id=1164962354]
+unique_name_in_owner = true
+layout_mode = 2
+texture_normal = ExtResource("26_25yq8")
+script = ExtResource("27_3h30b")
+cost = 10
+AtlasCoordinates = Vector2i(272, 64)
+
+[node name="MarginContainer2" type="MarginContainer" parent="Ui/Rounds&Tiles/SideBar/TowerAndTiles/VBoxContainer/TileContainer/VBox" unique_id=454300331]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+
+[node name="StoneBrick" type="TextureButton" parent="Ui/Rounds&Tiles/SideBar/TowerAndTiles/VBoxContainer/TileContainer/VBox/MarginContainer2" unique_id=81215910]
+unique_name_in_owner = true
+layout_mode = 2
+texture_normal = ExtResource("28_6beho")
+script = ExtResource("27_3h30b")
+cost = 15
+
+[node name="StartContainer" type="MarginContainer" parent="Ui/Rounds&Tiles/SideBar" unique_id=2100704814]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -40.0
+offset_top = -50.0
+offset_right = 40.0
+grow_horizontal = 2
 grow_vertical = 0
 theme = ExtResource("10_ytlt0")
 theme_override_constants/margin_left = 10
@@ -257,44 +476,60 @@ theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
 
-[node name="Start" type="Button" parent="Ui/MarginContainer" unique_id=729254960]
-unique_name_in_owner = true
+[node name="Panel" type="NinePatchRect" parent="Ui/Rounds&Tiles/SideBar/StartContainer" unique_id=1528419329]
+self_modulate = Color(0.07450981, 0.4392157, 0.03137255, 1)
 layout_mode = 2
+texture = ExtResource("14_awtb3")
+patch_margin_left = 8
+patch_margin_top = 8
+patch_margin_right = 8
+patch_margin_bottom = 8
+
+[node name="Start" type="Button" parent="Ui/Rounds&Tiles/SideBar/StartContainer/Panel" unique_id=729254960]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -19.0
+offset_top = -11.5
+offset_right = 19.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
 size_flags_horizontal = 8
 size_flags_vertical = 8
 theme = ExtResource("10_ei7of")
 text = "Start"
 
-[node name="MarginContainer2" type="MarginContainer" parent="Ui" unique_id=989641397]
+[node name="HealthAndCoins" type="MarginContainer" parent="Ui" unique_id=989641397]
 layout_mode = 1
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -40.0
+offset_right = 96.0
 offset_bottom = 40.0
-grow_horizontal = 0
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Ui/MarginContainer2" unique_id=1888665964]
+[node name="HBoxContainer" type="HBoxContainer" parent="Ui/HealthAndCoins" unique_id=1888665964]
 layout_mode = 2
 
-[node name="TextureRect" type="TextureRect" parent="Ui/MarginContainer2/HBoxContainer" unique_id=1732746573]
+[node name="TextureRect" type="TextureRect" parent="Ui/HealthAndCoins/HBoxContainer" unique_id=1732746573]
 layout_mode = 2
 texture = ExtResource("12_kmpqp")
 stretch_mode = 4
 
-[node name="MoneyNum" type="Label" parent="Ui/MarginContainer2/HBoxContainer" unique_id=23445455]
+[node name="MoneyNum" type="Label" parent="Ui/HealthAndCoins/HBoxContainer" unique_id=23445455]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="Ui/MarginContainer2/HBoxContainer" unique_id=453172738]
+[node name="HBoxContainer2" type="HBoxContainer" parent="Ui/HealthAndCoins/HBoxContainer" unique_id=453172738]
 layout_mode = 2
 
-[node name="TextureRect" type="TextureRect" parent="Ui/MarginContainer2/HBoxContainer/HBoxContainer2" unique_id=132309790]
+[node name="TextureRect" type="TextureRect" parent="Ui/HealthAndCoins/HBoxContainer/HBoxContainer2" unique_id=132309790]
 layout_mode = 2
 texture = SubResource("PlaceholderTexture2D_kmpqp")
 stretch_mode = 4
 
-[node name="HealthNum" type="Label" parent="Ui/MarginContainer2/HBoxContainer/HBoxContainer2" unique_id=1580004134]
+[node name="HealthNum" type="Label" parent="Ui/HealthAndCoins/HBoxContainer/HBoxContainer2" unique_id=1580004134]
 unique_name_in_owner = true
 layout_mode = 2
 text = "10"
@@ -324,6 +559,3 @@ metadata/_edit_lock_ = true
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1246584213]
 environment = SubResource("Environment_qnaon")
-
-[connection signal="button_up" from="Ui/MarginContainer/Start" to="." method="_on_start_button_up"]
-[connection signal="button_up" from="Ui/MarginContainer/Start" to="Ui" method="_on_button_button_up"]

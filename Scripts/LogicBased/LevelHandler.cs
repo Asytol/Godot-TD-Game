@@ -14,15 +14,17 @@ public partial class LevelHandler : Node
     //[Export] private WavePreset[] WavePresets;
 
     private TextureRect CutSceneHandler;
+    private Label RoundText;
 
     [Signal]
 	public delegate void StartGameEventHandler();
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		GetNode<Button>("%Start").ButtonUp += OnStart;
-		//if/or is sadly faster than reflection ):
-		TileMapLayer.money += Waves[0].WaveMoney;
+        GetNode<Button>("%Start").ButtonUp += OnStart;
+        RoundText = GetNode<Label>("%RoundText");
+        //if/or is sadly faster than reflection ):
+        TileMapLayer.money += Waves[0].WaveMoney;
         TileMapLayer.MoneyNum.Text = Waves[0].WaveMoney.ToString();
 
         foreach (string SpawnerName in Waves[0].UsedSpawners)
@@ -43,8 +45,10 @@ public partial class LevelHandler : Node
 			GetNode<Node2D>("%DontTouch").PropagateCall("set_process", [false]);
 			GetNode<Node2D>("%DontTouch").Visible = false;
 			GetNode<Control>("Ui").Visible = false;
-		}
-	}
+        }
+
+        RoundText.Text = "Round" + "\n" + $"0/{Waves.Length}";
+    }
 	private bool CantFindIsDigitFunction(char c)
 	{
 		for (int i = 0; i < 10; i++)
@@ -75,8 +79,8 @@ public partial class LevelHandler : Node
 	private void OnStart()
 	{
 		if (RoundOver && CurrentWave < Waves.Length)
-		{
-			foreach (SpawnPreset preset in Waves[CurrentWave].Spawns)
+        {
+            foreach (SpawnPreset preset in Waves[CurrentWave].Spawns)
 			{
 				EnemiesAlive += preset.amount;
                 Node2D SpawnNode = GetNodeOrNull<Node2D>($"%{preset.SpawnerName}");
@@ -85,8 +89,9 @@ public partial class LevelHandler : Node
 				script.StartSpawn(preset);
 			}
 			RoundOver = false;
-			CurrentWave++;
-		}
+            CurrentWave++;
+            RoundText.Text = "Round" + "\n" + $"{CurrentWave}/{Waves.Length}";
+        }
 	}
 
 	private void ResumeScene()
