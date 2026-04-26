@@ -39,6 +39,7 @@ public partial class TileMapLayer : Godot.TileMapLayer
 
 
     private List<Vector2I> BuildQueue = new List<Vector2I>();
+    private bool Escaping;
 
     [Signal]
     public delegate void CustomTileChangedEventHandler();
@@ -87,24 +88,24 @@ public partial class TileMapLayer : Godot.TileMapLayer
 		if (@event is InputEventMouseButton eventMouseButton)
 		{
 			mouse_down = !mouse_down;
-			if (mouse_down && LevelHandler.RoundOver && !ButtonPressed && ((int)eventMouseButton.ButtonIndex) == 1)
-			{
-				if (PlaceTiles)
-				{
-					if (money >= TileScript.cost)
-					{
-						Godot.Vector2 MousePos = eventMouseButton.Position;
-						CreateTile(MousePos,TileScript.SourceId);
-					}
+            if (mouse_down && LevelHandler.RoundOver && !ButtonPressed && ((int)eventMouseButton.ButtonIndex) == 1)
+            {
+                //Buildings
+                if (PlaceBuildings)
+                {
+                    if (money >= BuildScript.cost)
+                    {
+                        CreateBuilding(eventMouseButton.Position);
+                    }
                 }
-                else if (PlaceBuildings)
-				{
-					if (money >= BuildScript.cost)
-					{
-						CreateBuilding(eventMouseButton.Position);
-					}
-				}
             }
+            if (!mouse_down && LevelHandler.RoundOver && !ButtonPressed && ((int)eventMouseButton.ButtonIndex) == 1)
+            {
+                ProcessBuildQueue();
+                Escaping = false;
+            }
+
+            // bing bang boom
             if (mouse_down && LevelHandler.RoundOver && !ButtonPressed && ((int)eventMouseButton.ButtonIndex) == 2)
             {
                 if (PlaceTiles)
@@ -123,40 +124,45 @@ public partial class TileMapLayer : Godot.TileMapLayer
         //
         if (@event is InputEventMouseMotion eventMouseMotion)
 		{
-			TileSignifier.GlobalPosition = ((Vector2I)eventMouseMotion.Position/cellsize)*cellsize;
-        }
-        ButtonPressed = false;
+            TileSignifier.GlobalPosition = ((Vector2I)eventMouseMotion.Position / cellsize) * cellsize;
 
-        //
-        if (@event is InputEventMouseMotion mouseMotion)
-        {
-            if (mouse_down)
+            if (mouse_down && PlaceTiles && !Escaping)
             {
-                Vector2I obj = new Vector2I(Mathf.FloorToInt(mouseMotion.Position.X / 16), Mathf.FloorToInt(mouseMotion.Position.Y / 16));
-                if (!BuildQueue.Contains(obj)){
+                Vector2I obj = new Vector2I(Mathf.FloorToInt(eventMouseMotion.Position.X / 16), Mathf.FloorToInt(eventMouseMotion.Position.Y / 16));
+                if (!BuildQueue.Contains(obj))
+                {
                     BuildQueue.Add(obj);
                 }
-                else{
-                    int StartIndex = BuildQueue.IndexOf(obj);
-                    if (StartIndex != -1)
+                else
+                {
+                    if (BuildQueue[^1] != obj)
                     {
-                        BuildQueue.RemoveAt(StartIndex);
+                        BuildQueue.RemoveRange(BuildQueue.IndexOf(obj), BuildQueue.Count - BuildQueue.IndexOf(obj));
                     }
+                }
+                int index = BuildQueue.IndexOf(obj);
+                if (!CheckIfFuckerGotNeighbours(index))
+                {
+                    //ConnectPaths(index);
                 }
                 QueueRedraw();
             }
             else
             {
                 BuildQueue.Clear();
+                QueueRedraw();
             }
         }
+        ButtonPressed = false;
     }
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
     {
-        if (mouse_down) { GD.Print("mouse down."); }
-        else {GD.Print("mouse not down");}
+        if (Input.IsActionJustPressed("Exit"))
+        {
+            Escaping = true;
+        }
 
         if (LevelHandler.RoundOver)
 		{
@@ -183,19 +189,40 @@ public partial class TileMapLayer : Godot.TileMapLayer
     {
         foreach (Vector2I tile in BuildQueue)
         {
-            GD.Print("Tiles: ");
-            GD.Print(tile);
-            DrawTexture(TileSignifier.Texture,tile*16,Colors.White);
+            DrawTexture(TileSignifier.Texture,tile*16,Color.Color8(255,255,255,150));
         }
     }
 
 
     private void CreateTile(Godot.Vector2 GlobalPosition, int sourceId)
     {
-        if (HoveringOnSumShit){return;}
+        if (HoveringOnSumShit) { return; }
         Godot.Vector2 LocalPos = ToLocal(GlobalPosition);
-		Vector2I TilePos = LocalToMap(LocalPos);
+        Vector2I TilePos = LocalToMap(LocalPos);
 
+        Tile_node Tile = grid.GetGridObject(TilePos.X, TilePos.Y);
+        if (GetCellSourceId(TilePos) == -1 && !Tile.occupied)
+        {
+            NewParticles(Particles2D);
+
+            money -= TileScript.cost;
+            MoneyNum.Text = money.ToString();
+            SetCell(TilePos, sourceId, TileScript.AtlasCoordinates / cellsize, 0);
+            if (Tile != null)
+            {
+                Tile.health = (float)GetCellTileData(TilePos).GetCustomData("health");
+                Tile.breakable = (bool)GetCellTileData(TilePos).GetCustomData("breakable");
+            }
+            Tile.occupied = true;
+            Tile.IndentedMoney = Mathf.RoundToInt(TileScript.cost * 0.75f);
+            EmitSignal("CustomTileChanged");
+            //UpdateTerrain(TilePos,3);
+        }
+    }
+    private void CreateTileI(Godot.Vector2I TilePos, int sourceId)
+    {
+        if (HoveringOnSumShit) { return; }
+        
 		Tile_node Tile = grid.GetGridObject(TilePos.X,TilePos.Y);
         if (GetCellSourceId(TilePos) == -1 && !Tile.occupied)
         {
@@ -377,14 +404,79 @@ public partial class TileMapLayer : Godot.TileMapLayer
     }
 
     private void NewParticles(GpuParticles2D GPUParticles2D)
-	{
-		Node node = GPUParticles2D.Duplicate();
+    {
+        Node node = GPUParticles2D.Duplicate();
         GpuParticles2D NewParticle = (GpuParticles2D)node;
         NewParticle.GlobalPosition = GPUParticles2D.GlobalPosition;
-		AddChild(NewParticle);
-		NewParticle.Restart();
-		NewParticle.Emitting = true;
-		NewParticle.Connect("finished",new Callable(NewParticle, nameof(QueueFree)));
+        AddChild(NewParticle);
+        NewParticle.Restart();
+        NewParticle.Emitting = true;
+        NewParticle.Connect("finished", new Callable(NewParticle, nameof(QueueFree)));
+    }
+
+    private void ProcessBuildQueue()
+    {
+        if (!PlaceTiles) { return; }
+
+        if (money >= TileScript.cost * BuildQueue.Count)
+        {
+            foreach (Vector2I TilePos in BuildQueue)
+            {
+                CreateTileI(TilePos, TileScript.SourceId);
+            }
+        }
+    }
+
+    private bool CheckIfFuckerGotNeighbours(int index)
+    {
+        if (index < 2){ return true; }
+        return Mathf.Abs(BuildQueue[index - 1].X - BuildQueue[index].X) <= 1 && Mathf.Abs(BuildQueue[index - 1].Y - BuildQueue[index].Y) <= 1;
+    }
+
+    private void ConnectPaths(int index)
+    {
+        Godot.Vector2 Direction = new Godot.Vector2(BuildQueue[index].X,BuildQueue[index].Y).DirectionTo(BuildQueue[index - 1]);
+
+        int DistX = Mathf.Abs(BuildQueue[index].X - BuildQueue[index - 1].X);
+        int DistY = Mathf.Abs(BuildQueue[index].Y - BuildQueue[index - 1].Y);
+
+        int stepX = Math.Sign(BuildQueue[index - 1].X - BuildQueue[index].X);
+        int stepY = Math.Sign(BuildQueue[index - 1].Y - BuildQueue[index].Y);
+
+        List<Vector2I> TempList = new List<Vector2I>();
+        if (DistX == DistY)
+        {
+            for (int i = 1; i < DistX; i++)
+            {
+                TempList.Add(new Vector2I(
+                    BuildQueue[index].X + (int)(i*Direction.X),
+                    BuildQueue[index].Y + (int)(i*Direction.Y)));
+            }
+        }
+        else if (DistX > DistY)
+        {
+            for (int x = 1; x < DistX; x++)
+            {
+                float t = (float)x / DistX;
+                TempList.Add(new Vector2I(
+                    BuildQueue[index].X + x * stepX,
+                    BuildQueue[index].Y + Mathf.FloorToInt(DistY * t) * stepY
+                ));
+            }
+        }
+        else
+        {
+            for (int y = 1; y < DistY; y++)
+            {
+                float t = (float)y / DistY;
+                TempList.Add(new Vector2I(
+                    BuildQueue[index].X + Mathf.FloorToInt(DistX * t) * stepX,
+                    BuildQueue[index].Y + y * stepY
+                ));
+            }
+        }
+
+        BuildQueue.InsertRange(index, TempList);
     }
 }
 
