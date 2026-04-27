@@ -16,6 +16,7 @@
 [ext_resource type="PackedScene" uid="uid://l14itu8jjarh" path="res://Scenes/Projectiles/Towers/BallistaTower.tscn" id="11_ytlt0"]
 [ext_resource type="PackedScene" uid="uid://koskhgp3xffg" path="res://Scenes/Projectiles/Towers/CannonTower.tscn" id="12_8j02k"]
 [ext_resource type="Texture2D" uid="uid://dcwkdl27nm5g4" path="res://Raw_sprites/TileMap/Coin.png" id="12_kmpqp"]
+[ext_resource type="FontFile" uid="uid://cpyolsdwwh06t" path="res://Fonts/PixelifySans-VariableFont_wght.ttf" id="13_wfuso"]
 [ext_resource type="Texture2D" uid="uid://bktholecjqbif" path="res://Raw_sprites/UI/DialogueBubble.png" id="14_awtb3"]
 [ext_resource type="PackedScene" uid="uid://bi678rx01tgmm" path="res://Scenes/Projectiles/Towers/WizardTower.tscn" id="16_s7j74"]
 [ext_resource type="Texture2D" uid="uid://ctg1ox4rmbbn0" path="res://Raw_sprites/UI/Item_frame.png" id="18_k3nk6"]
@@ -137,6 +138,10 @@ UsedSpawners = PackedStringArray("Spawner", "Spawner2")
 WaveMoney = 400
 metadata/_custom_type_script = "uid://bxq7b72m4anqj"
 
+[sub_resource type="Theme" id="Theme_hiam4"]
+default_font = ExtResource("13_wfuso")
+Label/font_sizes/font_size = 16
+
 [sub_resource type="LabelSettings" id="LabelSettings_11i1w"]
 line_spacing = -6.0
 font_size = 17
@@ -145,27 +150,31 @@ outline_color = Color(0, 0, 0, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_11i1w"]
 bg_color = Color(0.7109375, 0.56013256, 0.35546875, 1)
-corner_radius_top_left = 15
-corner_radius_top_right = 15
-corner_radius_bottom_right = 15
-corner_radius_bottom_left = 15
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.32729906, 0.32729903, 0.32729912, 1)
+corner_radius_top_left = 10
+corner_radius_bottom_left = 10
+shadow_size = 2
+shadow_offset = Vector2(-2, 0)
 
 [sub_resource type="Theme" id="Theme_wfuso"]
 Panel/styles/panel = SubResource("StyleBoxFlat_11i1w")
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wfuso"]
 bg_color = Color(0.5989584, 0.43576562, 0.2121311, 1)
-corner_radius_top_left = 4
-corner_radius_top_right = 4
-corner_radius_bottom_right = 4
-corner_radius_bottom_left = 4
+corner_radius_top_left = 5
+corner_radius_bottom_left = 5
 corner_detail = 4
 expand_margin_left = 4.0
 expand_margin_top = 4.0
 expand_margin_right = 4.0
 expand_margin_bottom = 4.0
 shadow_color = Color(0, 0, 0, 0.70980394)
-shadow_size = 4
+shadow_size = 1
+shadow_offset = Vector2(-1, 0)
 
 [sub_resource type="Theme" id="Theme_k3nk6"]
 Panel/styles/panel = SubResource("StyleBoxFlat_wfuso")
@@ -308,6 +317,7 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
+theme = SubResource("Theme_hiam4")
 text = "Round
 0/4"
 label_settings = SubResource("LabelSettings_11i1w")
@@ -323,9 +333,10 @@ layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -34.5
-offset_right = 34.5
-offset_bottom = 108.0
+offset_left = -33.0
+offset_top = 6.0
+offset_right = 36.0
+offset_bottom = 114.0
 grow_horizontal = 2
 theme_override_constants/margin_top = 8
 theme_override_constants/margin_bottom = -8
