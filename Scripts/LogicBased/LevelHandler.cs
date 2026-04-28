@@ -14,7 +14,11 @@ public partial class LevelHandler : Node
     //[Export] private WavePreset[] WavePresets;
 
     private TextureRect CutSceneHandler;
-    private Label RoundText;
+	private Label RoundText;
+
+
+	private bool Rebirthed = false;
+	private Node2D OriginalSpawner;
 
     [Signal]
 	public delegate void StartGameEventHandler();
@@ -25,8 +29,9 @@ public partial class LevelHandler : Node
         RoundText = GetNode<Label>("%RoundText");
         //if/or is sadly faster than reflection ):
         TileMapLayer.money += Waves[0].WaveMoney;
-        TileMapLayer.MoneyNum.Text = Waves[0].WaveMoney.ToString();
+		TileMapLayer.MoneyNum.Text = Waves[0].WaveMoney.ToString();
 
+		OriginalSpawner = GetNode<Node2D>("%Spawner");
         foreach (string SpawnerName in Waves[0].UsedSpawners)
         {
             Node2D SpawnNode = GetNodeOrNull<Node2D>($"%{SpawnerName}");
@@ -63,6 +68,10 @@ public partial class LevelHandler : Node
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
+		if (Rebirthed)
+		{
+			
+		}
 	}
 	public void OnEnemyDeath()
 	{
@@ -130,9 +139,14 @@ public partial class LevelHandler : Node
             }
         }
     }
-    private bool CheckIfSomeoneIsFat(PackedScene Enemy)
-    {
-        Node2D Instance = Enemy.Instantiate<Node2D>();
-        return Instance is FatEnemy_base;
-    }
-}   
+	private bool CheckIfSomeoneIsFat(PackedScene Enemy)
+	{
+		Node2D Instance = Enemy.Instantiate<Node2D>();
+		return Instance is FatEnemy_base;
+	}
+
+	private void InstantiateCombinedSpawner()
+	{
+		SpawnPreset[] CombinedSpawns = Waves[CurrentWave - 1].Spawns;
+	}
+}

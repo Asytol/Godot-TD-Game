@@ -18,23 +18,23 @@
 - [X] Make enemies accept iframes for more than just the base_weapon script
 - [X] Have Levels not be able to overflow
 - [/] Fix so that placed tiles also auto adjust like terrain
-- [ ] Make so the stone tiles and hole tiles don't look wierd and fit the terrain.
-- [ ] Change Start button ui
+- [/] Make so the stone tiles and hole tiles don't look wierd and fit the terrain.
+- [X] Change Start button ui
 - [ ] Actually change quite some ui, im bad at ui
 - [ ] Add more weapons to the character obviously
 - [X] Have block ui be part of ui maybe and not a sprite2D   (only maybe, it works fine ig)
 - [X] Hide blocks when round started
 - [X] Add ability to actually place towers
 - [ ] Figure out how to make it into rebirth theme
-- [ ] Add Wave Counter
+- [X] Add Wave Counter
 - [ ] Change Background
 - [ ] Sort out if tower or the projectile set the damage
-- [ ] Make projectiles animated sprites
-- [ ] Be unable to place towers or tiles on the select tower ui in the corner.
+- [X] Make projectiles animated sprites
+- [X] Be unable to place towers or tiles on the select tower ui in the corner.
 - [/] Add cutscenes
 - [/] Add a story
 - [ ] Balance towers and enemies
-- [ ] Maybe make enemies get path from spawners instead of running their own pathfinding, since finish is stationary
+- [X] Maybe make enemies get path from spawners instead of running their own pathfinding, since finish is stationary
 
  - Add some particles ig, save that for last though
 
