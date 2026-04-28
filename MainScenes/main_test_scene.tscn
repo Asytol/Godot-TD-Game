@@ -454,7 +454,7 @@ unique_name_in_owner = true
 layout_mode = 2
 texture_normal = ExtResource("26_25yq8")
 script = ExtResource("27_3h30b")
-cost = 10
+cost = 5
 AtlasCoordinates = Vector2i(272, 64)
 
 [node name="MarginContainer2" type="MarginContainer" parent="Ui/Rounds&Tiles/SideBar/TowerAndTiles/VBoxContainer/TileContainer/VBox" unique_id=454300331]
@@ -467,7 +467,7 @@ unique_name_in_owner = true
 layout_mode = 2
 texture_normal = ExtResource("28_6beho")
 script = ExtResource("27_3h30b")
-cost = 15
+cost = 10
 
 [node name="StartContainer" type="MarginContainer" parent="Ui/Rounds&Tiles/SideBar" unique_id=2100704814]
 layout_mode = 1

@@ -73,10 +73,12 @@ spread = 5.0
 initial_velocity_min = 10.0
 initial_velocity_max = 20.0
 gravity = Vector3(0, 20, 0)
+scale_min = 1.5
+scale_max = 1.5
 
-[node name="Spawner" type="Node2D" unique_id=1605035797 node_paths=PackedStringArray("WarningParticles")]
+[node name="Spawner" type="Node2D" unique_id=1605035797 node_paths=PackedStringArray("ObstructionParticles")]
 script = ExtResource("1_j1qj0")
-WarningParticles = NodePath("GPUParticles2D2")
+ObstructionParticles = NodePath("ObstructionParticles")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=619206680]
 texture = ExtResource("2_i0vcd")
@@ -93,8 +95,9 @@ trail_sections = 2
 trail_section_subdivisions = 1
 process_material = SubResource("ParticleProcessMaterial_x5u7d")
 
-[node name="GPUParticles2D2" type="GPUParticles2D" parent="." unique_id=957572807]
+[node name="ObstructionParticles" type="GPUParticles2D" parent="." unique_id=957572807]
 emitting = false
 amount = 1
 texture = ExtResource("4_x5u7d")
+one_shot = true
 process_material = SubResource("ParticleProcessMaterial_jfci1")

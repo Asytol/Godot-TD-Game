@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Numerics;
 using Godot;
+using System.Diagnostics;
 
 public partial class Enemy_base : RigidBody2D
 {
@@ -44,9 +45,11 @@ public partial class Enemy_base : RigidBody2D
 
 	private bool KillingSelf = false;
 
-    public List<I_frame_obj> IFrameList = new List<I_frame_obj> { };
+	public List<I_frame_obj> IFrameList = new List<I_frame_obj> { };
+	
 
 
+	private Vector2I DebugDrawPoint;
     public override void _Ready()
 	{
 		Sprite = GetChild<AnimatedSprite2D>(0);
@@ -176,7 +179,9 @@ public partial class Enemy_base : RigidBody2D
 				Godot.Vector2I TileMapPosition = nodes[i].tilemap_position;
                 GlobalVelocity = Godot.Vector2.Zero;
 				while (true){
-					if (script.Area_damageI(TileMapPosition, 1)){break;}
+					if (script.Damage_tileI(TileMapPosition, 1)) { break; }
+					DebugDrawPoint = TileMapPosition;
+					GD.Print("pos: " + TileMapPosition);
 					await ToSignal(GetTree().CreateTimer(1/wall_damage), SceneTreeTimer.SignalName.Timeout);
 				}
                 nodes[i].is_obstruction = false;
@@ -241,6 +246,12 @@ public partial class Enemy_base : RigidBody2D
 		AddChild(NewParticle);
 		NewParticle.Restart();
 		NewParticle.Emitting = true;
-		NewParticle.Connect("finished",new Callable(NewParticle, nameof(QueueFree)));
-    }
+		NewParticle.Connect("finished", new Callable(NewParticle, nameof(QueueFree)));
+	}
+	
+
+	public override void _Draw()
+	{
+		DrawCircle(DebugDrawPoint*16, 2,Colors.Red);
+	}
 }

@@ -90,6 +90,11 @@ public partial class TileMapLayer : Godot.TileMapLayer
 			mouse_down = !mouse_down;
             if (mouse_down && LevelHandler.RoundOver && !ButtonPressed && ((int)eventMouseButton.ButtonIndex) == 1)
             {
+                if (PlaceTiles)
+                {
+                    Vector2I obj = new Vector2I(Mathf.FloorToInt(eventMouseButton.Position.X / 16), Mathf.FloorToInt(eventMouseButton.Position.Y / 16));
+                    BuildQueue.Add(obj);
+                }
                 //Buildings
                 if (PlaceBuildings)
                 {
@@ -194,7 +199,7 @@ public partial class TileMapLayer : Godot.TileMapLayer
     }
 
 
-    private void CreateTile(Godot.Vector2 GlobalPosition, int sourceId)
+    private async void CreateTile(Godot.Vector2 GlobalPosition, int sourceId)
     {
         if (HoveringOnSumShit) { return; }
         Godot.Vector2 LocalPos = ToLocal(GlobalPosition);
@@ -219,9 +224,10 @@ public partial class TileMapLayer : Godot.TileMapLayer
             //UpdateTerrain(TilePos,3);
         }
     }
-    private void CreateTileI(Godot.Vector2I TilePos, int sourceId)
+    private async void CreateTileI(Godot.Vector2I TilePos, int sourceId)
     {
         if (HoveringOnSumShit) { return; }
+
         
 		Tile_node Tile = grid.GetGridObject(TilePos.X,TilePos.Y);
         if (GetCellSourceId(TilePos) == -1 && !Tile.occupied)
