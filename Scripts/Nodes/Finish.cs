@@ -7,6 +7,8 @@ public partial class Finish : Area2D
     [Export] public float speed = 5;
 
     private Label HealthNum;
+
+    [Export] private GpuParticles2D OnHitParticles;
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
@@ -24,6 +26,7 @@ public partial class Finish : Area2D
     {
     	GD.Print("enemy reached flag");
         health--;
+        if (OnHitParticles != null) { OnHitParticles.Restart(); }
         if (body is Enemy_base script)
 		{
 			script.Damage(int.MaxValue,0,"finishflag");
@@ -40,4 +43,4 @@ public partial class Finish : Area2D
         SceneTransitioner script = Transitioner as SceneTransitioner;
         script.GoToScene(GetTree().Root.GetChild<Node>(1).Name.ToString());
     }
-}   
+}

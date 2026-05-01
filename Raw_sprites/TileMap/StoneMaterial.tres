@@ -1,0 +1,33 @@
+[gd_resource type="ShaderMaterial" format=3 uid="uid://dbbpsf8nudbdt"]
+
+[ext_resource type="Shader" uid="uid://detbyj5rgrevs" path="res://Scenes/tile_map_layer.gdshader" id="1_b7bwu"]
+
+[sub_resource type="Gradient" id="Gradient_p5ima"]
+interpolation_mode = 1
+offsets = PackedFloat32Array(0, 0.15384616, 0.26923078)
+colors = PackedColorArray(0.4609375, 0.4510908, 0.43572998, 1, 0.6015625, 0.5948313, 0.58433026, 1, 0.6862745, 0.73333335, 0.7647059, 1)
+metadata/_snap_enabled = true
+metadata/_snap_count = 52
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_u5ca1"]
+noise_type = 2
+seed = 3
+frequency = 0.002
+fractal_octaves = 3
+fractal_gain = 2.0
+fractal_weighted_strength = 0.51
+cellular_distance_function = 2
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_yehf8"]
+noise = SubResource("FastNoiseLite_u5ca1")
+color_ramp = SubResource("Gradient_p5ima")
+seamless = true
+
+[resource]
+shader = ExtResource("1_b7bwu")
+shader_parameter/noise_texture_1 = SubResource("NoiseTexture2D_yehf8")
+shader_parameter/scale1 = 0.006
+shader_parameter/Red1 = 0.0
+shader_parameter/Green1 = 0.0
+shader_parameter/Blue1 = 0.0
+shader_parameter/HeightLimit = 2

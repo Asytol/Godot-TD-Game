@@ -25,9 +25,9 @@
 - [X] Have block ui be part of ui maybe and not a sprite2D   (only maybe, it works fine ig)
 - [X] Hide blocks when round started
 - [X] Add ability to actually place towers
-- [ ] Figure out how to make it into rebirth theme
+- [/] Figure out how to make it into rebirth theme
 - [X] Add Wave Counter
-- [ ] Change Background
+- [X] Change Background
 - [ ] Sort out if tower or the projectile set the damage
 - [X] Make projectiles animated sprites
 - [X] Be unable to place towers or tiles on the select tower ui in the corner.

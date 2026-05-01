@@ -32,7 +32,7 @@ public partial class Spawner : Node2D
     private TileMapLayer tilemap;
     public override void _Ready()
     {
-        tilemap = GetNode<TileMapLayer>("%TileMap");
+        tilemap = GetTree().Root.GetChild(1).GetNode<TileMapLayer>("%TileMap");
         tilemap.Connect("CustomTileChanged", new Callable(this, nameof(ForceReCalculatePath)));
         tilemap.Connect("CustomTileChanged", new Callable(this, nameof(ForceReCalculateFatPath)));
         pathFinder = new PathFinder(mapwidth, mapheight, tilemap);

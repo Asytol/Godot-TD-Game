@@ -206,7 +206,10 @@ public partial class TileMapLayer : Godot.TileMapLayer
         Vector2I TilePos = LocalToMap(LocalPos);
 
         Tile_node Tile = grid.GetGridObject(TilePos.X, TilePos.Y);
-        if (GetCellSourceId(TilePos) == -1 && !Tile.occupied)
+        if (GetCellSourceId(TilePos) == 2) {SetCell(TilePos,-1);}//shrubs
+        else if (GetCellSourceId(TilePos) != -1) { return; }
+
+        if (!Tile.occupied)
         {
             NewParticles(Particles2D);
 
@@ -228,9 +231,12 @@ public partial class TileMapLayer : Godot.TileMapLayer
     {
         if (HoveringOnSumShit) { return; }
 
-        
-		Tile_node Tile = grid.GetGridObject(TilePos.X,TilePos.Y);
-        if (GetCellSourceId(TilePos) == -1 && !Tile.occupied)
+
+        Tile_node Tile = grid.GetGridObject(TilePos.X, TilePos.Y);
+
+        if (GetCellSourceId(TilePos) == 2) {SetCell(TilePos,-1);}//shrubs
+        else if (GetCellSourceId(TilePos) != -1) { return; }
+        if (!Tile.occupied)
         {
             NewParticles(Particles2D);
 
@@ -256,6 +262,8 @@ public partial class TileMapLayer : Godot.TileMapLayer
         Vector2I TilePos = LocalToMap(LocalPos);
         Tile_node Tile = grid.GetGridObject(TilePos.X,TilePos.Y);
         //if (grid.GetGridObject(Position.X,Position.Y))
+        if (GetCellSourceId(TilePos) == 2){SetCell(TilePos,-1);}//shrubage
+
         if ((GetCellSourceId(TilePos) == -1 && !Tile.occupied) || (!Tile.occupied && (bool)GetCellTileData(TilePos).GetCustomData("Buildable")))
         {
             Particles2D.Restart();

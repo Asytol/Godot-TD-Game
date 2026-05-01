@@ -1,0 +1,93 @@
+[gd_scene format=3 uid="uid://dor5lrdlgfxjy"]
+
+[sub_resource type="Gradient" id="Gradient_eon63"]
+interpolation_mode = 1
+offsets = PackedFloat32Array(0, 0.6510067)
+colors = PackedColorArray(1, 1, 1, 0, 0.14977217, 0.2786458, 0.1393229, 1)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_a4jea"]
+noise_type = 2
+seed = 1
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_lfes0"]
+noise = SubResource("FastNoiseLite_a4jea")
+color_ramp = SubResource("Gradient_eon63")
+
+[sub_resource type="Gradient" id="Gradient_25yq8"]
+interpolation_mode = 1
+offsets = PackedFloat32Array(0, 0.7315436)
+colors = PackedColorArray(1, 1, 1, 0, 0.17880255, 0.3515625, 0.16479492, 1)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_3h30b"]
+noise_type = 2
+frequency = 0.02
+fractal_type = 2
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_6beho"]
+noise = SubResource("FastNoiseLite_3h30b")
+color_ramp = SubResource("Gradient_25yq8")
+
+[sub_resource type="Gradient" id="Gradient_wfuso"]
+interpolation_mode = 1
+offsets = PackedFloat32Array(0, 0.68791944)
+colors = PackedColorArray(1, 1, 1, 0, 0.21459319, 0.3411458, 0.20433214, 1)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_k3nk6"]
+noise_type = 2
+seed = 5
+frequency = 0.032
+fractal_type = 2
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_hiam4"]
+noise = SubResource("FastNoiseLite_k3nk6")
+color_ramp = SubResource("Gradient_wfuso")
+
+[node name="ColorRect" type="ColorRect" unique_id=1932690567]
+z_index = -7
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.16350608, 0.3098958, 0.15252684, 1)
+metadata/_edit_lock_ = true
+
+[node name="TextureRect2" type="TextureRect" parent="." unique_id=232155569]
+self_modulate = Color(1, 1, 1, 0.78431374)
+z_index = -5
+z_as_relative = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = SubResource("NoiseTexture2D_lfes0")
+
+[node name="TextureRect3" type="TextureRect" parent="." unique_id=883219276]
+self_modulate = Color(1, 1, 1, 0.78431374)
+z_index = -6
+z_as_relative = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = SubResource("NoiseTexture2D_6beho")
+
+[node name="TextureRect4" type="TextureRect" parent="." unique_id=67726222]
+self_modulate = Color(1, 1, 1, 0.78431374)
+z_index = -7
+z_as_relative = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = SubResource("NoiseTexture2D_hiam4")

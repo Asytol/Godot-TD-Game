@@ -1,0 +1,62 @@
+[gd_resource type="ShaderMaterial" format=3 uid="uid://6teeoougqwnv"]
+
+[ext_resource type="Shader" uid="uid://d1q7sudvcisa3" path="res://Raw_sprites/TileMap/Waves.gdshader" id="1_w2tj2"]
+
+[sub_resource type="Gradient" id="Gradient_u5ca1"]
+interpolation_mode = 1
+offsets = PackedFloat32Array(0, 0.25, 0.3425926)
+colors = PackedColorArray(0.12156863, 0.29803923, 0.7490196, 1, 0.12156863, 0.21568628, 0.7490196, 1, 0.09411765, 0.16470589, 0.5803922, 1)
+metadata/_snap_enabled = true
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_yehf8"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_6cgyq"]
+width = 1000
+height = 1000
+noise = SubResource("FastNoiseLite_yehf8")
+color_ramp = SubResource("Gradient_u5ca1")
+
+[sub_resource type="Gradient" id="Gradient_yehf8"]
+interpolation_mode = 1
+offsets = PackedFloat32Array(0, 0.2, 0.4)
+colors = PackedColorArray(0.12156863, 0.29803923, 0.7490196, 1, 0.12156863, 0.21568628, 0.7490196, 1, 0.09411765, 0.16470589, 0.5803922, 1)
+metadata/_snap_enabled = true
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_6cgyq"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_a5obw"]
+width = 1000
+height = 1000
+noise = SubResource("FastNoiseLite_6cgyq")
+color_ramp = SubResource("Gradient_yehf8")
+
+[sub_resource type="Gradient" id="Gradient_6cgyq"]
+interpolation_mode = 1
+offsets = PackedFloat32Array(0, 0.2, 0.3)
+colors = PackedColorArray(1, 1, 1, 1, 0.71875, 0.71875, 0.71875, 0.74509805, 1, 1, 1, 0)
+metadata/_snap_enabled = true
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_a5obw"]
+noise_type = 3
+frequency = 0.1008
+fractal_type = 0
+fractal_gain = 20.0
+fractal_weighted_strength = 0.2
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_cwa1k"]
+width = 1200
+height = 1500
+noise = SubResource("FastNoiseLite_a5obw")
+color_ramp = SubResource("Gradient_6cgyq")
+
+[resource]
+shader = ExtResource("1_w2tj2")
+shader_parameter/texture1 = SubResource("NoiseTexture2D_6cgyq")
+shader_parameter/scale1 = 0.005
+shader_parameter/Mix1 = 1.0
+shader_parameter/texture2 = SubResource("NoiseTexture2D_a5obw")
+shader_parameter/scale2 = 0.005
+shader_parameter/Mix2 = 0.5000000074506
+shader_parameter/white_texture = SubResource("NoiseTexture2D_cwa1k")
+shader_parameter/scale3 = 0.005
+shader_parameter/Mix3 = 0.30000000447036

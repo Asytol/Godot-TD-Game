@@ -26,6 +26,7 @@ public partial class LevelHandler : Node
 	public override void _Ready()
 	{
         GetNode<Button>("%Start").ButtonUp += OnStart;
+        GD.Print("got start");
         RoundText = GetNode<Label>("%RoundText");
         //if/or is sadly faster than reflection ):
         TileMapLayer.money += Waves[0].WaveMoney;

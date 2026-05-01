@@ -1,14 +1,70 @@
 [gd_scene format=3 uid="uid://bvb6dnwk6e2"]
 
+[ext_resource type="Script" uid="uid://djqav5vuqv6ke" path="res://Scripts/Nodes/Finish.cs" id="1_bgj60"]
 [ext_resource type="Texture2D" uid="uid://c4cbt4mdmttym" path="res://Raw_sprites/Towers/chest_full_open_anim_f2.png" id="1_nv66a"]
+[ext_resource type="Texture2D" uid="uid://d0pido6gcpqk3" path="res://Raw_sprites/UI/PlainWhite.png" id="2_o6pr6"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_uix65"]
 size = Vector2(16, 16)
 
-[node name="Finish" type="Area2D" unique_id=1400412053]
+[sub_resource type="Curve" id="Curve_nv66a"]
+_limits = [0.0, 1000.0, 0.0, 100.0]
+_data = [Vector2(0, 93.023315), 0.0, 0.0, 0, 0, Vector2(25.925926, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_o6pr6"]
+curve = SubResource("Curve_nv66a")
+
+[sub_resource type="Curve" id="Curve_o6pr6"]
+_limits = [-2.0, 2.0, 0.0, 1.0]
+_data = [Vector2(0, -2), 0.0, 0.0, 0, 0, Vector2(0.10370371, 2), 0.0, 0.0, 0, 0, Vector2(0.2, -2), 0.0, 0.0, 0, 0, Vector2(0.30370373, 2), 0.0, 0.0, 0, 0, Vector2(0.38148147, -2), 0.0, 0.0, 0, 0, Vector2(0.5, 2), 0.0, 0.0, 0, 0, Vector2(0.5740741, -2), 0.0, 0.0, 0, 0, Vector2(0.64444447, 2), 0.0, 0.0, 0, 0, Vector2(0.7407407, -2), 0.0, 0.0, 0, 0, Vector2(0.82592595, 2), 0.0, 0.0, 0, 0, Vector2(1, -2), 0.0, 0.0, 0, 0, Vector2(1, -2), 0.0, 0.0, 0, 0]
+point_count = 12
+
+[sub_resource type="CurveTexture" id="CurveTexture_bgj60"]
+curve = SubResource("Curve_o6pr6")
+
+[sub_resource type="Curve" id="Curve_bgj60"]
+_limits = [0.0, 2.0, 0.0, 1.0]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 2), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_6tqh2"]
+curve = SubResource("Curve_bgj60")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_nv66a"]
+particle_flag_disable_z = true
+spread = 180.0
+initial_velocity_min = 250.0
+initial_velocity_max = 250.0
+angular_velocity_min = -20.000015
+angular_velocity_max = 19.999983
+orbit_velocity_min = 9.49949e-08
+orbit_velocity_max = 0.080000095
+orbit_velocity_curve = SubResource("CurveTexture_bgj60")
+gravity = Vector3(0, 0, 0)
+damping_min = 5.0
+damping_max = 5.0
+damping_curve = SubResource("CurveTexture_o6pr6")
+scale_min = 3.0
+scale_max = 3.0
+scale_curve = SubResource("CurveTexture_6tqh2")
+
+[node name="Finish" type="Area2D" unique_id=1400412053 node_paths=PackedStringArray("OnHitParticles")]
+script = ExtResource("1_bgj60")
+OnHitParticles = NodePath("GPUParticles2D")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=376689741]
 texture = ExtResource("1_nv66a")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=901253533]
 shape = SubResource("RectangleShape2D_uix65")
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="." unique_id=349296110]
+self_modulate = Color(0.6927084, 0.05592178, 0.05592178, 1)
+emitting = false
+amount = 50
+texture = ExtResource("2_o6pr6")
+lifetime = 0.9
+speed_scale = 4.0
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_nv66a")
