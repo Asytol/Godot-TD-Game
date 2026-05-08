@@ -30,4 +30,5 @@ shader_parameter/scale1 = 0.006
 shader_parameter/Red1 = 0.0
 shader_parameter/Green1 = 0.0
 shader_parameter/Blue1 = 0.0
-shader_parameter/HeightLimit = 2
+shader_parameter/HeightLimit = 2.0
+shader_parameter/HeightColor = Vector4(0, 0, 0, 1)

@@ -9,6 +9,10 @@
 [ext_resource type="Material" uid="uid://6teeoougqwnv" path="res://Raw_sprites/TileMap/WaveMaterial.tres" id="5_yehf8"]
 [ext_resource type="Texture2D" uid="uid://dmrawa55x0hwn" path="res://Raw_sprites/UI/SmokeParticle.png" id="6_4e4bf"]
 [ext_resource type="Texture2D" uid="uid://k44mxecogje8" path="res://Raw_sprites/TileMap/tree.png" id="6_yehf8"]
+[ext_resource type="Texture2D" uid="uid://dkel3rgusqr18" path="res://Raw_sprites/TileMap/UiTerrainTextures/CrackTextures/Crack1.png" id="8_vh02k"]
+[ext_resource type="Texture2D" uid="uid://c02jvigywd2iq" path="res://Raw_sprites/TileMap/UiTerrainTextures/CrackTextures/Crack2.png" id="9_pbh26"]
+[ext_resource type="Texture2D" uid="uid://c0fnvym7yabyy" path="res://Raw_sprites/TileMap/UiTerrainTextures/CrackTextures/Crack3.png" id="10_ad2yu"]
+[ext_resource type="Texture2D" uid="uid://derw01uvn5j17" path="res://Raw_sprites/TileMap/UiTerrainTextures/CrackTextures/Crack4.png" id="11_lbmh7"]
 [ext_resource type="Theme" uid="uid://b4ytiaxr0csu4" path="res://Raw_sprites/UI/Box_theme.tres" id="11_yehf8"]
 [ext_resource type="StyleBox" uid="uid://c0xoc2o2yqhdc" path="res://Raw_sprites/UI/StyleBoxBlueTheme.tres" id="12_6cgyq"]
 
@@ -1109,6 +1113,10 @@ tile_map_data = PackedByteArray("AAD/////AAARAAUAAAAAAP//AAAUAAUAAAABAP//AAAUAAU
 tile_set = SubResource("TileSet_mtg6t")
 navigation_enabled = false
 script = ExtResource("4_bsuvp")
+Crack1 = ExtResource("8_vh02k")
+Crack2 = ExtResource("9_pbh26")
+Crack3 = ExtResource("10_ad2yu")
+CocaineCrack4 = ExtResource("11_lbmh7")
 
 [node name="TileSignifier" type="Sprite2D" parent="." unique_id=637838694]
 unique_name_in_owner = true

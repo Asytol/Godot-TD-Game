@@ -3,6 +3,7 @@ using Godot;
 
 public class Tile_node
 {
+    public float OriginalHealth;
     public float health;
     public bool breakable = false;
     public bool occupied;

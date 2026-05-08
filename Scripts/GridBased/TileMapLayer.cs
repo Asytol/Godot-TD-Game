@@ -18,6 +18,13 @@ public partial class TileMapLayer : Godot.TileMapLayer
 	public static bool PlaceBuildings = false;
 	[Export] public Terrain_tile_button TileScript;
 	[Export] public Build_tile BuildScript;
+
+    [Export] private Texture2D Crack1;
+    [Export] private Texture2D Crack2;
+    [Export] private Texture2D Crack3;
+    [Export] private Texture2D CocaineCrack4;
+    private List<CrackTextureSignifier> CrackList = new List<CrackTextureSignifier>();
+
 	private bool hidden = false;
 	//
     private TextureRect TowerContainer;
@@ -196,6 +203,10 @@ public partial class TileMapLayer : Godot.TileMapLayer
         {
             DrawTexture(TileSignifier.Texture,tile*16,Color.Color8(255,255,255,150));
         }
+        foreach (CrackTextureSignifier Crack in CrackList)
+        {
+            DrawTexture(Crack.Texture,  Crack.Positon,Colors.White);
+        }
     }
 
 
@@ -306,6 +317,8 @@ public partial class TileMapLayer : Godot.TileMapLayer
 		Tile_node Tile = grid.GetGridObject(TilePos.X,TilePos.Y);
 		Tile.health -= damage;
 
+        AddCracks(Tile,GlobalPosition);
+
 		if (Tile.health < 0 && Tile.breakable == true){
             SetCell(TilePos, -1, Godot.Vector2I.Zero, -1);
             //EmitSignal("CustomTileChanged");
@@ -319,6 +332,8 @@ public partial class TileMapLayer : Godot.TileMapLayer
 	{
 		Tile_node Tile = grid.GetGridObject(TilePos.X,TilePos.Y);
 		Tile.health -= damage;
+
+        AddCracks(Tile, TilePos*cellsize);
 
 		if (Tile.health < 0 && Tile.breakable){
             SetCell(TilePos, -1, Godot.Vector2I.Zero, -1);
@@ -491,6 +506,66 @@ public partial class TileMapLayer : Godot.TileMapLayer
         }
 
         BuildQueue.InsertRange(index, TempList);
+    }
+
+
+    private void AddCracks(Tile_node Tile, Godot.Vector2 Position)
+    {
+        if (Tile.health != 0)
+        {
+            float percentage = Tile.health / Tile.OriginalHealth;
+            if (percentage > 0.75 && percentage < 1.0)
+            {
+                foreach (CrackTextureSignifier crack in CrackList){
+                    if (crack.Positon == Position){
+                        if (crack.Texture != Crack1){
+                            crack.Texture = Crack1;   
+                        }
+                        goto end;
+                    }
+                }
+                CrackList.Add(new CrackTextureSignifier(Position, Crack1));
+                
+            }
+            else if (percentage > 0.5)
+            {
+                foreach (CrackTextureSignifier crack in CrackList){
+                    if (crack.Positon == Position){
+                        if (crack.Texture != Crack2){
+                            crack.Texture = Crack2;   
+                        }
+                        goto end;
+                    }
+                }
+                CrackList.Add(new CrackTextureSignifier(Position, Crack2));
+            }
+            else if (percentage > 0.25)
+            {
+                foreach (CrackTextureSignifier crack in CrackList){
+                    if (crack.Positon == Position){
+                        if (crack.Texture != Crack3){
+                            crack.Texture = Crack3;   
+                        }
+                        goto end;
+                    }
+                }
+                CrackList.Add(new CrackTextureSignifier(Position, Crack3));
+            }
+            else
+            {
+                foreach (CrackTextureSignifier crack in CrackList){
+                    if (crack.Positon == Position){
+                        if (crack.Texture != CocaineCrack4){
+                            crack.Texture = CocaineCrack4;   
+                        }
+                        goto end;
+                    }
+                }
+                CrackList.Add(new CrackTextureSignifier(Position, CocaineCrack4));
+            }
+        }
+        end:
+        QueueRedraw();
     }
 }
 

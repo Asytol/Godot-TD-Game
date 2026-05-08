@@ -28,6 +28,7 @@
 [ext_resource type="Texture2D" uid="uid://bi82ketkd1p5m" path="res://Raw_sprites/TileMap/UiTerrainTextures/Brick.png" id="26_25yq8"]
 [ext_resource type="Script" uid="uid://ijp6ng4aw433" path="res://Scripts/GridBased/Terrain_tile_button.cs" id="27_3h30b"]
 [ext_resource type="Texture2D" uid="uid://b3k8p786tfmsj" path="res://Raw_sprites/TileMap/UiTerrainTextures/StoneBrick.png" id="28_6beho"]
+[ext_resource type="Texture2D" uid="uid://dv1tnv1gxuor7" path="res://Raw_sprites/UI/heart.png" id="28_k3nk6"]
 [ext_resource type="PackedScene" uid="uid://dor5lrdlgfxjy" path="res://Scenes/UI/GrassBackground.tscn" id="30_k3nk6"]
 
 [sub_resource type="Resource" id="Resource_dooye"]
@@ -179,9 +180,6 @@ shadow_offset = Vector2(-1, 0)
 [sub_resource type="Theme" id="Theme_k3nk6"]
 Panel/styles/panel = SubResource("StyleBoxFlat_wfuso")
 
-[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_kmpqp"]
-size = Vector2(32, 32)
-
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_awtb3"]
 
 [sub_resource type="NoiseTexture2D" id="NoiseTexture2D_qnaon"]
@@ -210,10 +208,10 @@ noise = SubResource("FastNoiseLite_qnaon")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_oplss"]
 shader = ExtResource("19_qnaon")
-shader_parameter/fog_color = Color(1, 1, 1, 0.5803922)
-shader_parameter/center_pos = Vector2(576, 324)
+shader_parameter/fog_color = Color(1, 1, 1, 0.18431373)
+shader_parameter/center_pos = Vector2(960, 600)
 shader_parameter/inner_radius = 240.0
-shader_parameter/outer_radius = 1300.0
+shader_parameter/outer_radius = 1500.0
 shader_parameter/use_noise_layer_1 = true
 shader_parameter/noise_texture_1 = SubResource("NoiseTexture2D_ugl54")
 shader_parameter/noise_scale_1 = 4.0
@@ -532,7 +530,7 @@ layout_mode = 2
 
 [node name="TextureRect" type="TextureRect" parent="Ui/HealthAndCoins/HBoxContainer/HBoxContainer2" unique_id=132309790]
 layout_mode = 2
-texture = SubResource("PlaceholderTexture2D_kmpqp")
+texture = ExtResource("28_k3nk6")
 stretch_mode = 4
 
 [node name="HealthNum" type="Label" parent="Ui/HealthAndCoins/HBoxContainer/HBoxContainer2" unique_id=1580004134]
