@@ -45,6 +45,12 @@ public partial class CutsceneHandler : TextureRect
             {
                 CurrentLetter++;
                 TextLabel.VisibleCharacters = CurrentLetter;
+                if (Input.IsActionJustReleased("Next"))
+                {
+                    CurrentLetter = TextLabel.GetTotalCharacterCount();
+                    TextLabel.VisibleCharacters = CurrentLetter;
+                    break;
+                }
                 await ToSignal(GetTree().CreateTimer(AwaitTime), SceneTreeTimer.SignalName.Timeout);
             }
 
