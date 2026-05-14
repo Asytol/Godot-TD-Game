@@ -1,14 +1,19 @@
 using System;
 using System.Diagnostics;
+using System.Threading.Tasks;
 using Godot;
 using static System.Net.Mime.MediaTypeNames;
 
 public partial class CutsceneHandler : TextureRect
 {
     [Export] DialogueHandle[] Dialogues;
+    [Export] TextureRect ArrowTexture;
     private RichTextLabel TextLabel;
     private string CurrentText;
     private int CurrentLetter = 0;
+
+    private bool escaping;
+    private float CutsceneSkipTimeSafetyLock;
 
     [Signal]
     public delegate void CutsceneFinishedEventHandler();
@@ -17,13 +22,28 @@ public partial class CutsceneHandler : TextureRect
     {
         TextLabel = GetChild<NinePatchRect>(0).GetChild<MarginContainer>(0).GetChild<RichTextLabel>(0);
         Visible = true;
+        escaping = false;
+        ArrowTexture.Visible = false;
         RenderText();
+    }
+    public override void _Process(double delta)
+    {
+        if (Input.IsActionJustPressed("Next") && CutsceneSkipTimeSafetyLock <= 0)
+        {
+            escaping = true;
+        }
+        else
+        {
+            CutsceneSkipTimeSafetyLock -= (float)delta;
+        }
     }
 
     private async void RenderText()
     {
         foreach (DialogueHandle handle in Dialogues)
         {
+            ArrowTexture.Visible = false;
+            CutsceneSkipTimeSafetyLock = 0.4f;
             if (handle.Background != null) { this.Texture = handle.Background; }
             if (handle.NewBubble)
             {
@@ -45,10 +65,11 @@ public partial class CutsceneHandler : TextureRect
             {
                 CurrentLetter++;
                 TextLabel.VisibleCharacters = CurrentLetter;
-                if (Input.IsActionJustReleased("Next"))
+                if (escaping)
                 {
                     CurrentLetter = TextLabel.GetTotalCharacterCount();
                     TextLabel.VisibleCharacters = CurrentLetter;
+                    escaping = false;
                     break;
                 }
                 await ToSignal(GetTree().CreateTimer(AwaitTime), SceneTreeTimer.SignalName.Timeout);
@@ -56,6 +77,7 @@ public partial class CutsceneHandler : TextureRect
 
             if (handle.WaitForEnter)
             {
+                ArrowTexture.Visible = true;
                 while (!Input.IsActionJustPressed("Next"))
                 {
                     await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c4cbt4mdmttym"
-path="res://.godot/imported/chest_full_open_anim_f2.png-e0267fe4758bd0e1eacb9862d5c11f0a.ctex"
+uid="uid://d1talw3sq7fac"
+path="res://.godot/imported/SoulParticle.png-eaf2be0f90443faf532bbfc629e7a553.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Raw_sprites/Towers/chest_full_open_anim_f2.png"
-dest_files=["res://.godot/imported/chest_full_open_anim_f2.png-e0267fe4758bd0e1eacb9862d5c11f0a.ctex"]
+source_file="res://Raw_sprites/UI/SoulParticle.png"
+dest_files=["res://.godot/imported/SoulParticle.png-eaf2be0f90443faf532bbfc629e7a553.ctex"]
 
 [params]
 

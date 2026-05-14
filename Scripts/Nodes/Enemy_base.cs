@@ -11,7 +11,8 @@ public partial class Enemy_base : RigidBody2D
 	private AnimatedSprite2D Sprite;
 	[Export] public Line2D this_line;
 	[Export] private Label DamageDisplay;
-    private GpuParticles2D Particles2D;
+    [Export] private GpuParticles2D DamageDisplayParticles;
+	[Export] private GpuParticles2D OnHitParticles;
     [Export] private GpuParticles2D DeathParticles;
     private RandomNumberGenerator rng = new RandomNumberGenerator();
 	
@@ -54,7 +55,7 @@ public partial class Enemy_base : RigidBody2D
 	{
 		Sprite = GetChild<AnimatedSprite2D>(0);
 		DamageDisplay = GetNode<Label>("%DamageDisplay");
-		Particles2D = GetNode<GpuParticles2D>("%Particle");
+		DamageDisplayParticles = GetNode<GpuParticles2D>("%Particle");
 		//Child(0) is sceene transitioner :crying_emoji:
 		if (tilemap == null) { tilemap = GetTree().Root.GetChild(1).GetNode<TileMapLayer>("%TileMap"); }
 
@@ -113,8 +114,8 @@ public partial class Enemy_base : RigidBody2D
 		this_line.Visible = true;
 		DamageDisplay.Text = damage.ToString();
 		Godot.Vector2 ParticleVelocity = new Godot.Vector2(rng.RandfRange(-10, 10), 10);
-		Particles2D.EmitParticle(this.Transform, ParticleVelocity, Colors.Black, Colors.Black, 2);
-		Particles2D.GetChild<GpuParticles2D>(0).Restart();
+		DamageDisplayParticles.EmitParticle(this.Transform, ParticleVelocity, Colors.Black, Colors.Black, 2);
+		OnHitParticles.Restart();
 		IFrameList.Add(new I_frame_obj(name,StunDuration+ExtraIFrames));
 		health -= damage;
 		if (health <= 0 && !KillingSelf) { KillYourself(); }
@@ -215,7 +216,7 @@ public partial class Enemy_base : RigidBody2D
 	{
         KillingSelf = true;
         TileMapLayer.money += MoneyDrops;
-        GetTree().Root.GetChild<LevelHandler>(1).OnEnemyDeath();
+        GetTree().Root.GetChild<LevelHandler>(1).OnEnemyDeath(GlobalPosition);
 		Tween tween = CreateTween();
 
 		AngularVelocity = 4000;

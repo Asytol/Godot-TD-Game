@@ -3,12 +3,17 @@
 [ext_resource type="Script" uid="uid://cm8h1wkvqn26w" path="res://Scripts/CutsceneHandler.cs" id="1_ofndg"]
 [ext_resource type="Texture2D" uid="uid://dnbrsh5txxmn4" path="res://BigYahu.jpg" id="1_wmki0"]
 [ext_resource type="Texture2D" uid="uid://bktholecjqbif" path="res://Raw_sprites/UI/DialogueBubble.png" id="4_jlpl6"]
+[ext_resource type="Shader" uid="uid://4p4xjpkm3k5c" path="res://Raw_sprites/UI/FadeEffect.gdshader" id="4_n2n0a"]
+[ext_resource type="Texture2D" uid="uid://ci0g8upcx8q8q" path="res://Raw_sprites/UI/Arrow.png" id="4_n3btn"]
 
 [sub_resource type="Theme" id="Theme_jlpl6"]
 Label/colors/font_color = Color(0, 0, 0, 1)
 Label/colors/font_outline_color = Color(1, 1, 1, 1)
 
-[node name="Background" type="TextureRect" unique_id=1298014254]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_hymdd"]
+shader = ExtResource("4_n2n0a")
+
+[node name="Background" type="TextureRect" unique_id=1298014254 node_paths=PackedStringArray("ArrowTexture")]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -19,6 +24,7 @@ size_flags_vertical = 8
 texture = ExtResource("1_wmki0")
 script = ExtResource("1_ofndg")
 Dialogues = Array[Object]([])
+ArrowTexture = NodePath("Bubble/MarginContainer/Arrow")
 
 [node name="Bubble" type="NinePatchRect" parent="." unique_id=337146498]
 layout_mode = 1
@@ -55,3 +61,11 @@ layout_mode = 2
 theme = SubResource("Theme_jlpl6")
 theme_override_colors/default_color = Color(0, 0, 0, 1)
 bbcode_enabled = true
+
+[node name="Arrow" type="TextureRect" parent="Bubble/MarginContainer" unique_id=1175366703]
+material = SubResource("ShaderMaterial_hymdd")
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+texture = ExtResource("4_n3btn")
+stretch_mode = 2

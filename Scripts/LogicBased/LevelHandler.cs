@@ -16,9 +16,11 @@ public partial class LevelHandler : Node
     private TextureRect CutSceneHandler;
 	private Label RoundText;
 
-
 	private bool Rebirthed = false;
 	private Node2D OriginalSpawner;
+
+
+	[Export] private Node2D Totem;
 
     [Signal]
 	public delegate void StartGameEventHandler();
@@ -48,12 +50,17 @@ public partial class LevelHandler : Node
 		{
 			CutSceneHandler.Connect("CutsceneFinished", new Callable(this, nameof(ResumeScene)));
 			//Getting the DONT TOUCH node, yeah im touching it. But only i can, not anyone else.
-			GetNode<Node2D>("%DontTouch").PropagateCall("set_process", [false]);
-			GetNode<Node2D>("%DontTouch").Visible = false;
-			GetNode<Control>("Ui").Visible = false;
+			GetNode<Node2D>("%2DNodes").PropagateCall("set_process", [false]);
+			GetNode<Node2D>("%2DNodes").Visible = false;
+			GetNode<Control>("ControlNodes").Visible = false;
         }
 
         RoundText.Text = "Round" + "\n" + $"0/{Waves.Length}";
+
+		if (Totem == null)
+		{
+			Totem = GetNode<Node2D>("%Finish");
+		}
     }
 	private bool CantFindIsDigitFunction(char c)
 	{
@@ -74,9 +81,11 @@ public partial class LevelHandler : Node
 			
 		}
 	}
-	public void OnEnemyDeath()
+	public void OnEnemyDeath(Vector2 Position)
 	{
 		EnemiesAlive--;
+		Finish script = Totem as Finish;
+		script.EmitSoul(Position);
 		if (EnemiesAlive == 0)
         {
         	DisableAndEnableSpawners();
@@ -84,6 +93,7 @@ public partial class LevelHandler : Node
             TileMapLayer.money += Waves[CurrentWave].WaveMoney;
             TileMapLayer.MoneyNum.Text = TileMapLayer.money.ToString();
         }
+
 	}
 
 	private void OnStart()
@@ -106,9 +116,9 @@ public partial class LevelHandler : Node
 
 	private void ResumeScene()
 	{
-		GetNode<Node2D>("%DontTouch").PropagateCall("set_process", [true]);
-		GetNode<Node2D>("%DontTouch").Visible = true;
-		GetNode<Control>("Ui").Visible = true;
+		GetNode<Node2D>("%2DNodes").PropagateCall("set_process", [true]);
+		GetNode<Node2D>("%2DNodes").Visible = true;
+		GetNode<Control>("ControlNodes").Visible = true;
 	}
     private void DisableAndEnableSpawners()
     {

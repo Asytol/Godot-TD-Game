@@ -107,10 +107,13 @@ initial_velocity_max = 100.0
 gravity = Vector3(0, 30, 0)
 damping_max = 82.031006
 
-[node name="Enemy" type="RigidBody2D" unique_id=618678956]
+[node name="Enemy" type="RigidBody2D" unique_id=618678956 node_paths=PackedStringArray("DamageDisplay", "DamageDisplayParticles", "OnHitParticles")]
 collision_layer = 2
 collision_mask = 4
 script = ExtResource("1_l82i1")
+DamageDisplay = NodePath("SubViewport/DamageDisplay")
+DamageDisplayParticles = NodePath("Particle")
+OnHitParticles = NodePath("OnHitParticles")
 Speed = 15
 Max_health = 400.0
 health = 400.0
@@ -173,8 +176,9 @@ emitting = false
 texture = SubResource("ViewportTexture_u0qt4")
 process_material = SubResource("ParticleProcessMaterial_3qvsp")
 
-[node name="GPUParticles2D" type="GPUParticles2D" parent="Particle" unique_id=1138680483]
+[node name="OnHitParticles" type="GPUParticles2D" parent="." unique_id=1138680483]
 modulate = Color(0.4583333, 0.05132379, 0.05132379, 1)
+position = Vector2(1, 0)
 emitting = false
 amount = 30
 texture = ExtResource("4_u0qt4")

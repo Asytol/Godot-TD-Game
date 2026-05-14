@@ -30,6 +30,8 @@
 [ext_resource type="Texture2D" uid="uid://b3k8p786tfmsj" path="res://Raw_sprites/TileMap/UiTerrainTextures/StoneBrick.png" id="28_6beho"]
 [ext_resource type="Texture2D" uid="uid://dv1tnv1gxuor7" path="res://Raw_sprites/UI/heart.png" id="28_k3nk6"]
 [ext_resource type="PackedScene" uid="uid://dor5lrdlgfxjy" path="res://Scenes/UI/GrassBackground.tscn" id="30_k3nk6"]
+[ext_resource type="Texture2D" uid="uid://d0pido6gcpqk3" path="res://Raw_sprites/UI/PlainWhite.png" id="31_eon63"]
+[ext_resource type="Script" uid="uid://caqq0qxyumwr0" path="res://Scripts/LogicBased/GeneralButtonClass.cs" id="32_a4jea"]
 
 [sub_resource type="Resource" id="Resource_dooye"]
 script = ExtResource("2_4bbre")
@@ -279,7 +281,7 @@ unique_name_in_owner = true
 position = Vector2(944, 576)
 
 [node name="Ui" type="Control" parent="." unique_id=1480055819]
-z_index = 1
+z_index = 10
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -551,6 +553,7 @@ position = Vector2(207, 361)
 base_spread = 10.0
 
 [node name="Fog" type="ColorRect" parent="." unique_id=1359454979]
+z_index = 5
 material = SubResource("ShaderMaterial_oplss")
 anchors_preset = 15
 anchor_right = 1.0
@@ -562,3 +565,60 @@ color = Color(1, 1, 1, 0.46600002)
 metadata/_edit_lock_ = true
 
 [node name="ColorRect" parent="." unique_id=1932690567 instance=ExtResource("30_k3nk6")]
+
+[node name="DefeatMenu" type="CenterContainer" parent="." unique_id=877297039]
+unique_name_in_owner = true
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="TextureRect" parent="DefeatMenu" unique_id=1760546625]
+self_modulate = Color(0, 0, 0, 0.84705883)
+custom_minimum_size = Vector2(200, 200)
+layout_mode = 2
+mouse_filter = 2
+theme = ExtResource("10_ytlt0")
+texture = ExtResource("31_eon63")
+
+[node name="Label" type="Label" parent="DefeatMenu/Panel" unique_id=78257928]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.1
+anchor_right = 0.5
+anchor_bottom = 0.1
+offset_left = -0.5
+offset_right = 0.5
+offset_bottom = 23.0
+grow_horizontal = 2
+text = "Game Over, you lost!!!"
+
+[node name="CenterContainer" type="CenterContainer" parent="DefeatMenu/Panel" unique_id=1929058001]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="InnerDefMenu" type="HBoxContainer" parent="DefeatMenu/Panel/CenterContainer" unique_id=1884315651]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="MainMenu" type="Button" parent="DefeatMenu/Panel/CenterContainer/InnerDefMenu" unique_id=1844786049]
+layout_mode = 2
+text = "Main Menu"
+script = ExtResource("32_a4jea")
+SendMessage = true
+message = "MainMenu"
+
+[node name="Restart" type="Button" parent="DefeatMenu/Panel/CenterContainer/InnerDefMenu" unique_id=1151887369]
+layout_mode = 2
+text = "Restart
+
+"
+script = ExtResource("32_a4jea")
+SendMessage = true
+message = "main_test_scene"

@@ -1,13 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Numerics;
 using Godot;
-using static System.Net.Mime.MediaTypeNames;
-using static Godot.GD;
 
 public partial class TileMapLayer : Godot.TileMapLayer
 {

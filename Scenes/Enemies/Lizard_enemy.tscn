@@ -125,10 +125,14 @@ damping_max = 100.00001
 scale_min = 2.0
 scale_max = 3.0
 
-[node name="Enemy" type="RigidBody2D" unique_id=447939803]
+[node name="Enemy" type="RigidBody2D" unique_id=447939803 node_paths=PackedStringArray("DamageDisplay", "DamageDisplayParticles", "OnHitParticles", "DeathParticles")]
 collision_layer = 2
 collision_mask = 4
 script = ExtResource("1_r88v8")
+DamageDisplay = NodePath("SubViewport/DamageDisplay")
+DamageDisplayParticles = NodePath("Particle")
+OnHitParticles = NodePath("BloodParticles")
+DeathParticles = NodePath("DeathParticles")
 Speed = 20
 ExtraIFrames = 0.5
 RotationSpeed = 0.5
@@ -185,8 +189,9 @@ emitting = false
 texture = SubResource("ViewportTexture_m4v34")
 process_material = SubResource("ParticleProcessMaterial_l0d1y")
 
-[node name="GPUParticles2D" type="GPUParticles2D" parent="Particle" unique_id=245418238]
+[node name="BloodParticles" type="GPUParticles2D" parent="." unique_id=245418238]
 modulate = Color(0.4583333, 0.05132379, 0.05132379, 1)
+position = Vector2(1, 0)
 emitting = false
 amount = 30
 texture = ExtResource("4_m4v34")
@@ -200,7 +205,7 @@ trail_sections = 7
 trail_section_subdivisions = 3
 process_material = SubResource("ParticleProcessMaterial_dcpct")
 
-[node name="GPUParticles2D" type="GPUParticles2D" parent="." unique_id=1768714675]
+[node name="DeathParticles" type="GPUParticles2D" parent="." unique_id=1768714675]
 modulate = Color(0.45882353, 0.050980393, 0.050980393, 1)
 emitting = false
 amount = 30
