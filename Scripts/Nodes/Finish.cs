@@ -64,7 +64,8 @@ public partial class Finish : Area2D
     private void OnDefeat()
     {
 		DefeatMenu.Visible = true;
-        GetTree().Root.GetChild(1).GetNode<Node2D>("%2DNodes").PropagateCall("set_process", [false]);
+        GetTree().Root.GetChild(1).PropagateCall("set_process", [false]);
+        GD.Print(GetTree().Root.GetChild(1).GetNode<Node2D>("%2DNodes"));
     }
 
     public void EmitSoul(Vector2 Position)

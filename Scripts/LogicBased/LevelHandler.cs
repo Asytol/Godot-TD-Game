@@ -27,6 +27,7 @@ public partial class LevelHandler : Node
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
+		CurrentWave = 0;	
         GetNode<Button>("%Start").ButtonUp += OnStart;
         GD.Print("got start");
         RoundText = GetNode<Label>("%RoundText");

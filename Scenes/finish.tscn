@@ -208,7 +208,7 @@ process_material = SubResource("ParticleProcessMaterial_efmqc")
 
 [node name="SoulSuckingParticles" type="GPUParticles2D" parent="." unique_id=1387059370]
 emitting = false
-amount = 5
+amount = 10
 texture = ExtResource("5_oub70")
 lifetime = 4.0
 one_shot = true

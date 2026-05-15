@@ -43,7 +43,7 @@ public partial class CutsceneHandler : TextureRect
         foreach (DialogueHandle handle in Dialogues)
         {
             ArrowTexture.Visible = false;
-            CutsceneSkipTimeSafetyLock = 0.4f;
+            CutsceneSkipTimeSafetyLock = 0.2f;
             if (handle.Background != null) { this.Texture = handle.Background; }
             if (handle.NewBubble)
             {

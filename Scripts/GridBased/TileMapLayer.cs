@@ -557,6 +557,15 @@ public partial class TileMapLayer : Godot.TileMapLayer
                 CrackList.Add(new CrackTextureSignifier(Position, CocaineCrack4));
             }
         }
+        else
+        {
+            for (int i = 0; i < CrackList.Count; i++){
+                if (CrackList[i].Positon == Position){
+                    CrackList.RemoveAt(i);
+                    goto end;
+                }
+            }
+        }
         end:
         QueueRedraw();
     }
