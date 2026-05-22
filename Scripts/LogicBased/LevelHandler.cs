@@ -42,6 +42,7 @@ public partial class LevelHandler : Node
             if (SpawnNode == null) {continue;}
             Spawner script = SpawnNode as Spawner;
             script.DrawPath = true;
+			script.QueueRedraw();
         }
 
         RoundOver = true;
@@ -138,18 +139,21 @@ public partial class LevelHandler : Node
 			Spawner script = SpawnNode as Spawner;
             script.DrawPath = true;
         }
-        foreach (SpawnPreset spawn in Waves[CurrentWave].Spawns)
+		if (Waves.Length <= CurrentWave)
 		{
-            if (CheckIfSomeoneIsFat(spawn.EnemyScene))
-            {
-                Node2D SpawnNode = GetNodeOrNull<Node2D>($"%{spawn.SpawnerName}");
-                if (SpawnNode == null) {continue;}
-				Spawner script = SpawnNode as Spawner;
-                script.SomeoneIsFat = true;
-                script.QueueRedraw();
-                break;
-            }
-        }
+			foreach (SpawnPreset spawn in Waves[CurrentWave].Spawns)
+			{
+				if (CheckIfSomeoneIsFat(spawn.EnemyScene))
+				{
+					Node2D SpawnNode = GetNodeOrNull<Node2D>($"%{spawn.SpawnerName}");
+					if (SpawnNode == null) {continue;}
+					Spawner script = SpawnNode as Spawner;
+					script.SomeoneIsFat = true;
+					script.QueueRedraw();
+					break;
+				}
+			}	
+		}
     }
 	private bool CheckIfSomeoneIsFat(PackedScene Enemy)
 	{

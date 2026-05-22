@@ -29,6 +29,12 @@ void fragment() {
 		
 		COLOR.rgb = pow(COLOR.rgb, vec3(2.2));
 	}
+	if (COLOR.b == 1.0){
+		COLOR = mix(COLOR,overlay_color_1,1);
+		COLOR.rgb -= 0.1;
+		
+		COLOR.rgb = pow(COLOR.rgb, vec3(2.2));
+	}
 	//COLOR = overlay_color_1;
 }
 

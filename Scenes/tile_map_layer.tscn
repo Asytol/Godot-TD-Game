@@ -1152,6 +1152,8 @@ texture = ExtResource("2_p1nli")
 16:3/0/z_index = -1
 15:3/0 = 0
 15:3/0/z_index = -1
+16:7/0 = 0
+16:7/0/material = ExtResource("2_p5ima")
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_2b3lv"]
 texture = ExtResource("3_lpbv4")
@@ -1411,6 +1413,8 @@ CocaineCrack4 = ExtResource("11_lbmh7")
 
 [node name="TileSignifier" type="Sprite2D" parent="." unique_id=637838694]
 unique_name_in_owner = true
+z_index = 9
+z_as_relative = false
 texture = ExtResource("2_p1nli")
 offset = Vector2(8, 8)
 region_enabled = true

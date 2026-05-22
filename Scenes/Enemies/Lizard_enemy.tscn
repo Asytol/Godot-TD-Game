@@ -133,7 +133,7 @@ DamageDisplay = NodePath("SubViewport/DamageDisplay")
 DamageDisplayParticles = NodePath("Particle")
 OnHitParticles = NodePath("BloodParticles")
 DeathParticles = NodePath("DeathParticles")
-Speed = 20
+Speed = 24
 ExtraIFrames = 0.5
 RotationSpeed = 0.5
 

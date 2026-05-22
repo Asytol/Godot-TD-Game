@@ -5,6 +5,13 @@
 [ext_resource type="Texture2D" uid="uid://d0pido6gcpqk3" path="res://Raw_sprites/UI/PlainWhite.png" id="3_i0vcd"]
 [ext_resource type="Texture2D" uid="uid://ul51uck6nbdg" path="res://Raw_sprites/UI/ExclemationMark.png" id="4_x5u7d"]
 
+[sub_resource type="Curve" id="Curve_x5u7d"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.49664432, 0.5711417), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_jfci1"]
+curve = SubResource("Curve_x5u7d")
+
 [sub_resource type="Gradient" id="Gradient_x5u7d"]
 colors = PackedColorArray(0.6666666, 0.09548612, 0.09548612, 1, 1, 1, 1, 1)
 
@@ -63,6 +70,7 @@ scale_max = 2.0
 scale_curve = SubResource("CurveTexture_ka0b3")
 color_ramp = SubResource("GradientTexture1D_x5u7d")
 color_initial_ramp = SubResource("GradientTexture1D_jfci1")
+alpha_curve = SubResource("CurveTexture_jfci1")
 hue_variation_min = -2.2351742e-08
 hue_variation_max = 0.09999997
 

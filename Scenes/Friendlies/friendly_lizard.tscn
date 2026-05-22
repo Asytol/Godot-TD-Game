@@ -1,0 +1,113 @@
+[gd_scene format=3 uid="uid://cpxk0w1koyuxl"]
+
+[ext_resource type="Shader" uid="uid://5iqs0wwd1j7w" path="res://Scenes/Friendlies/friendly_lizard.gdshader" id="1_7lvv3"]
+[ext_resource type="Texture2D" uid="uid://pomy66dfgb0a" path="res://Raw_sprites/Enemies/LizardWalking.png" id="1_quw2p"]
+[ext_resource type="Script" uid="uid://c5gbyp264t6ki" path="res://Scripts/Nodes/FriendlyLizardScript.cs" id="1_uauau"]
+[ext_resource type="Texture2D" uid="uid://cdv613ryd5ewh" path="res://Raw_sprites/Towers/RangeCircle.png" id="4_bdg6b"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_7lvv3"]
+shader = ExtResource("1_7lvv3")
+shader_parameter/ChangeSpeed = 1.0
+shader_parameter/BlueColorAmount = 0.10000000475
+shader_parameter/EnableShader = false
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_shveq"]
+atlas = ExtResource("1_quw2p")
+region = Rect2(32, 0, 16, 22)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_m4v34"]
+atlas = ExtResource("1_quw2p")
+region = Rect2(48, 0, 16, 22)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_l0d1y"]
+atlas = ExtResource("1_quw2p")
+region = Rect2(64, 0, 16, 22)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dcpct"]
+atlas = ExtResource("1_quw2p")
+region = Rect2(80, 0, 16, 22)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dv41o"]
+atlas = ExtResource("1_quw2p")
+region = Rect2(96, 0, 16, 22)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8edya"]
+atlas = ExtResource("1_quw2p")
+region = Rect2(112, 0, 16, 22)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uoto7"]
+atlas = ExtResource("1_quw2p")
+region = Rect2(128, 0, 16, 22)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1qpqk"]
+atlas = ExtResource("1_quw2p")
+region = Rect2(16, 0, 16, 22)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6017r"]
+atlas = ExtResource("1_quw2p")
+region = Rect2(0, 0, 16, 22)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_7wp3t"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_shveq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_m4v34")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_l0d1y")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dcpct")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dv41o")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8edya")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uoto7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1qpqk")
+}],
+"loop": true,
+"name": &"Walking",
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6017r")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_titcx"]
+size = Vector2(15, 19)
+
+[node name="FriendlyLizard" type="CharacterBody2D" unique_id=1517741578]
+collision_layer = 4
+motion_mode = 1
+script = ExtResource("1_uauau")
+
+[node name="Sprite2D" type="AnimatedSprite2D" parent="." unique_id=1152148023]
+z_index = 1
+material = SubResource("ShaderMaterial_7lvv3")
+position = Vector2(0, -1)
+sprite_frames = SubResource("SpriteFrames_7wp3t")
+
+[node name="Sprite2D2" type="Sprite2D" parent="." unique_id=1824778135]
+visible = false
+modulate = Color(1, 1, 1, 0.78431374)
+position = Vector2(0, 9)
+scale = Vector2(0.375, 0.09374999)
+texture = ExtResource("4_bdg6b")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1141165200]
+position = Vector2(0.5, 0.5)
+shape = SubResource("RectangleShape2D_titcx")

@@ -32,7 +32,7 @@ public partial class Enemy_base : RigidBody2D
 	[Export] public float RotationSpeed = 5;
 	[Export] public int MoneyDrops;
 	private PathFinder pathFinder;
-	[Export] public TileMapLayer tilemap;
+	[Export] public Godot.TileMapLayer tilemap;
 	public bool path_updated = false;
 	public const int cellsize=16;
 	private const int mapheight = 41;
@@ -57,7 +57,7 @@ public partial class Enemy_base : RigidBody2D
 		DamageDisplay = GetNode<Label>("%DamageDisplay");
 		DamageDisplayParticles = GetNode<GpuParticles2D>("%Particle");
 		//Child(0) is sceene transitioner :crying_emoji:
-		if (tilemap == null) { tilemap = GetTree().Root.GetChild(1).GetNode<TileMapLayer>("%TileMap"); }
+		if (tilemap == null) { tilemap = GetTree().Root.GetChild(1).GetNode<Godot.TileMapLayer>("%TileMap"); }
 
 		if (this_line == null){this_line = GetNode<Line2D>("Line2D"); }
 		og_line_width = this_line.Points[0].X;
@@ -121,7 +121,14 @@ public partial class Enemy_base : RigidBody2D
 		if (health <= 0 && !KillingSelf) { KillYourself(); }
 		Sprite.Play("default");
 
-		this_line.SetPointPosition(0,new Godot.Vector2(og_line_width * (health/Max_health),0));
+		if (health >= 0)
+		{
+			this_line.SetPointPosition(0,new Godot.Vector2(og_line_width * (health/Max_health),0));	
+		}
+		else
+		{
+			this_line.SetPointPosition(0,new Godot.Vector2(0,0));
+		}
 
 		if (this.StunDuration - C_StunDuration < StunDuration/StunResistance && StunDuration != 0)
 		{this.StunDuration = StunDuration/StunResistance; stunned = true;}
