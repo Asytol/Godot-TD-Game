@@ -515,6 +515,65 @@ script = ExtResource("26_h6uir")
 SendMessage = true
 message = "main_test_scene"
 
+[node name="WinMenu" type="CenterContainer" parent="ControlNodes" unique_id=1013380819]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="TextureRect" parent="ControlNodes/WinMenu" unique_id=684938161]
+self_modulate = Color(0, 0, 0, 0.84705883)
+custom_minimum_size = Vector2(200, 200)
+layout_mode = 2
+mouse_filter = 2
+theme = ExtResource("18_wh8ax")
+texture = ExtResource("25_h2bsp")
+
+[node name="Label" type="Label" parent="ControlNodes/WinMenu/Panel" unique_id=1104249754]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.1
+anchor_right = 0.5
+anchor_bottom = 0.1
+offset_left = -0.5
+offset_right = 0.5
+offset_bottom = 23.0
+grow_horizontal = 2
+text = "You won, Hooray!!!"
+
+[node name="CenterContainer" type="CenterContainer" parent="ControlNodes/WinMenu/Panel" unique_id=158544093]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="InnerWinMenu" type="HBoxContainer" parent="ControlNodes/WinMenu/Panel/CenterContainer" unique_id=1286748228]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="MainMenu" type="Button" parent="ControlNodes/WinMenu/Panel/CenterContainer/InnerWinMenu" unique_id=1317621207]
+layout_mode = 2
+text = "Main Menu"
+script = ExtResource("26_h6uir")
+SendMessage = true
+message = "main_menu"
+
+[node name="Next" type="Button" parent="ControlNodes/WinMenu/Panel/CenterContainer/InnerWinMenu" unique_id=2121874456]
+layout_mode = 2
+text = "Next Level
+
+"
+script = ExtResource("26_h6uir")
+SendMessage = true
+message = "Level1_Intermediary"
+
 [node name="Darkness" type="ColorRect" parent="ControlNodes" unique_id=2027249549]
 z_index = 4
 material = SubResource("ShaderMaterial_pjmbt")

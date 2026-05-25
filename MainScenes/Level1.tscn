@@ -700,17 +700,18 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="InnerDefMenu" type="HBoxContainer" parent="ControlNodes/WinMenu/Panel/CenterContainer" unique_id=276325458]
+[node name="InnerWinMenu" type="HBoxContainer" parent="ControlNodes/WinMenu/Panel/CenterContainer" unique_id=276325458]
+unique_name_in_owner = true
 layout_mode = 2
 
-[node name="MainMenu" type="Button" parent="ControlNodes/WinMenu/Panel/CenterContainer/InnerDefMenu" unique_id=349548802]
+[node name="MainMenu" type="Button" parent="ControlNodes/WinMenu/Panel/CenterContainer/InnerWinMenu" unique_id=349548802]
 layout_mode = 2
 text = "Main Menu"
 script = ExtResource("36_u7qye")
 SendMessage = true
 message = "main_menu"
 
-[node name="Restart" type="Button" parent="ControlNodes/WinMenu/Panel/CenterContainer/InnerDefMenu" unique_id=383442655]
+[node name="Next" type="Button" parent="ControlNodes/WinMenu/Panel/CenterContainer/InnerWinMenu" unique_id=383442655]
 layout_mode = 2
 text = "Next Level
 

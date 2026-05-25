@@ -14,7 +14,7 @@ void vertex() {
 void fragment() {
 	//COLOR.a = distance(UV,vec2(0.5,0.5))*2.0;
 	vec4 overlay_texture = texture(AddedTexture,vec2(world_position.x*TextSize+TIME*0.4,world_position.y*TextSize));
-	//overlay_texture *= texture(AddedTexture,vec2(world_position.x*TextSize-TIME*0.4,world_position.y*TextSize));
+	//vec4 overlay_texture_rev = texture(AddedTexture,vec2(world_position.x*TextSize-TIME*0.4,world_position.y*TextSize));
 	if ((distance(UV,vec2(0.5,0.5)) > 0.1)){
 		COLOR = mix(COLOR,overlay_texture,1.0);
 	}

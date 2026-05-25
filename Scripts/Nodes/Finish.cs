@@ -8,6 +8,7 @@ public partial class Finish : Area2D
 
     private Label HealthNum;
     private CenterContainer DefeatMenu;
+    private CenterContainer WinMenu;
 
     [Export] private GpuParticles2D OnHitParticles;
     [Export] private GpuParticles2D SoulSuckingParticles;
@@ -39,6 +40,14 @@ public partial class Finish : Area2D
 		{
 			button.Connect("SendString",new Callable(this, nameof(GoToLevel)));
 		}
+        if (WinMenu == null)
+        {
+            WinMenu = GetNode<CenterContainer>("%WinMenu");
+        }
+        foreach (BaseButton button in GetNode<HBoxContainer>("%InnerWinMenu").GetChildren())
+        {
+            button.Connect("SendString",new Callable(this, nameof(GoToLevel)));
+        }
     }
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
