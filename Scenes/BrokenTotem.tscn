@@ -2,7 +2,10 @@
 
 [ext_resource type="Texture2D" uid="uid://uejds8fk4hvg" path="res://Raw_sprites/Towers/BrokenTotem.png" id="1_s52m7"]
 [ext_resource type="Texture2D" uid="uid://d0pido6gcpqk3" path="res://Raw_sprites/UI/PlainWhite.png" id="2_sguju"]
+[ext_resource type="Script" uid="uid://bqoeugby77ubt" path="res://Scripts/Nodes/BrokenTotem.cs" id="2_vsqgu"]
 [ext_resource type="Shader" uid="uid://dgmgwsyer66c1" path="res://Scenes/BrokenTotem.gdshader" id="3_qnohg"]
+[ext_resource type="Texture2D" uid="uid://puboc7livuci" path="res://Raw_sprites/Materials/WoodMaterial.png" id="4_1rxjn"]
+[ext_resource type="FontFile" uid="uid://cpyolsdwwh06t" path="res://Fonts/PixelifySans-VariableFont_wght.ttf" id="5_io0o0"]
 
 [sub_resource type="Curve" id="Curve_sguju"]
 _data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.37583894, 0.7314974), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
@@ -82,8 +85,19 @@ colors = PackedColorArray(0.28001785, 0.29021308, 0.5410156, 1, 0.2784314, 0.290
 gradient = SubResource("Gradient_1rxjn")
 width = 20
 
-[node name="Sprite2D" type="Sprite2D" unique_id=2087812220]
-texture = ExtResource("1_s52m7")
+[sub_resource type="LabelSettings" id="LabelSettings_1rxjn"]
+font = ExtResource("5_io0o0")
+font_size = 14
+outline_size = 3
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_io0o0"]
+size = Vector2(22, 16)
+
+[node name="Sprite2D" type="Area2D" unique_id=379022898 node_paths=PackedStringArray("TreeSelectionLabel")]
+script = ExtResource("2_vsqgu")
+TreeReperationAmount = 3
+TreeSelectionLabel = NodePath("HBoxContainer/VBoxContainer/Label")
 
 [node name="GPUParticles2D" type="GPUParticles2D" parent="." unique_id=255641997]
 modulate = Color(0.60546875, 0.62550354, 1, 1)
@@ -98,3 +112,42 @@ rotation = -1.5707964
 scale = Vector2(1, 20)
 texture = SubResource("GradientTexture1D_io0o0")
 offset = Vector2(5, 0)
+
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=1694133964]
+z_index = 6
+z_as_relative = false
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -23.0
+offset_top = -60.0
+offset_right = 1.0
+offset_bottom = -20.0
+grow_horizontal = 2
+size_flags_horizontal = 3
+size_flags_vertical = 6
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer" unique_id=1705064809]
+layout_mode = 2
+theme_override_constants/separation = -2
+
+[node name="TextureRect" type="TextureRect" parent="HBoxContainer/VBoxContainer" unique_id=435145821]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("4_1rxjn")
+stretch_mode = 2
+
+[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer" unique_id=938606773]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "0/2"
+label_settings = SubResource("LabelSettings_1rxjn")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=866585417]
+position = Vector2(0, -2)
+shape = SubResource("RectangleShape2D_io0o0")
+
+[node name="TotemSprite" type="Sprite2D" parent="." unique_id=162479218]
+position = Vector2(0, -2)
+texture = ExtResource("1_s52m7")

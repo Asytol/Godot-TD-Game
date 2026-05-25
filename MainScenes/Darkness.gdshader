@@ -1,6 +1,8 @@
 shader_type canvas_item;
+render_mode unshaded;
 
-uniform float ShadowAmount : hint_range(0.0,2.0,0.1);
+
+uniform float ShadowAmount : hint_range(0.0,10.0,0.1);
 uniform float ShadowStrenght : hint_range(0.0, 2.0, 0.1);
 
 void vertex() {
@@ -9,7 +11,8 @@ void vertex() {
 
 void fragment() {
 	//COLOR.a *= 1.0-(UV.y*UV.x)*PI;
-	float alpha = (distance(UV,vec2(0.5,0.5)))*ShadowAmount;
+	float Distance = distance(UV,vec2(0.5,0.5));
+	float alpha = Distance*Distance*ShadowAmount;
 	if (alpha > 0.0){
 		alpha += ShadowStrenght;
 	}

@@ -129,7 +129,7 @@ public partial class Spawner : Node2D
             Godot.Vector2 Pos1 = new Godot.Vector2(FatPath[i - 1].x, FatPath[i - 1].y) * 16;
             Godot.Vector2 Pos2 = new Godot.Vector2(FatPath[i].x, FatPath[i].y) * 16;
             DrawDashedLine(Pos1 - this.GlobalPosition + new Godot.Vector2(8, 8), Pos2 - this.GlobalPosition + new Godot.Vector2(8, 8), Colors.Purple, 1.0f, 4);
-            if (path[i].is_obstruction)
+            if (FatPath[i].is_obstruction)
             {
                 //
             }

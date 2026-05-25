@@ -4,16 +4,17 @@
 [ext_resource type="Texture2D" uid="uid://ch5y0m5fsp5ci" path="res://Raw_sprites/Enemies/EnemySpawnPoint.png" id="2_i0vcd"]
 [ext_resource type="Texture2D" uid="uid://d0pido6gcpqk3" path="res://Raw_sprites/UI/PlainWhite.png" id="3_i0vcd"]
 [ext_resource type="Texture2D" uid="uid://ul51uck6nbdg" path="res://Raw_sprites/UI/ExclemationMark.png" id="4_x5u7d"]
+[ext_resource type="Shader" uid="uid://bwt16tjhb0166" path="res://Scripts/SpawnCircle.gdshader" id="5_jfci1"]
 
 [sub_resource type="Curve" id="Curve_x5u7d"]
-_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.49664432, 0.5711417), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
-point_count = 3
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.49664432, 0.5711417), 0.0, 0.0, 0, 0, Vector2(0.81208056, 0.92914516), 0.0, 0.0, 0, 0, Vector2(1, 0.44807798), 0.0, 0.0, 0, 0]
+point_count = 4
 
 [sub_resource type="CurveTexture" id="CurveTexture_jfci1"]
 curve = SubResource("Curve_x5u7d")
 
 [sub_resource type="Gradient" id="Gradient_x5u7d"]
-colors = PackedColorArray(0.6666666, 0.09548612, 0.09548612, 1, 1, 1, 1, 1)
+colors = PackedColorArray(0.26953125, 0.05632782, 0.05632782, 1, 0.7529412, 0.11764706, 0.11764706, 0.72156864)
 
 [sub_resource type="GradientTexture1D" id="GradientTexture1D_jfci1"]
 gradient = SubResource("Gradient_x5u7d")
@@ -42,8 +43,8 @@ point_count = 5
 curve_x = SubResource("Curve_jfci1")
 
 [sub_resource type="Curve" id="Curve_1kcc6"]
-_limits = [0.0, 2.0, 0.0, 1.0]
-_data = [Vector2(0.01098901, 1.4983921), 0.0, 0.0, 0, 0, Vector2(0.87912077, 1.0684427), 0.0, 0.0, 0, 0, Vector2(1, 0.55489206), 0.0, 0.0, 0, 0]
+_limits = [0.0, 5.0, 0.0, 1.0]
+_data = [Vector2(0, 5), 0.0, 0.0, 0, 0, Vector2(0.8691275, 2.2963278), 0.0, 0.0, 0, 0, Vector2(1, 0.55489206), 0.0, 0.0, 0, 0]
 point_count = 3
 
 [sub_resource type="CurveTexture" id="CurveTexture_ka0b3"]
@@ -84,11 +85,51 @@ gravity = Vector3(0, 20, 0)
 scale_min = 1.5
 scale_max = 1.5
 
+[sub_resource type="Gradient" id="Gradient_jfci1"]
+offsets = PackedFloat32Array(0, 0.74626863)
+colors = PackedColorArray(0.2421875, 0.03642273, 0.03642273, 0.8509804, 0.1328125, 0.021011353, 0.021011353, 1)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_txc7l"]
+fractal_type = 0
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_p41iy"]
+width = 600
+height = 600
+noise = SubResource("FastNoiseLite_txc7l")
+color_ramp = SubResource("Gradient_jfci1")
+seamless = true
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_1kwjo"]
+shader = ExtResource("5_jfci1")
+shader_parameter/AddedTexture = SubResource("NoiseTexture2D_p41iy")
+shader_parameter/ExtraAlpha = 0.7
+shader_parameter/TextSize = 0.009
+
+[sub_resource type="Gradient" id="Gradient_txc7l"]
+offsets = PackedFloat32Array(0.25746268, 1)
+colors = PackedColorArray(0.94509804, 0.9411765, 0.76862746, 0.90588236, 0.9003906, 0.82582974, 0.6155014, 1)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_1kwjo"]
+fractal_type = 0
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_1kcc6"]
+width = 600
+height = 600
+noise = SubResource("FastNoiseLite_1kwjo")
+color_ramp = SubResource("Gradient_txc7l")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ka0b3"]
+shader = ExtResource("5_jfci1")
+shader_parameter/AddedTexture = SubResource("NoiseTexture2D_1kcc6")
+shader_parameter/ExtraAlpha = 0.06
+shader_parameter/TextSize = 0.009
+
 [node name="Spawner" type="Node2D" unique_id=1605035797 node_paths=PackedStringArray("ObstructionParticles")]
 script = ExtResource("1_j1qj0")
 ObstructionParticles = NodePath("ObstructionParticles")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=619206680]
+visible = false
 texture = ExtResource("2_i0vcd")
 
 [node name="GPUParticles2D" type="GPUParticles2D" parent="." unique_id=1942591620]
@@ -96,7 +137,7 @@ modulate = Color(0.6745098, 0.24313726, 0.14509805, 1)
 self_modulate = Color(1, 0.9960334, 1, 1)
 amount = 40
 texture = ExtResource("3_i0vcd")
-lifetime = 2.0
+lifetime = 2.4
 speed_scale = 0.9
 trail_lifetime = 0.1
 trail_sections = 2
@@ -109,3 +150,36 @@ amount = 20
 texture = ExtResource("4_x5u7d")
 one_shot = true
 process_material = SubResource("ParticleProcessMaterial_jfci1")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1512560543]
+self_modulate = Color(0.15625, 0.0015258789, 0.0015258789, 1)
+material = SubResource("ShaderMaterial_1kwjo")
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -60.0
+offset_top = -40.0
+offset_right = 60.0
+offset_bottom = 40.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+
+[node name="ColorRect2" type="ColorRect" parent="." unique_id=1266375661]
+visible = false
+self_modulate = Color(0.9121094, 0.909259, 0.783844, 1)
+material = SubResource("ShaderMaterial_ka0b3")
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -60.0
+offset_top = -40.0
+offset_right = 60.0
+offset_bottom = 40.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4

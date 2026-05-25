@@ -44,7 +44,7 @@ public partial class Enemy_base : RigidBody2D
 	[Export] public int PathFinding_delay = 30;
 	private int current_pathfinding_delay = 0;
 
-	private bool KillingSelf = false;
+	public bool KillingSelf = false;
 
 	public List<I_frame_obj> IFrameList = new List<I_frame_obj> { };
 	
@@ -178,6 +178,15 @@ public partial class Enemy_base : RigidBody2D
             GD.Print(cell_positon);
             float distance = GlobalPosition.DistanceTo(cell_positon);
             float distance2 = GlobalPosition.DistanceTo(cell_positon2);
+
+			if(GlobalPosition.X-cell_positon.X > 0)
+			{
+				Sprite.FlipH = true;
+			}
+			else if(GlobalPosition.X-cell_positon.X < 0)
+			{
+				Sprite.FlipH = false;
+			}
             
             if (distance > distance2){continue;}
 			if (Mathf.Abs(GlobalPosition.X - cell_positon2.X) < cellsize && Mathf.Abs(GlobalPosition.Y - cell_positon2.Y) < cellsize){continue;}

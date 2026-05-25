@@ -85,7 +85,19 @@ public partial class CutsceneHandler : TextureRect
             }
             if (handle.TimeBoforeNewLine != 0)
             {
-                await ToSignal(GetTree().CreateTimer(handle.TimeBoforeNewLine), SceneTreeTimer.SignalName.Timeout);
+                float Temptime = 0;
+                while (Temptime < handle.TimeBeforeNextBubble)
+                {
+                    Temptime += (float)GetProcessDeltaTime();
+                    if (escaping)
+                    {
+                        CurrentLetter = TextLabel.GetTotalCharacterCount();
+                        TextLabel.VisibleCharacters = CurrentLetter;
+                        escaping = false;
+                        break;
+                    }
+                    await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+                }
             }
         }
         EmitSignal(SignalName.CutsceneFinished);

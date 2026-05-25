@@ -8,7 +8,6 @@ public partial class LevelHandler : Node
 {
 	[Export] WavePreset[] Waves;
 	public static int CurrentWave;
-	[Export] public int MaxWaves = 4;
 	public static bool RoundOver = true;
 	public static int EnemiesAlive = 0;
     //[Export] private WavePreset[] WavePresets;
@@ -92,7 +91,14 @@ public partial class LevelHandler : Node
         {
         	DisableAndEnableSpawners();
             RoundOver = true;
-            TileMapLayer.money += Waves[CurrentWave].WaveMoney;
+			if (CurrentWave < Waves.Length)
+			{
+				TileMapLayer.money += Waves[CurrentWave].WaveMoney;
+			}
+			else
+			{
+				GetNode<CenterContainer>("%WinMenu").Visible = true;	
+			}
             TileMapLayer.MoneyNum.Text = TileMapLayer.money.ToString();
         }
 
@@ -132,14 +138,18 @@ public partial class LevelHandler : Node
             script.DrawPath = false;
             script.SomeoneIsFat = false;
         }
-		foreach (string SpawnerName in Waves[CurrentWave].UsedSpawners)
+		if (CurrentWave < Waves.Length)
 		{
-			Node2D SpawnNode = GetNodeOrNull<Node2D>($"%{SpawnerName}");
-			if (SpawnNode == null) {continue;}
-			Spawner script = SpawnNode as Spawner;
-            script.DrawPath = true;
-        }
-		if (Waves.Length <= CurrentWave)
+			foreach (string SpawnerName in Waves[CurrentWave].UsedSpawners)
+			{
+				Node2D SpawnNode = GetNodeOrNull<Node2D>($"%{SpawnerName}");
+				if (SpawnNode == null) {continue;}
+				Spawner script = SpawnNode as Spawner;
+				script.DrawPath = true;
+				script.QueueRedraw();
+			}
+		}
+		if (CurrentWave < Waves.Length)
 		{
 			foreach (SpawnPreset spawn in Waves[CurrentWave].Spawns)
 			{

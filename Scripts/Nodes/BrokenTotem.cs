@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Runtime.Serialization;
 
-public partial class BrokenTotem : Sprite2D
+public partial class BrokenTotem : Area2D
 {
 	// Called when the node enters the scene tree for the first time.
 	[Export] private TextureButton SelectionButton;
@@ -30,6 +30,11 @@ public partial class BrokenTotem : Sprite2D
 
 	public static List<Vector2I> DrawList = new List<Vector2I>();
 
+
+	[Export] private int TreeReperationAmount;
+	private int CurrentTreeAmount = 0;
+	[Export] private Label TreeSelectionLabel;
+
 	public override void _Ready()
 	{
 		mouse_down = false;
@@ -40,11 +45,13 @@ public partial class BrokenTotem : Sprite2D
 
 		DisableSelector();
 
-		SelectionBox.BodyEntered += BodyEntered;
-		SelectionBox.BodyExited += BodyExited;
+		SelectionBox.BodyEntered += SelectionBodyEntered;
+		SelectionBox.BodyExited += SelectionBodyExited;
 
 		SelectionButton.ButtonUp += ActivateSelection;
 		AimingButton.ButtonUp += ActivateAiming;
+
+		TreeSelectionLabel.Text = "0/"+TreeReperationAmount;
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -141,7 +148,7 @@ public partial class BrokenTotem : Sprite2D
 		}
     }
 
-	private void BodyEntered(Node2D Body)
+	private void SelectionBodyEntered(Node2D Body)
 	{
 		BodiesInside.Add(Body);
 		GD.Print(Body+" Entered");
@@ -153,7 +160,7 @@ public partial class BrokenTotem : Sprite2D
 			Body.GetChild<Sprite2D>(1).Visible = true;
 		}
 	} 
-	private void BodyExited(Node2D Body)
+	private void SelectionBodyExited(Node2D Body)
 	{
 		BodiesInside.Remove(Body);
 		if (Body is FriendlyLizardScript && RefreshBox)
@@ -200,5 +207,10 @@ public partial class BrokenTotem : Sprite2D
 		SelectionActive = false;
 		DisableSelector();
 		SelectionBox.GetChild<Sprite2D>(2).Visible = true;
+	}
+	public void DepositTree()
+	{
+		CurrentTreeAmount++;
+		TreeSelectionLabel.Text = CurrentTreeAmount+"/"+TreeReperationAmount;
 	}
 }

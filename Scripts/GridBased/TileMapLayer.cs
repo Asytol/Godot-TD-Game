@@ -504,7 +504,7 @@ public partial class TileMapLayer : Godot.TileMapLayer
 
     private void AddCracks(Tile_node Tile, Godot.Vector2 Position)
     {
-        if (Tile.health != 0)
+        if (Tile.health > 0)
         {
             float percentage = Tile.health / Tile.OriginalHealth;
             if (percentage > 0.75 && percentage < 1.0)

@@ -43,6 +43,7 @@ public partial class TowerShooterBase : TowerBase
 			float ClosestDistance = this.Position.DistanceTo(ClosestEntity.Position);
 			// (:
 			for (int i = 1; i < EntitiesInArea.Count; i++){
+				if ((EntitiesInArea[i]as Enemy_base).KillingSelf == true){continue;}
 				float distance = this.Position.DistanceTo(EntitiesInArea[i].Position);
 				if (distance < ClosestDistance){
 					ClosestDistance = distance;

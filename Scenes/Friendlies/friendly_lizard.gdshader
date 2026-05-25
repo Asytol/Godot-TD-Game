@@ -1,4 +1,6 @@
 shader_type canvas_item;
+render_mode unshaded;
+
 
 uniform float ChangeSpeed : hint_range(0.0,1.0) = 0.1;
 uniform float BlueColorAmount : hint_range(0.0,1.0) = 0.1;

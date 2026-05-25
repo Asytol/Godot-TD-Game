@@ -19,7 +19,8 @@ void vertex() {
 }
 
 void fragment() {
-	float alpha = distance(UV, vec2(0.5,0.5))*Fog1MiddleInfluence-0.04;
+	float Distance = distance(UV,vec2(0.5,0.5))*Fog1MiddleInfluence-0.05;
+	float alpha = Distance*Distance;
 	if (alpha > 1.0){
 		alpha = 1.0;
 	}

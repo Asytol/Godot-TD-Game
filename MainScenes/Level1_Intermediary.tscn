@@ -2,69 +2,55 @@
 
 [ext_resource type="PackedScene" uid="uid://yw8eau6lycgh" path="res://Scenes/tile_map_layer.tscn" id="1_c3om8"]
 [ext_resource type="PackedScene" uid="uid://dor5lrdlgfxjy" path="res://Scenes/UI/GrassBackground.tscn" id="2_4y0w2"]
-[ext_resource type="Shader" uid="uid://crpvac2bxkg8n" path="res://Raw_sprites/UI/Fog.gdshader" id="3_tdqoj"]
 [ext_resource type="PackedScene" uid="uid://byqhhq5cf62r4" path="res://Scenes/BrokenTotem.tscn" id="4_4y0w2"]
-[ext_resource type="Script" uid="uid://bqoeugby77ubt" path="res://Scripts/Nodes/BrokenTotem.cs" id="5_cw4yw"]
 [ext_resource type="PackedScene" uid="uid://cvifu257jbb0k" path="res://Scenes/UI/SelectionBox.tscn" id="6_cw4yw"]
 [ext_resource type="PackedScene" uid="uid://cpxk0w1koyuxl" path="res://Scenes/Friendlies/friendly_lizard.tscn" id="7_titcx"]
 [ext_resource type="Texture2D" uid="uid://ctg1ox4rmbbn0" path="res://Raw_sprites/UI/Item_frame.png" id="8_2t546"]
 [ext_resource type="Texture2D" uid="uid://cbuj4l03yywyq" path="res://Raw_sprites/UI/SelectionSquare.png" id="9_3tpw6"]
 [ext_resource type="Texture2D" uid="uid://bl4sq513qvi66" path="res://Raw_sprites/UI/AimingReticle.png" id="9_t8qc5"]
+[ext_resource type="Shader" uid="uid://bd1hkoflrg8ak" path="res://Raw_sprites/UI/NewFogShader.gdshader" id="10_t8qc5"]
+[ext_resource type="Texture2D" uid="uid://06jq0rfp0yc3" path="res://Raw_sprites/TileMap/GridOutline.png" id="11_3tpw6"]
+[ext_resource type="PackedScene" uid="uid://dxfsvjd0cqoxa" path="res://Scenes/material.tscn" id="12_8gciv"]
+[ext_resource type="PackedScene" uid="uid://1808imdfruyl" path="res://Scenes/MaterialSpawner.tscn" id="12_p41iy"]
 
-[sub_resource type="FastNoiseLite" id="FastNoiseLite_cw4yw"]
+[sub_resource type="Gradient" id="Gradient_3tpw6"]
+offsets = PackedFloat32Array(0.42537314, 0.89179105)
+colors = PackedColorArray(0, 0, 0, 0, 1, 1, 1, 0.39215687)
 
-[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_qnaon"]
-noise = SubResource("FastNoiseLite_cw4yw")
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_8gciv"]
+frequency = 0.1
 
-[sub_resource type="Gradient" id="Gradient_titcx"]
-
-[sub_resource type="FastNoiseLite" id="FastNoiseLite_7wp3t"]
-seed = 1
-frequency = 0.02
-
-[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_ugl54"]
-width = 200
-height = 200
-noise = SubResource("FastNoiseLite_7wp3t")
-color_ramp = SubResource("Gradient_titcx")
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_nbjm4"]
+width = 1000
+height = 1000
+noise = SubResource("FastNoiseLite_8gciv")
+color_ramp = SubResource("Gradient_3tpw6")
 seamless = true
+seamless_blend_skirt = 0.8
 
-[sub_resource type="FastNoiseLite" id="FastNoiseLite_2t546"]
-seed = 1
+[sub_resource type="Gradient" id="Gradient_p41iy"]
+colors = PackedColorArray(0, 0, 0, 0, 1, 1, 1, 1)
 
-[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_8pko7"]
-width = 200
-height = 200
-noise = SubResource("FastNoiseLite_2t546")
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_hof7v"]
+seed = 2
+frequency = 0.1
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_t8qc5"]
-shader = ExtResource("3_tdqoj")
-shader_parameter/fog_color = Color(1, 1, 1, 0.18431373)
-shader_parameter/center_pos = Vector2(960, 600)
-shader_parameter/inner_radius = 240.0
-shader_parameter/outer_radius = 1500.0
-shader_parameter/use_noise_layer_1 = true
-shader_parameter/noise_texture_1 = SubResource("NoiseTexture2D_ugl54")
-shader_parameter/noise_scale_1 = 4.0
-shader_parameter/noise_velocity_1 = Vector2(0.03, 0.02)
-shader_parameter/noise_edge_influence_1 = 1.0
-shader_parameter/noise_edge_hardness_1 = 40.0000019
-shader_parameter/use_noise_layer_2 = true
-shader_parameter/noise_texture_2 = SubResource("NoiseTexture2D_8pko7")
-shader_parameter/noise_scale_2 = 8.5
-shader_parameter/noise_velocity_2 = Vector2(-0.015, 0.025)
-shader_parameter/noise_edge_influence_2 = 0.4
-shader_parameter/noise_edge_hardness_2 = 40.0000019
-shader_parameter/use_density_noise = true
-shader_parameter/density_noise_influence = 0.286000013585
-shader_parameter/use_fog_texture = false
-shader_parameter/fog_texture = SubResource("NoiseTexture2D_qnaon")
-shader_parameter/fog_texture_scale = Vector2(1, 1)
-shader_parameter/fog_texture_velocity = Vector2(0.01, 0.005)
-shader_parameter/fog_texture_influence = 0.5
-shader_parameter/use_distance_tint = true
-shader_parameter/clear_area_tint = Color(0.765625, 0.74768066, 0.711792, 1)
-shader_parameter/tint_feather = 100.0000047025
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_2uicj"]
+width = 1000
+height = 1000
+noise = SubResource("FastNoiseLite_hof7v")
+color_ramp = SubResource("Gradient_p41iy")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_fvoc4"]
+shader = ExtResource("10_t8qc5")
+shader_parameter/FogTexture1 = SubResource("NoiseTexture2D_nbjm4")
+shader_parameter/Fog1XVelocity = 0.0
+shader_parameter/Fog1YVelocity = 0.0
+shader_parameter/Fog1MiddleInfluence = 0.5000000074506
+shader_parameter/FogTexture2 = SubResource("NoiseTexture2D_2uicj")
+shader_parameter/Fog2XVelocity = 0.0
+shader_parameter/Fog2YVelocity = 0.0
+shader_parameter/Fog2MiddleInfluence = 0.0
 
 [node name="Level1_Intermediary" type="Node" unique_id=603861943]
 
@@ -76,27 +62,20 @@ script = null
 
 [node name="ColorRect" parent="." unique_id=1932690567 instance=ExtResource("2_4y0w2")]
 
-[node name="Fog" type="ColorRect" parent="." unique_id=1528570594]
-z_index = 9
-material = SubResource("ShaderMaterial_t8qc5")
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-color = Color(1, 1, 1, 0.46600002)
-metadata/_edit_lock_ = true
-
 [node name="Totem" parent="." unique_id=2087812220 node_paths=PackedStringArray("SelectionButton", "AimingButton", "SelectionBox") instance=ExtResource("4_4y0w2")]
 position = Vector2(1000, 120)
-script = ExtResource("5_cw4yw")
+collision_layer = 2
 SelectionButton = NodePath("../VBoxContainer/SelectionFrame")
 AimingButton = NodePath("../VBoxContainer/AimingFrame")
 SelectionBox = NodePath("../SelectionBox")
+TreeReperationAmount = 5
 
 [node name="SelectionBox" parent="." unique_id=919978090 instance=ExtResource("6_cw4yw")]
 z_index = 23
+
+[node name="FriendlyLizard2" parent="." unique_id=666025006 instance=ExtResource("7_titcx")]
+position = Vector2(936, 107)
+wall_min_slide_angle = 0.0
 
 [node name="FriendlyLizard" parent="." unique_id=1517741578 instance=ExtResource("7_titcx")]
 position = Vector2(945, 143)
@@ -148,3 +127,38 @@ offset_bottom = 37.0
 mouse_filter = 2
 texture = ExtResource("9_t8qc5")
 stretch_mode = 3
+
+[node name="NewFog" type="ColorRect" parent="." unique_id=291828869]
+z_index = 5
+material = SubResource("ShaderMaterial_fvoc4")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Grids" type="TextureRect" parent="." unique_id=1833962819]
+self_modulate = Color(1, 1, 1, 0.27450982)
+z_index = -4
+texture_filter = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("11_3tpw6")
+stretch_mode = 1
+metadata/_edit_lock_ = true
+
+[node name="Material2" parent="." unique_id=1000358886 instance=ExtResource("12_8gciv")]
+position = Vector2(812, 102)
+
+[node name="Material" parent="." unique_id=18266591 instance=ExtResource("12_8gciv")]
+position = Vector2(765, 92)
+
+[node name="MaterialSpawning" parent="." unique_id=564956147 node_paths=PackedStringArray("Tilemap") instance=ExtResource("12_p41iy")]
+position = Vector2(237, 98)
+SpawnTime = 10.0
+Tilemap = NodePath("../TileMap")

@@ -13,7 +13,6 @@
 [ext_resource type="PackedScene" uid="uid://dvedtw87ptkk1" path="res://Scenes/Enemies/DemonEnemy.tscn" id="6_htv6h"]
 [ext_resource type="Texture2D" uid="uid://dv6jv3neptqc3" path="res://MainScenes/CutscenePictures/Level1/DrunkMan.png" id="7_ut1xd"]
 [ext_resource type="PackedScene" uid="uid://d3wo35pdropd7" path="res://Scenes/Enemies/spawner.tscn" id="8_ut1xd"]
-[ext_resource type="PackedScene" uid="uid://bwdn5f2xgiq16" path="res://Scenes/MainCharacter.tscn" id="9_i2xej"]
 [ext_resource type="Theme" uid="uid://b4ytiaxr0csu4" path="res://Raw_sprites/UI/Box_theme.tres" id="10_h0o0u"]
 [ext_resource type="Theme" uid="uid://d00o06fmebnxl" path="res://Raw_sprites/UI/GreenTheme.tres" id="11_0oaqv"]
 [ext_resource type="Texture2D" uid="uid://dcwkdl27nm5g4" path="res://Raw_sprites/TileMap/Coin.png" id="12_sblwe"]
@@ -241,8 +240,8 @@ Panel/styles/panel = SubResource("StyleBoxFlat_j7otg")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_htv6h"]
 shader = ExtResource("37_htv6h")
-shader_parameter/ShadowAmount = 1.20000001788144
-shader_parameter/ShadowStrenght = 0.10000000149012
+shader_parameter/ShadowAmount = 2.60000003874312
+shader_parameter/ShadowStrenght = 0.0
 
 [sub_resource type="Gradient" id="Gradient_2ssgj"]
 offsets = PackedFloat32Array(0.42537314, 0.89179105)
@@ -277,7 +276,7 @@ shader = ExtResource("39_2ssgj")
 shader_parameter/FogTexture1 = SubResource("NoiseTexture2D_htv6h")
 shader_parameter/Fog1XVelocity = 0.0
 shader_parameter/Fog1YVelocity = 0.0
-shader_parameter/Fog1MiddleInfluence = 0.20000000298024
+shader_parameter/Fog1MiddleInfluence = 0.5000000074506
 shader_parameter/FogTexture2 = SubResource("NoiseTexture2D_2ssgj")
 shader_parameter/Fog2XVelocity = 0.0
 shader_parameter/Fog2YVelocity = 0.0
@@ -294,12 +293,6 @@ Dialogues = Array[Object]([SubResource("Resource_10i07"), SubResource("Resource_
 
 [node name="2DNodes" type="Node2D" parent="." unique_id=1495063507]
 unique_name_in_owner = true
-
-[node name="MainCharacter" parent="2DNodes" unique_id=1541007265 instance=ExtResource("9_i2xej")]
-z_index = 1
-position = Vector2(412, 471)
-gravity_scale = 0.0
-speed = 5
 
 [node name="TileMap" parent="2DNodes" unique_id=1592501808 instance=ExtResource("5_qyc2t")]
 unique_name_in_owner = true
@@ -321,18 +314,6 @@ position = Vector2(120, 578)
 unique_name_in_owner = true
 position = Vector2(944, 576)
 
-[node name="BallistaTower" parent="2DNodes" unique_id=1380105968 instance=ExtResource("15_2ssgj")]
-position = Vector2(161, 354)
-Cooldown = 1.5
-
-[node name="CanonTower" parent="2DNodes" unique_id=1591976174 instance=ExtResource("16_k7jnk")]
-position = Vector2(90, 380)
-base_spread = 5.0
-
-[node name="WizardTower" parent="2DNodes" unique_id=696809066 instance=ExtResource("17_nbjm4")]
-position = Vector2(207, 361)
-base_spread = 10.0
-
 [node name="ControlNodes" type="Control" parent="." unique_id=1862096140]
 unique_name_in_owner = true
 layout_mode = 3
@@ -341,6 +322,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+metadata/_edit_lock_ = true
 
 [node name="TextureRect" type="TextureRect" parent="ControlNodes" unique_id=842042576]
 self_modulate = Color(1, 1, 1, 0.27450982)
@@ -622,6 +604,7 @@ layout_mode = 1
 
 [node name="DefeatMenu" type="CenterContainer" parent="ControlNodes" unique_id=877297039]
 unique_name_in_owner = true
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -676,9 +659,68 @@ text = "Restart
 "
 script = ExtResource("36_u7qye")
 SendMessage = true
-message = "main_test_scene"
+message = "Level1"
+
+[node name="WinMenu" type="CenterContainer" parent="ControlNodes" unique_id=736861480]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="TextureRect" parent="ControlNodes/WinMenu" unique_id=395825415]
+self_modulate = Color(0, 0, 0, 0.84705883)
+custom_minimum_size = Vector2(200, 200)
+layout_mode = 2
+mouse_filter = 2
+theme = ExtResource("10_h0o0u")
+texture = ExtResource("35_jm61h")
+
+[node name="Label" type="Label" parent="ControlNodes/WinMenu/Panel" unique_id=21088506]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.1
+anchor_right = 0.5
+anchor_bottom = 0.1
+offset_left = -0.5
+offset_right = 0.5
+offset_bottom = 23.0
+grow_horizontal = 2
+text = "You won, Hooray!!!"
+
+[node name="CenterContainer" type="CenterContainer" parent="ControlNodes/WinMenu/Panel" unique_id=14761458]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="InnerDefMenu" type="HBoxContainer" parent="ControlNodes/WinMenu/Panel/CenterContainer" unique_id=276325458]
+layout_mode = 2
+
+[node name="MainMenu" type="Button" parent="ControlNodes/WinMenu/Panel/CenterContainer/InnerDefMenu" unique_id=349548802]
+layout_mode = 2
+text = "Main Menu"
+script = ExtResource("36_u7qye")
+SendMessage = true
+message = "main_menu"
+
+[node name="Restart" type="Button" parent="ControlNodes/WinMenu/Panel/CenterContainer/InnerDefMenu" unique_id=383442655]
+layout_mode = 2
+text = "Next Level
+
+"
+script = ExtResource("36_u7qye")
+SendMessage = true
+message = "Level1_Intermediary"
 
 [node name="Darkness" type="ColorRect" parent="ControlNodes" unique_id=566419520]
+z_index = 4
 material = SubResource("ShaderMaterial_htv6h")
 layout_mode = 1
 anchors_preset = 15
@@ -686,6 +728,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 color = Color(0, 0, 0, 1)
 
 [node name="NewFog" type="ColorRect" parent="ControlNodes" unique_id=1587377284]
@@ -697,6 +740,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 
 [node name="LoadSignifier" type="Node" parent="." unique_id=415859115]
 unique_name_in_owner = true

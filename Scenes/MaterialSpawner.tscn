@@ -1,0 +1,47 @@
+[gd_scene format=3 uid="uid://1808imdfruyl"]
+
+[ext_resource type="Script" uid="uid://mujirq8jeh2w" path="res://Scripts/Nodes/MaterialSpawning.cs" id="1_4lm1q"]
+[ext_resource type="PackedScene" uid="uid://dxfsvjd0cqoxa" path="res://Scenes/material.tscn" id="2_2s36i"]
+[ext_resource type="Shader" uid="uid://bwt16tjhb0166" path="res://Scripts/SpawnCircle.gdshader" id="3_lfbih"]
+
+[sub_resource type="Gradient" id="Gradient_hof7v"]
+offsets = PackedFloat32Array(0.25746268, 1)
+colors = PackedColorArray(0.94509804, 0.9411765, 0.76862746, 0.90588236, 0.9003906, 0.82582974, 0.6155014, 1)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_fvoc4"]
+fractal_type = 0
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_p41iy"]
+width = 600
+height = 600
+noise = SubResource("FastNoiseLite_fvoc4")
+color_ramp = SubResource("Gradient_hof7v")
+seamless = true
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_nnyd4"]
+shader = ExtResource("3_lfbih")
+shader_parameter/AddedTexture = SubResource("NoiseTexture2D_p41iy")
+shader_parameter/ExtraAlpha = 0.06
+shader_parameter/TextSize = 0.009
+
+[node name="MaterialSpawning" type="Node2D" unique_id=564956147]
+script = ExtResource("1_4lm1q")
+BoxExtents = Vector2(96, 96)
+SpawnTime = 2.0
+MaterialScene = ExtResource("2_2s36i")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1569867687]
+self_modulate = Color(0.9121094, 0.909259, 0.783844, 1)
+material = SubResource("ShaderMaterial_nnyd4")
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -60.0
+offset_top = -40.0
+offset_right = 60.0
+offset_bottom = 40.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
