@@ -145,6 +145,7 @@ text = "0/2"
 label_settings = SubResource("LabelSettings_1rxjn")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=866585417]
+visible = false
 position = Vector2(0, -2)
 shape = SubResource("RectangleShape2D_io0o0")
 

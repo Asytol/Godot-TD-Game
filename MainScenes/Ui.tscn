@@ -9,7 +9,9 @@
 [ext_resource type="Texture2D" uid="uid://j2hri2bdtdw2" path="res://Raw_sprites/Towers/CannonBase.png" id="7_atkue"]
 [ext_resource type="PackedScene" uid="uid://bi678rx01tgmm" path="res://Scenes/Projectiles/Towers/WizardTower.tscn" id="8_0cvpe"]
 [ext_resource type="Texture2D" uid="uid://d3a6vnxuuhj1f" path="res://Raw_sprites/Towers/WizardTower.png" id="9_ihsl2"]
+[ext_resource type="PackedScene" uid="uid://dsitkecomsq60" path="res://Scenes/Projectiles/Towers/SawBladeTower.tscn" id="10_rqt7b"]
 [ext_resource type="Script" uid="uid://ijp6ng4aw433" path="res://Scripts/GridBased/Terrain_tile_button.cs" id="10_yajl0"]
+[ext_resource type="Texture2D" uid="uid://byekss5wl2pxs" path="res://Raw_sprites/Towers/SawBlade.png" id="11_1msxp"]
 [ext_resource type="Texture2D" uid="uid://bi82ketkd1p5m" path="res://Raw_sprites/TileMap/UiTerrainTextures/Brick.png" id="11_eecbx"]
 [ext_resource type="Texture2D" uid="uid://b3k8p786tfmsj" path="res://Raw_sprites/TileMap/UiTerrainTextures/StoneBrick.png" id="12_56835"]
 [ext_resource type="Theme" uid="uid://b4ytiaxr0csu4" path="res://Raw_sprites/UI/Box_theme.tres" id="13_1dpt7"]
@@ -201,6 +203,31 @@ grow_vertical = 2
 [node name="TextureRect" type="TextureRect" parent="Rounds&Tiles/SideBar/TowerAndTiles/PlacementContainer/Towers/WizardTower/CenterContainer" unique_id=2032697853]
 layout_mode = 2
 texture = ExtResource("9_ihsl2")
+
+[node name="SawTower" type="TextureButton" parent="Rounds&Tiles/SideBar/TowerAndTiles/PlacementContainer/Towers" unique_id=1120374391]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+texture_normal = ExtResource("2_rqt7b")
+texture_pressed = ExtResource("2_rqt7b")
+texture_hover = ExtResource("2_rqt7b")
+texture_disabled = ExtResource("2_rqt7b")
+texture_focused = ExtResource("2_rqt7b")
+script = ExtResource("3_1msxp")
+cost = 50
+building = ExtResource("10_rqt7b")
+
+[node name="CenterContainer" type="CenterContainer" parent="Rounds&Tiles/SideBar/TowerAndTiles/PlacementContainer/Towers/SawTower" unique_id=1576816827]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TextureRect" type="TextureRect" parent="Rounds&Tiles/SideBar/TowerAndTiles/PlacementContainer/Towers/SawTower/CenterContainer" unique_id=1748254490]
+layout_mode = 2
+texture = ExtResource("11_1msxp")
 
 [node name="Tiles" type="VBoxContainer" parent="Rounds&Tiles/SideBar/TowerAndTiles/PlacementContainer" unique_id=1574791010]
 layout_mode = 2

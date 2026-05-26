@@ -162,3 +162,4 @@ visible = false
 z_index = 23
 position = Vector2(576, 224)
 sprite_frames = SubResource("SpriteFrames_v6u7r")
+frame_progress = 0.897732

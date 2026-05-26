@@ -102,7 +102,7 @@ public partial class LevelHandler : Node
 			}
 			else
 			{
-				GetNode<CenterContainer>("%WinMenu").Visible = true;	
+				UiNodes.GetNode<CenterContainer>("%WinMenu").Visible = true;	
 			}
             TileMapLayer.MoneyNum.Text = TileMapLayer.money.ToString();
         }

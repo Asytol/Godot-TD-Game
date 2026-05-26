@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://dsitkecomsq60"]
 
 [ext_resource type="Script" uid="uid://gk8eyw3lnmpg" path="res://Scripts/Nodes/TowerShooterBase.cs" id="1_cmilq"]
-[ext_resource type="PackedScene" uid="uid://nrjw7psdb65x" path="res://Scenes/Projectiles/Arrow.tscn" id="2_qxmic"]
+[ext_resource type="PackedScene" uid="uid://cw5prgydthrst" path="res://Scenes/Projectiles/SawBladeProjectile.tscn" id="2_cmilq"]
 [ext_resource type="Texture2D" uid="uid://udlhio2onlr" path="res://Raw_sprites/Towers/SawShooterBase.png" id="3_cmilq"]
 [ext_resource type="Texture2D" uid="uid://blrt0gybxswks" path="res://Raw_sprites/Towers/SawShooterHead.png" id="4_cmilq"]
 
@@ -63,8 +63,9 @@ collision_layer = 4
 collision_mask = 2
 script = ExtResource("1_cmilq")
 base_damage = 20.0
-projectile = ExtResource("2_qxmic")
-base_range = 140.0
+Cooldown = 0.6
+projectile = ExtResource("2_cmilq")
+base_range = 50.0
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=2060543455]
 texture = ExtResource("3_cmilq")

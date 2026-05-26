@@ -32,6 +32,11 @@ public partial class FriendlyLizardScript : CharacterBody2D
 	[Export] private Sprite2D MaterialSprite;
 	private string CarriedMaterial = "";
 
+	private bool Colliding;
+	private bool RunningAway;
+	private int FriendsInside;
+	private List<Node2D> ListOfFriends = new List<Node2D>();
+
     public override void _Ready()
     {
 		if (tilemap == null) { tilemap = GetTree().Root.GetChild(1).GetNode<Godot.TileMapLayer>("%TileMap"); }
@@ -42,6 +47,7 @@ public partial class FriendlyLizardScript : CharacterBody2D
 
 		GetNode<Area2D>("Area2D").AreaEntered += PickingUpMaterial;
 		GetNode<Area2D>("TinyDetector").AreaEntered += CollidedWithFriendly;
+		GetNode<Area2D>("TinyDetector").AreaExited += ExitingFriendly;
 
 		Sprite.Play("default");
 
@@ -49,7 +55,11 @@ public partial class FriendlyLizardScript : CharacterBody2D
     }
 	public override void _PhysicsProcess(double delta)
 	{
-		Velocity = GlobalVelocity*Speed;
+		if (Colliding == false)
+		{
+			Velocity = GlobalVelocity*Speed;	
+		}
+		else if (ListOfFriends.Count != 0){ Velocity = -GlobalPosition.DirectionTo(ListOfFriends[0].GlobalPosition) * Speed;}
 		MoveAndSlide();
 	}
 
@@ -168,23 +178,40 @@ public partial class FriendlyLizardScript : CharacterBody2D
 	}
 	private void CollidedWithFriendly(Node2D body)
 	{
-		CollidedWithFriendly2(body);
-	}
-	private async void CollidedWithFriendly2(Node2D body)
-	{
+		FriendsInside++;
+		Colliding = true;
 		if (body.GetParent() is FriendlyLizardScript script)
 		{
 			if (script.GlobalVelocity == Vector2.Zero)
 			{
-				while (CoroutineAmount != 0)
-				{
-					QueueCoroutineDeletion = true;	
-					await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
-				}
-				GlobalVelocity = Vector2.Zero;
-				Sprite.Play("default");
-				QueueCoroutineDeletion = false;
+				CollidedWithFriendly2(body);
+			}
+			else if (script.RunningAway == false)
+			{
+				RunningAway = true;
+				ListOfFriends.Add(body);		
 			}
 		}
+	}
+	private void ExitingFriendly(Node2D body)
+	{
+		ListOfFriends.Remove(body);
+		FriendsInside--;
+		if (FriendsInside <= 0)
+		{
+			RunningAway = false;
+			Colliding = false;	
+		}
+	}
+	private async void CollidedWithFriendly2(Node2D body)
+	{
+		while (CoroutineAmount != 0)
+		{
+			QueueCoroutineDeletion = true;	
+			await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+		}
+		GlobalVelocity = Vector2.Zero;
+		Sprite.Play("default");
+		QueueCoroutineDeletion = false;
 	}
 }

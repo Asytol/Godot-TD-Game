@@ -176,8 +176,8 @@ public partial class TileMapLayer : Godot.TileMapLayer
 			{
 				hidden = false;
 				TileSignifier.Visible = true;
-                UiNodes.GetChild<VBoxContainer>(0).Visible = true;
-                UiNodes.GetChild<VBoxContainer>(1).Visible = true;
+                PlacementContainer.GetChild<VBoxContainer>(0).Visible = true;
+                PlacementContainer.GetChild<VBoxContainer>(1).Visible = true;
             }
 		}
 		else
@@ -186,8 +186,8 @@ public partial class TileMapLayer : Godot.TileMapLayer
 			{
 				hidden = true;
                 TileSignifier.Visible = false;
-                UiNodes.GetChild<VBoxContainer>(0).Visible = false;
-                UiNodes.GetChild<VBoxContainer>(1).Visible = false;
+                PlacementContainer.GetChild<VBoxContainer>(0).Visible = false;
+                PlacementContainer.GetChild<VBoxContainer>(1).Visible = false;
             }
 		}
     }

@@ -1,11 +1,11 @@
-[gd_scene format=3 uid="uid://nrjw7psdb65x"]
+[gd_scene format=3 uid="uid://cw5prgydthrst"]
 
-[ext_resource type="Script" uid="uid://c8h417m5yblb3" path="res://Scripts/Nodes/Projectile.cs" id="1_yr2qt"]
-[ext_resource type="Texture2D" uid="uid://bfispmitfupk8" path="res://Raw_sprites/Towers/weapon_arrow.png" id="2_tl4hk"]
-[ext_resource type="Texture2D" uid="uid://d0pido6gcpqk3" path="res://Raw_sprites/UI/PlainWhite.png" id="3_2nt64"]
+[ext_resource type="Script" uid="uid://c8h417m5yblb3" path="res://Scripts/Nodes/Projectile.cs" id="1_ppcg6"]
+[ext_resource type="Texture2D" uid="uid://byekss5wl2pxs" path="res://Raw_sprites/Towers/SawBlade.png" id="2_ppcg6"]
+[ext_resource type="Texture2D" uid="uid://d0pido6gcpqk3" path="res://Raw_sprites/UI/PlainWhite.png" id="3_u8462"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_d4467"]
-size = Vector2(7, 21)
+size = Vector2(16, 16)
 
 [sub_resource type="Gradient" id="Gradient_vco8u"]
 interpolation_mode = 1
@@ -34,12 +34,15 @@ color_initial_ramp = SubResource("GradientTexture1D_flb3a")
 [node name="Projectile" type="Area2D" unique_id=1140131879]
 collision_layer = 4
 collision_mask = 3
-script = ExtResource("1_yr2qt")
-damage = 30.0
+script = ExtResource("1_ppcg6")
+Decay_time = 0.3
+BaseSpeed = 10.0
+damage = 20.0
+Pierce = 4
 Shrapnell = Array[Object]([])
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1997404428]
-texture = ExtResource("2_tl4hk")
+texture = ExtResource("2_ppcg6")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1679190379]
 shape = SubResource("RectangleShape2D_d4467")
@@ -47,7 +50,7 @@ shape = SubResource("RectangleShape2D_d4467")
 [node name="DeathParticles" type="GPUParticles2D" parent="." unique_id=287408938]
 emitting = false
 amount = 12
-texture = ExtResource("3_2nt64")
+texture = ExtResource("3_u8462")
 lifetime = 0.8
 speed_scale = 1.3
 explosiveness = 0.8

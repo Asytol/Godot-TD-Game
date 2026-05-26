@@ -7,11 +7,15 @@ uniform float BlueColorAmount : hint_range(0.0,1.0) = 0.1;
 
 uniform bool EnableShader = false;
 
+varying vec2 MiddleCord;
+
 void vertex() {
 	// Called for every vertex the material is visible on.
 }
 
 void fragment() {
+	//COLOR.a = distance(UV,vec2(0.5,0.5));
+	
 	if (EnableShader){
 		float BlueIncrease = sin(TIME*4.0);
 		if (COLOR.a != 0.0){

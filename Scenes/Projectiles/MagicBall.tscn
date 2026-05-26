@@ -32,9 +32,9 @@ script = ExtResource("1_anqnq")
 PivotStrength = 0.4
 Decay_time = 6.0
 BaseSpeed = 4.0
-damage = 15.0
+damage = 25.0
 StunDuration = 0.2
-Pierce = 3
+Pierce = 5
 Shrapnell = Array[Resource]([])
 ShrapnellSpread = 20.0
 

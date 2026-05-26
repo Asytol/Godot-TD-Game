@@ -48,7 +48,8 @@ public partial class SceneTransitioner : CanvasLayer
 			GD.Print(ResourceLoader.LoadThreadedGetStatus($"res://MainScenes/{scene}.tscn"));
 			await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
 		}
-		*/ResourceLoader.LoadThreadedGet($"res://MainScenes/{scene}.tscn");
+		ResourceLoader.LoadThreadedGet($"res://MainScenes/{scene}.tscn");
+		*/
 		FinishedLoading = false;	
 		GetNode<RichTextLabel>("Label").Visible = false;
 		GetNode<CenterContainer>("CenterContainer").Visible = false;

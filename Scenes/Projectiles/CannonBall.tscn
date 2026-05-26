@@ -17,6 +17,7 @@ radius = 8.0
 collision_layer = 7
 collision_mask = 3
 script = ExtResource("1_vaeiy")
+damage = 35.0
 Pierce = 1
 Shrapnell = Array[Object]([SubResource("Resource_0ngh5")])
 
