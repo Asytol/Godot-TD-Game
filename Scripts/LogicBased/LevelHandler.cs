@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text.RegularExpressions;
 using Godot;
 
@@ -21,15 +22,19 @@ public partial class LevelHandler : Node
 
 	[Export] private Node2D Totem;
 
+	private Control UiNodes;
+
     [Signal]
 	public delegate void StartGameEventHandler();
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
+		UiNodes = GetTree().Root.GetChild(1).GetNode<Control>("%Ui");
+
 		CurrentWave = 0;	
-        GetNode<Button>("%Start").ButtonUp += OnStart;
+        UiNodes.GetNode<Button>("%Start").ButtonUp += OnStart;
         GD.Print("got start");
-        RoundText = GetNode<Label>("%RoundText");
+        RoundText = UiNodes.GetNode<Label>("%RoundText");
         //if/or is sadly faster than reflection ):
         TileMapLayer.money += Waves[0].WaveMoney;
 		TileMapLayer.MoneyNum.Text = Waves[0].WaveMoney.ToString();
@@ -174,5 +179,18 @@ public partial class LevelHandler : Node
 	private void InstantiateCombinedSpawner()
 	{
 		SpawnPreset[] CombinedSpawns = Waves[CurrentWave - 1].Spawns;
+	}
+
+	private void GetUsedSpawners(SpawnPreset[] waves)
+	{
+		List<string> Spawners = new List<string>{waves[0].SpawnerName};
+
+		for (int i = 1; i < waves.Length; i++)
+		{
+			if (!Spawners.Contains(waves[i].SpawnerName))
+			{
+				Spawners.Add(waves[i].SpawnerName);
+			}
+		}
 	}
 }

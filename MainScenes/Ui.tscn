@@ -1,0 +1,446 @@
+[gd_scene format=3 uid="uid://crf6pbap3sfoi"]
+
+[ext_resource type="FontFile" uid="uid://cpyolsdwwh06t" path="res://Fonts/PixelifySans-VariableFont_wght.ttf" id="1_3hi8u"]
+[ext_resource type="Texture2D" uid="uid://ctg1ox4rmbbn0" path="res://Raw_sprites/UI/Item_frame.png" id="2_rqt7b"]
+[ext_resource type="Script" uid="uid://u2ofwnkhaa8l" path="res://Scripts/GridBased/Build_tile.cs" id="3_1msxp"]
+[ext_resource type="PackedScene" uid="uid://l14itu8jjarh" path="res://Scenes/Projectiles/Towers/BallistaTower.tscn" id="4_ykdji"]
+[ext_resource type="Texture2D" uid="uid://wkgmeftkue50" path="res://Raw_sprites/Towers/Ballista.png" id="5_ygwgu"]
+[ext_resource type="PackedScene" uid="uid://koskhgp3xffg" path="res://Scenes/Projectiles/Towers/CannonTower.tscn" id="6_1d1i0"]
+[ext_resource type="Texture2D" uid="uid://j2hri2bdtdw2" path="res://Raw_sprites/Towers/CannonBase.png" id="7_atkue"]
+[ext_resource type="PackedScene" uid="uid://bi678rx01tgmm" path="res://Scenes/Projectiles/Towers/WizardTower.tscn" id="8_0cvpe"]
+[ext_resource type="Texture2D" uid="uid://d3a6vnxuuhj1f" path="res://Raw_sprites/Towers/WizardTower.png" id="9_ihsl2"]
+[ext_resource type="Script" uid="uid://ijp6ng4aw433" path="res://Scripts/GridBased/Terrain_tile_button.cs" id="10_yajl0"]
+[ext_resource type="Texture2D" uid="uid://bi82ketkd1p5m" path="res://Raw_sprites/TileMap/UiTerrainTextures/Brick.png" id="11_eecbx"]
+[ext_resource type="Texture2D" uid="uid://b3k8p786tfmsj" path="res://Raw_sprites/TileMap/UiTerrainTextures/StoneBrick.png" id="12_56835"]
+[ext_resource type="Theme" uid="uid://b4ytiaxr0csu4" path="res://Raw_sprites/UI/Box_theme.tres" id="13_1dpt7"]
+[ext_resource type="Texture2D" uid="uid://bktholecjqbif" path="res://Raw_sprites/UI/DialogueBubble.png" id="14_umvtk"]
+[ext_resource type="Theme" uid="uid://d00o06fmebnxl" path="res://Raw_sprites/UI/GreenTheme.tres" id="15_a8vcu"]
+[ext_resource type="Texture2D" uid="uid://dcwkdl27nm5g4" path="res://Raw_sprites/TileMap/Coin.png" id="16_wv531"]
+[ext_resource type="Texture2D" uid="uid://dv1tnv1gxuor7" path="res://Raw_sprites/UI/heart.png" id="17_1tw1y"]
+[ext_resource type="Texture2D" uid="uid://d0pido6gcpqk3" path="res://Raw_sprites/UI/PlainWhite.png" id="18_ap56t"]
+[ext_resource type="Script" uid="uid://caqq0qxyumwr0" path="res://Scripts/LogicBased/GeneralButtonClass.cs" id="19_oxjas"]
+
+[sub_resource type="Theme" id="Theme_hiam4"]
+default_font = ExtResource("1_3hi8u")
+Label/font_sizes/font_size = 16
+
+[sub_resource type="LabelSettings" id="LabelSettings_11i1w"]
+line_spacing = -6.0
+font_size = 17
+outline_size = 4
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7qnck"]
+bg_color = Color(0.7109375, 0.56013256, 0.35546875, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.32729906, 0.32729903, 0.32729912, 1)
+corner_radius_bottom_left = 10
+shadow_size = 2
+shadow_offset = Vector2(-2, 0)
+
+[sub_resource type="Theme" id="Theme_wfuso"]
+Panel/styles/panel = SubResource("StyleBoxFlat_7qnck")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_j7otg"]
+bg_color = Color(0.5989584, 0.43576562, 0.2121311, 1)
+corner_radius_top_left = 5
+corner_radius_bottom_left = 5
+corner_detail = 4
+expand_margin_left = 4.0
+expand_margin_top = 4.0
+expand_margin_right = 4.0
+expand_margin_bottom = 4.0
+shadow_color = Color(0, 0, 0, 0.70980394)
+shadow_size = 1
+shadow_offset = Vector2(-1, 0)
+
+[sub_resource type="Theme" id="Theme_k3nk6"]
+Panel/styles/panel = SubResource("StyleBoxFlat_j7otg")
+
+[node name="Ui" type="Control" unique_id=1584451753]
+z_index = 10
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Rounds&Tiles" type="HBoxContainer" parent="." unique_id=955687122]
+layout_mode = 1
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -100.0
+offset_bottom = -398.0
+grow_horizontal = 0
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="Rounds&Tiles" unique_id=92189882]
+layout_mode = 2
+theme_override_constants/margin_left = -60
+
+[node name="RoundText" type="Label" parent="Rounds&Tiles/MarginContainer" unique_id=588307137]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme = SubResource("Theme_hiam4")
+text = "Round
+0/4"
+label_settings = SubResource("LabelSettings_11i1w")
+horizontal_alignment = 2
+
+[node name="SideBar" type="Panel" parent="Rounds&Tiles" unique_id=926151918]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 1
+theme = SubResource("Theme_wfuso")
+
+[node name="TowerAndTiles" type="MarginContainer" parent="Rounds&Tiles/SideBar" unique_id=1903405174]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -33.0
+offset_top = 6.0
+offset_right = 36.0
+offset_bottom = 114.0
+grow_horizontal = 2
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_bottom = -8
+
+[node name="Panel" type="Panel" parent="Rounds&Tiles/SideBar/TowerAndTiles" unique_id=113410454]
+layout_mode = 2
+mouse_filter = 1
+theme = SubResource("Theme_k3nk6")
+
+[node name="PlacementContainer" type="HBoxContainer" parent="Rounds&Tiles/SideBar/TowerAndTiles" unique_id=1778895461]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Towers" type="VBoxContainer" parent="Rounds&Tiles/SideBar/TowerAndTiles/PlacementContainer" unique_id=2042515055]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Ballista" type="TextureButton" parent="Rounds&Tiles/SideBar/TowerAndTiles/PlacementContainer/Towers" unique_id=792941808]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+texture_normal = ExtResource("2_rqt7b")
+texture_pressed = ExtResource("2_rqt7b")
+texture_hover = ExtResource("2_rqt7b")
+texture_disabled = ExtResource("2_rqt7b")
+texture_focused = ExtResource("2_rqt7b")
+script = ExtResource("3_1msxp")
+cost = 40
+building = ExtResource("4_ykdji")
+
+[node name="CenterContainer" type="CenterContainer" parent="Rounds&Tiles/SideBar/TowerAndTiles/PlacementContainer/Towers/Ballista" unique_id=1829717689]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TextureRect" type="TextureRect" parent="Rounds&Tiles/SideBar/TowerAndTiles/PlacementContainer/Towers/Ballista/CenterContainer" unique_id=2095350089]
+layout_mode = 2
+texture = ExtResource("5_ygwgu")
+
+[node name="Cannon" type="TextureButton" parent="Rounds&Tiles/SideBar/TowerAndTiles/PlacementContainer/Towers" unique_id=979072038]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+texture_normal = ExtResource("2_rqt7b")
+texture_pressed = ExtResource("2_rqt7b")
+texture_hover = ExtResource("2_rqt7b")
+texture_disabled = ExtResource("2_rqt7b")
+texture_focused = ExtResource("2_rqt7b")
+script = ExtResource("3_1msxp")
+building = ExtResource("6_1d1i0")
+
+[node name="CenterContainer" type="CenterContainer" parent="Rounds&Tiles/SideBar/TowerAndTiles/PlacementContainer/Towers/Cannon" unique_id=770801253]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TextureRect" type="TextureRect" parent="Rounds&Tiles/SideBar/TowerAndTiles/PlacementContainer/Towers/Cannon/CenterContainer" unique_id=1521560001]
+layout_mode = 2
+texture = ExtResource("7_atkue")
+
+[node name="WizardTower" type="TextureButton" parent="Rounds&Tiles/SideBar/TowerAndTiles/PlacementContainer/Towers" unique_id=496346655]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+texture_normal = ExtResource("2_rqt7b")
+texture_pressed = ExtResource("2_rqt7b")
+texture_hover = ExtResource("2_rqt7b")
+texture_disabled = ExtResource("2_rqt7b")
+texture_focused = ExtResource("2_rqt7b")
+script = ExtResource("3_1msxp")
+cost = 50
+building = ExtResource("8_0cvpe")
+
+[node name="CenterContainer" type="CenterContainer" parent="Rounds&Tiles/SideBar/TowerAndTiles/PlacementContainer/Towers/WizardTower" unique_id=844407356]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TextureRect" type="TextureRect" parent="Rounds&Tiles/SideBar/TowerAndTiles/PlacementContainer/Towers/WizardTower/CenterContainer" unique_id=2032697853]
+layout_mode = 2
+texture = ExtResource("9_ihsl2")
+
+[node name="Tiles" type="VBoxContainer" parent="Rounds&Tiles/SideBar/TowerAndTiles/PlacementContainer" unique_id=1574791010]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Brick" type="TextureButton" parent="Rounds&Tiles/SideBar/TowerAndTiles/PlacementContainer/Tiles" unique_id=478466126]
+layout_mode = 2
+texture_normal = ExtResource("2_rqt7b")
+texture_pressed = ExtResource("2_rqt7b")
+texture_hover = ExtResource("2_rqt7b")
+texture_disabled = ExtResource("2_rqt7b")
+texture_focused = ExtResource("2_rqt7b")
+script = ExtResource("10_yajl0")
+cost = 5
+AtlasCoordinates = Vector2i(368, 64)
+
+[node name="CenterContainer" type="CenterContainer" parent="Rounds&Tiles/SideBar/TowerAndTiles/PlacementContainer/Tiles/Brick" unique_id=839874863]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TextureRect" type="TextureRect" parent="Rounds&Tiles/SideBar/TowerAndTiles/PlacementContainer/Tiles/Brick/CenterContainer" unique_id=278885347]
+layout_mode = 2
+texture = ExtResource("11_eecbx")
+
+[node name="StoneBrick" type="TextureButton" parent="Rounds&Tiles/SideBar/TowerAndTiles/PlacementContainer/Tiles" unique_id=1204496586]
+layout_mode = 2
+texture_normal = ExtResource("2_rqt7b")
+texture_pressed = ExtResource("2_rqt7b")
+texture_hover = ExtResource("2_rqt7b")
+texture_disabled = ExtResource("2_rqt7b")
+texture_focused = ExtResource("2_rqt7b")
+script = ExtResource("10_yajl0")
+cost = 10
+
+[node name="CenterContainer" type="CenterContainer" parent="Rounds&Tiles/SideBar/TowerAndTiles/PlacementContainer/Tiles/StoneBrick" unique_id=1443565571]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TextureRect" type="TextureRect" parent="Rounds&Tiles/SideBar/TowerAndTiles/PlacementContainer/Tiles/StoneBrick/CenterContainer" unique_id=450323176]
+layout_mode = 2
+texture = ExtResource("12_56835")
+
+[node name="StartContainer" type="MarginContainer" parent="Rounds&Tiles/SideBar" unique_id=207066610]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -40.0
+offset_top = -50.0
+offset_right = 40.0
+grow_horizontal = 2
+grow_vertical = 0
+theme = ExtResource("13_1dpt7")
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="Panel" type="NinePatchRect" parent="Rounds&Tiles/SideBar/StartContainer" unique_id=1166647808]
+self_modulate = Color(0.07450981, 0.4392157, 0.03137255, 1)
+layout_mode = 2
+texture = ExtResource("14_umvtk")
+patch_margin_left = 8
+patch_margin_top = 8
+patch_margin_right = 8
+patch_margin_bottom = 8
+
+[node name="Start" type="Button" parent="Rounds&Tiles/SideBar/StartContainer/Panel" unique_id=1652389771]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -19.0
+offset_top = -11.5
+offset_right = 19.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+theme = ExtResource("15_a8vcu")
+text = "Start"
+
+[node name="HealthAndCoins" type="MarginContainer" parent="." unique_id=837618796]
+layout_mode = 1
+offset_right = 96.0
+offset_bottom = 40.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HealthAndCoins" unique_id=1466037914]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="HealthAndCoins/HBoxContainer" unique_id=1202392631]
+layout_mode = 2
+texture = ExtResource("16_wv531")
+stretch_mode = 4
+
+[node name="MoneyNum" type="Label" parent="HealthAndCoins/HBoxContainer" unique_id=446179891]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="HealthAndCoins/HBoxContainer" unique_id=323887165]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="HealthAndCoins/HBoxContainer/HBoxContainer2" unique_id=309759009]
+layout_mode = 2
+texture = ExtResource("17_1tw1y")
+stretch_mode = 4
+
+[node name="HealthNum" type="Label" parent="HealthAndCoins/HBoxContainer/HBoxContainer2" unique_id=1140390931]
+unique_name_in_owner = true
+layout_mode = 2
+text = "10"
+
+[node name="DefeatMenu" type="CenterContainer" parent="." unique_id=252598162]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="TextureRect" parent="DefeatMenu" unique_id=601309060]
+self_modulate = Color(0, 0, 0, 0.84705883)
+custom_minimum_size = Vector2(200, 200)
+layout_mode = 2
+mouse_filter = 2
+theme = ExtResource("13_1dpt7")
+texture = ExtResource("18_ap56t")
+
+[node name="Label" type="Label" parent="DefeatMenu/Panel" unique_id=1197258098]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.1
+anchor_right = 0.5
+anchor_bottom = 0.1
+offset_left = -0.5
+offset_right = 0.5
+offset_bottom = 23.0
+grow_horizontal = 2
+text = "Game Over, you lost!!!"
+
+[node name="CenterContainer" type="CenterContainer" parent="DefeatMenu/Panel" unique_id=816128319]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="InnerDefMenu" type="HBoxContainer" parent="DefeatMenu/Panel/CenterContainer" unique_id=552752453]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="MainMenu" type="Button" parent="DefeatMenu/Panel/CenterContainer/InnerDefMenu" unique_id=99685827]
+layout_mode = 2
+text = "Main Menu"
+script = ExtResource("19_oxjas")
+SendMessage = true
+message = "main_menu"
+
+[node name="Restart" type="Button" parent="DefeatMenu/Panel/CenterContainer/InnerDefMenu" unique_id=574441669]
+layout_mode = 2
+text = "Restart
+
+"
+script = ExtResource("19_oxjas")
+SendMessage = true
+message = "Level1"
+
+[node name="WinMenu" type="CenterContainer" parent="." unique_id=874559251]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="TextureRect" parent="WinMenu" unique_id=1376798666]
+self_modulate = Color(0, 0, 0, 0.84705883)
+custom_minimum_size = Vector2(200, 200)
+layout_mode = 2
+mouse_filter = 2
+theme = ExtResource("13_1dpt7")
+texture = ExtResource("18_ap56t")
+
+[node name="Label" type="Label" parent="WinMenu/Panel" unique_id=569375269]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.1
+anchor_right = 0.5
+anchor_bottom = 0.1
+offset_left = -0.5
+offset_right = 0.5
+offset_bottom = 23.0
+grow_horizontal = 2
+text = "You won, Hooray!!!"
+
+[node name="CenterContainer" type="CenterContainer" parent="WinMenu/Panel" unique_id=854142273]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="InnerWinMenu" type="HBoxContainer" parent="WinMenu/Panel/CenterContainer" unique_id=888783625]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="MainMenu" type="Button" parent="WinMenu/Panel/CenterContainer/InnerWinMenu" unique_id=1118806938]
+layout_mode = 2
+text = "Main Menu"
+script = ExtResource("19_oxjas")
+SendMessage = true
+message = "main_menu"
+
+[node name="Next" type="Button" parent="WinMenu/Panel/CenterContainer/InnerWinMenu" unique_id=803431309]
+layout_mode = 2
+text = "Next Level
+
+"
+script = ExtResource("19_oxjas")
+SendMessage = true
+message = "Level1_Intermediary"

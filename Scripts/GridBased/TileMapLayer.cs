@@ -20,8 +20,7 @@ public partial class TileMapLayer : Godot.TileMapLayer
 
 	private bool hidden = false;
 	//
-    private TextureRect TowerContainer;
-    private TextureRect TileContainer;
+    private HBoxContainer PlacementContainer;
 	//Grids and cells
 	private bool mouse_down = false;
 
@@ -45,29 +44,31 @@ public partial class TileMapLayer : Godot.TileMapLayer
     public delegate void CustomTileChangedEventHandler();
     //Towers
     private bool ButtonPressed;
+
+
+    private Control UiNodes;
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
-        TowerContainer = GetTree().Root.GetChild(1).GetNode<TextureRect>("%TowerContainer");
-        TileContainer = GetTree().Root.GetChild(1).GetNode<TextureRect>("%TileContainer");
+        UiNodes = GetTree().Root.GetChild(1).GetNode<Control>("%Ui");
+
+        PlacementContainer = UiNodes.GetNode<HBoxContainer>("%PlacementContainer");
         //Get all TextureButton signals
         if (TileSignifier == null) { TileSignifier = GetNode<Sprite2D>("%TileSignifier"); }
         Particles2D = TileSignifier.GetChild<GpuParticles2D>(1);
 
-        foreach (MarginContainer container in TileContainer.GetChild<VBoxContainer>(0).GetChildren())
+        foreach (TextureButton child in PlacementContainer.GetChild<VBoxContainer>(1).GetChildren())
         {
-            TextureButton child = container.GetChild<TextureButton>(0);
             child.Connect("SendTileInfo",new Callable(this, nameof(ChangeCurrentTile)));
         }
-        foreach (MarginContainer container in TowerContainer.GetChild<VBoxContainer>(0).GetChildren())
+        foreach (TextureButton child in PlacementContainer.GetChild<VBoxContainer>(0).GetChildren())
         {
-			TextureButton child = container.GetChild<TextureButton>(0);
             child.Connect("SendBuildInfo", new Callable(this, nameof(ChangeCurrentBuilding)));
             ChangeCurrentBuilding(child);
         }
 
 
-        MoneyNum = GetTree().Root.GetChild(1).GetNode<Label>("%MoneyNum");
+        MoneyNum = UiNodes.GetNode<Label>("%MoneyNum");
 		grid = new Grid_class<Tile_node>(width,height,cellsize,new Godot.Vector2(0,0), (Grid_class<Tile_node> g, int x, int y) => new Tile_node(x:x,y:y));
 
 		foreach (Vector2I cell in GetUsedCells()){
@@ -175,8 +176,8 @@ public partial class TileMapLayer : Godot.TileMapLayer
 			{
 				hidden = false;
 				TileSignifier.Visible = true;
-                TowerContainer.Visible = true;
-                TileContainer.Visible = true;
+                UiNodes.GetChild<VBoxContainer>(0).Visible = true;
+                UiNodes.GetChild<VBoxContainer>(1).Visible = true;
             }
 		}
 		else
@@ -185,8 +186,8 @@ public partial class TileMapLayer : Godot.TileMapLayer
 			{
 				hidden = true;
                 TileSignifier.Visible = false;
-                TowerContainer.Visible = false;
-                TileContainer.Visible = false;
+                UiNodes.GetChild<VBoxContainer>(0).Visible = false;
+                UiNodes.GetChild<VBoxContainer>(1).Visible = false;
             }
 		}
     }
@@ -410,7 +411,7 @@ public partial class TileMapLayer : Godot.TileMapLayer
 
 
 
-        TileSignifier.Texture = button.TextureNormal;
+        TileSignifier.Texture = button.GetChild(0).GetChild<TextureRect>(0).Texture;
         ButtonPressed = true;
     }
 
@@ -421,7 +422,7 @@ public partial class TileMapLayer : Godot.TileMapLayer
         TileScript = button as Terrain_tile_button;
         TileSignifier.GetChild<Sprite2D>(0).Visible = false;
 
-        TileSignifier.Texture = button.TextureNormal;
+        TileSignifier.Texture = button.GetChild(0).GetChild<TextureRect>(0).Texture;
         ButtonPressed = true;
     }
 

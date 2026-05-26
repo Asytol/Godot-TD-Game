@@ -38,6 +38,7 @@ public partial class FriendlyLizardScript : CharacterBody2D
 		pathFinder = new PathFinder(mapwidth,mapheight, tilemap);
 
 		MaterialSprite.Visible = false;
+		GetNode<Sprite2D>("SelectionCircle").Visible = false;
 
 		GetNode<Area2D>("Area2D").AreaEntered += PickingUpMaterial;
 		GetNode<Area2D>("TinyDetector").AreaEntered += CollidedWithFriendly;
@@ -82,7 +83,10 @@ public partial class FriendlyLizardScript : CharacterBody2D
 			await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
 		}
 		QueueCoroutineDeletion = false;
-		WalkAlongNodes(path);
+		if (path != null)
+		{
+			WalkAlongNodes(path);	
+		}
 	}
 
 	public async void WalkAlongNodes(List<PathNode> nodes){

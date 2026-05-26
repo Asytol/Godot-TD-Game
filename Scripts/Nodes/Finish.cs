@@ -17,11 +17,15 @@ public partial class Finish : Area2D
     private RandomNumberGenerator Rand = new RandomNumberGenerator();
     private float VelocityMin;
     private float VelocityMax;
+
+    private Control UiNodes;
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
+        UiNodes = GetTree().Root.GetChild(1).GetNode<Control>("%Ui");
+
         this.BodyEntered += OnBodyEntered;
-        HealthNum = GetNode<Label>("%HealthNum");
+        HealthNum = UiNodes.GetNode<Label>("%HealthNum");
         HealthNum.Text = health.ToString(); 
 
         ParticleProcessMaterial material = SoulSuckingParticles.ProcessMaterial as ParticleProcessMaterial;
@@ -32,21 +36,21 @@ public partial class Finish : Area2D
 
         if (DefeatMenu == null)
 		{
-			DefeatMenu = GetNode<CenterContainer>("%DefeatMenu");
+			DefeatMenu = UiNodes.GetNode<CenterContainer>("%DefeatMenu");
 		}
 		DefeatMenu.Visible = false;
 
-		foreach (BaseButton button in GetNode<HBoxContainer>("%InnerDefMenu").GetChildren())
+		foreach (BaseButton button in UiNodes.GetNode<HBoxContainer>("%InnerDefMenu").GetChildren())
 		{
 			button.Connect("SendString",new Callable(this, nameof(GoToLevel)));
 		}
         if (WinMenu == null)
         {
-            WinMenu = GetNode<CenterContainer>("%WinMenu");
+            WinMenu = UiNodes.GetNode<CenterContainer>("%WinMenu");
         }
-        foreach (BaseButton button in GetNode<HBoxContainer>("%InnerWinMenu").GetChildren())
+        foreach (BaseButton button in UiNodes.GetNode<HBoxContainer>("%InnerWinMenu").GetChildren())
         {
-            button.Connect("SendString",new Callable(this, nameof(GoToLevel)));
+            button.Connect("SendString",new Callable(this, nameof(GoToLevel))); 
         }
     }
 
