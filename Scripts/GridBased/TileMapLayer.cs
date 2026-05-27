@@ -47,6 +47,8 @@ public partial class TileMapLayer : Godot.TileMapLayer
 
 
     private Control UiNodes;
+    private RandomNumberGenerator rng = new RandomNumberGenerator();
+    [Export] private AudioStreamPlayer PlacementPlayer;
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
@@ -80,11 +82,17 @@ public partial class TileMapLayer : Godot.TileMapLayer
 			}
 		}
 
+        if (PlacementPlayer == null)
+        {
+            PlacementPlayer = GetNode<AudioStreamPlayer>("AudioStreamPlayer");
+        }
+
 		//Ui and building
 		Vector2I position = new Vector2I(cellsize,cellsize);
 	}
 	public override void _Input(InputEvent @event)
 	{
+        if (LevelHandler.CutsceneFinished == false){return;}
 		// Mouse in viewport coordinates.
 		if (@event is InputEventMouseButton eventMouseButton)
 		{
@@ -276,6 +284,8 @@ public partial class TileMapLayer : Godot.TileMapLayer
 			money -= BuildScript.cost;
 			GD.Print(BuildScript.cost);
 			MoneyNum.Text = money.ToString();
+            PlacementPlayer.PitchScale = rng.RandfRange(0.8f,1.2f);
+            PlacementPlayer.Play();
 
 			Node2D Instance = BuildScript.building.Instantiate<Node2D>();
 			AddChild(Instance);
@@ -408,7 +418,7 @@ public partial class TileMapLayer : Godot.TileMapLayer
         TowerBase BuildingScript = temp as TowerBase;
 
         Sprite2D Sprite = TileSignifier.GetChild<Sprite2D>(0);
-        Sprite.Scale = new Godot.Vector2(BuildingScript.base_range, BuildingScript.base_range) / new Godot.Vector2(64,64);
+        Sprite.Scale = new Godot.Vector2(BuildingScript.base_range*2, BuildingScript.base_range*2) / new Godot.Vector2(64,64);
 
 
 
@@ -448,6 +458,8 @@ public partial class TileMapLayer : Godot.TileMapLayer
             {
                 CreateTileI(TilePos, TileScript.SourceId);
             }
+            PlacementPlayer.PitchScale = rng.RandfRange(0.8f,1.2f);
+            PlacementPlayer.Play();
         }
     }
 

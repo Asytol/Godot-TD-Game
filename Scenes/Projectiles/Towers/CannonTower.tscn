@@ -69,6 +69,7 @@ animations = [{
 }]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_kmpqp"]
+radius = 150.0
 
 [sub_resource type="Gradient" id="Gradient_75oyh"]
 offsets = PackedFloat32Array(0, 0.27542374, 1)
@@ -108,7 +109,7 @@ Cooldown = 4.0
 base_spread = 3.0
 projectile = ExtResource("2_163qn")
 Particles2D = NodePath("GPUParticles2D")
-base_range = 300.0
+base_range = 150.0
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=353195075]
 texture = ExtResource("2_y5b2k")

@@ -10,6 +10,7 @@ public partial class LevelHandler : Node
 	[Export] WavePreset[] Waves;
 	public static int CurrentWave;
 	public static bool RoundOver = true;
+	public static bool CutsceneFinished;
 	public static int EnemiesAlive = 0;
     //[Export] private WavePreset[] WavePresets;
 
@@ -29,6 +30,7 @@ public partial class LevelHandler : Node
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
+		CutsceneFinished = true;
 		UiNodes = GetTree().Root.GetChild(1).GetNode<Control>("%Ui");
 
 		CurrentWave = 0;	
@@ -54,6 +56,7 @@ public partial class LevelHandler : Node
 		CutSceneHandler = GetNodeOrNull<TextureRect>("%Cutscene");
 		if (CutSceneHandler != null)
 		{
+			CutsceneFinished = false;
 			CutSceneHandler.Connect("CutsceneFinished", new Callable(this, nameof(ResumeScene)));
 			//Getting the DONT TOUCH node, yeah im touching it. But only i can, not anyone else.
 			GetNode<Node2D>("%2DNodes").PropagateCall("set_process", [false]);
@@ -132,6 +135,7 @@ public partial class LevelHandler : Node
 		GetNode<Node2D>("%2DNodes").PropagateCall("set_process", [true]);
 		GetNode<Node2D>("%2DNodes").Visible = true;
 		GetNode<Control>("ControlNodes").Visible = true;
+		CutsceneFinished = true;
 	}
     private void DisableAndEnableSpawners()
     {

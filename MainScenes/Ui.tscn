@@ -290,6 +290,7 @@ texture_disabled = ExtResource("2_rqt7b")
 texture_focused = ExtResource("2_rqt7b")
 script = ExtResource("10_yajl0")
 cost = 20
+AtlasCoordinates = Vector2i(368, 144)
 health = 125.0
 
 [node name="CenterContainer" type="CenterContainer" parent="Rounds&Tiles/SideBar/TowerAndTiles/PlacementContainer/Tiles/GoldenBrick" unique_id=208972870]

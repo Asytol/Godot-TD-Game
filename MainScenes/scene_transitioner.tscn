@@ -167,5 +167,6 @@ frame_progress = 0.897732
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=1739000062]
 stream = ExtResource("4_bamnw")
+volume_db = -13.0
 autoplay = true
 parameters/looping = true
