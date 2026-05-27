@@ -86,6 +86,7 @@ public partial class TileMapLayer : Godot.TileMapLayer
         {
             PlacementPlayer = GetNode<AudioStreamPlayer>("AudioStreamPlayer");
         }
+        TileSignifier.Visible = true;
 
 		//Ui and building
 		Vector2I position = new Vector2I(cellsize,cellsize);

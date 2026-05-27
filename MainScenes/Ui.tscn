@@ -244,7 +244,7 @@ texture_focused = ExtResource("2_rqt7b")
 script = ExtResource("10_yajl0")
 cost = 5
 AtlasCoordinates = Vector2i(368, 64)
-health = 18.0
+health = 9.0
 
 [node name="CenterContainer" type="CenterContainer" parent="Rounds&Tiles/SideBar/TowerAndTiles/PlacementContainer/Tiles/Brick" unique_id=839874863]
 layout_mode = 1
@@ -267,7 +267,7 @@ texture_disabled = ExtResource("2_rqt7b")
 texture_focused = ExtResource("2_rqt7b")
 script = ExtResource("10_yajl0")
 cost = 10
-health = 44.0
+health = 22.0
 
 [node name="CenterContainer" type="CenterContainer" parent="Rounds&Tiles/SideBar/TowerAndTiles/PlacementContainer/Tiles/StoneBrick" unique_id=1443565571]
 layout_mode = 1
@@ -291,7 +291,7 @@ texture_focused = ExtResource("2_rqt7b")
 script = ExtResource("10_yajl0")
 cost = 20
 AtlasCoordinates = Vector2i(368, 144)
-health = 125.0
+health = 63.0
 
 [node name="CenterContainer" type="CenterContainer" parent="Rounds&Tiles/SideBar/TowerAndTiles/PlacementContainer/Tiles/GoldenBrick" unique_id=208972870]
 layout_mode = 1

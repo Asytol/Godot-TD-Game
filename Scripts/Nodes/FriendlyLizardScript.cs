@@ -184,7 +184,7 @@ public partial class FriendlyLizardScript : CharacterBody2D
 		{
 			if (script.GlobalVelocity == Vector2.Zero)
 			{
-				CollidedWithFriendly2(body);
+				//CollidedWithFriendly2(body);
 			}
 			else if (script.RunningAway == false)
 			{
