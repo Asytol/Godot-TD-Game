@@ -24,7 +24,7 @@ metadata/_custom_type_script = "uid://dl1twe57s3hf0"
 script = ExtResource("2_4reqs")
 Spawns = Array[Object]([SubResource("Resource_pjmbt")])
 UsedSpawners = PackedStringArray("Spawner")
-WaveMoney = 400
+WaveMoney = 200
 metadata/_custom_type_script = "uid://bxq7b72m4anqj"
 
 [sub_resource type="Gradient" id="Gradient_uy88i"]

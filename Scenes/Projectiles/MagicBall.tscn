@@ -2,7 +2,12 @@
 
 [ext_resource type="Script" uid="uid://b75uqkv3yfff7" path="res://Scripts/Nodes/HomingProjectile.cs" id="1_anqnq"]
 [ext_resource type="Texture2D" uid="uid://cckrfve15cy0p" path="res://Raw_sprites/Towers/MagicBall.png" id="1_hhuqs"]
+[ext_resource type="Shader" uid="uid://ckkcd88r3dcst" path="res://Scripts/GlowShader.gdshader" id="2_x016g"]
 [ext_resource type="Texture2D" uid="uid://dmrawa55x0hwn" path="res://Raw_sprites/UI/SmokeParticle.png" id="3_8o3m4"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_wse48"]
+shader = ExtResource("2_x016g")
+shader_parameter/Glow = 0.60000000894072
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_qnaon"]
 radius = 5.0
@@ -39,9 +44,11 @@ Shrapnell = Array[Resource]([])
 ShrapnellSpread = 20.0
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=718395344]
+material = SubResource("ShaderMaterial_wse48")
 texture = ExtResource("1_hhuqs")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1050977836]
+visible = false
 shape = SubResource("CircleShape2D_qnaon")
 
 [node name="EnemyDetectionCollider" type="Area2D" parent="." unique_id=372882601]
@@ -49,6 +56,7 @@ collision_layer = 4
 collision_mask = 2
 
 [node name="EnemyDetectionCollider" type="CollisionShape2D" parent="EnemyDetectionCollider" unique_id=1018327300]
+visible = false
 shape = SubResource("CircleShape2D_anqnq")
 
 [node name="GPUParticles2D" type="GPUParticles2D" parent="." unique_id=1813635823]
