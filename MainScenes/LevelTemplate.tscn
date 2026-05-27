@@ -115,6 +115,7 @@ metadata/_edit_lock_ = true
 [node name="Ui" parent="ControlNodes" unique_id=1584451753 instance=ExtResource("8_7g4l5")]
 unique_name_in_owner = true
 layout_mode = 1
+metadata/_edit_lock_ = true
 
 [node name="TextureRect" type="TextureRect" parent="ControlNodes" unique_id=842042576]
 self_modulate = Color(1, 1, 1, 0.27450982)
@@ -171,6 +172,7 @@ grow_vertical = 2
 mouse_filter = 2
 texture = ExtResource("13_aj80w")
 stretch_mode = 1
+metadata/_edit_lock_ = true
 
 [node name="WettSplattPlayer" type="AudioStreamPlayer" parent="." unique_id=1082110795]
 unique_name_in_owner = true
