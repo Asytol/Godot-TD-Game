@@ -4,30 +4,13 @@
 [ext_resource type="PackedScene" uid="uid://d0fwc6pi0u3cn" path="res://Scenes/Enemies/Lizard_enemy.tscn" id="2_gjfe6"]
 [ext_resource type="Script" uid="uid://dl1twe57s3hf0" path="res://Scripts/LogicBased/SpawnPreset.cs" id="3_iicv0"]
 [ext_resource type="Script" uid="uid://bxq7b72m4anqj" path="res://Scripts/LogicBased/WavePreset.cs" id="5_pp4ih"]
+[ext_resource type="PackedScene" uid="uid://crf6pbap3sfoi" path="res://MainScenes/Ui.tscn" id="8_7g4l5"]
 [ext_resource type="PackedScene" uid="uid://yw8eau6lycgh" path="res://Scenes/tile_map_layer.tscn" id="11_rccj1"]
 [ext_resource type="PackedScene" uid="uid://bvb6dnwk6e2" path="res://Scenes/finish.tscn" id="12_iht66"]
+[ext_resource type="AudioStream" uid="uid://w4npfkdcifmo" path="res://SoundEffects/kill-splat.mp3" id="13_ibq04"]
 [ext_resource type="PackedScene" uid="uid://d3wo35pdropd7" path="res://Scenes/Enemies/spawner.tscn" id="13_mq1ib"]
-[ext_resource type="PackedScene" uid="uid://l14itu8jjarh" path="res://Scenes/Projectiles/Towers/BallistaTower.tscn" id="14_p475i"]
-[ext_resource type="PackedScene" uid="uid://koskhgp3xffg" path="res://Scenes/Projectiles/Towers/CannonTower.tscn" id="15_tv6nv"]
-[ext_resource type="PackedScene" uid="uid://bi678rx01tgmm" path="res://Scenes/Projectiles/Towers/WizardTower.tscn" id="16_3cgwx"]
 [ext_resource type="Texture2D" uid="uid://06jq0rfp0yc3" path="res://Raw_sprites/TileMap/GridOutline.png" id="17_35fsu"]
-[ext_resource type="FontFile" uid="uid://cpyolsdwwh06t" path="res://Fonts/PixelifySans-VariableFont_wght.ttf" id="18_h1uks"]
-[ext_resource type="Texture2D" uid="uid://ctg1ox4rmbbn0" path="res://Raw_sprites/UI/Item_frame.png" id="19_herod"]
-[ext_resource type="Texture2D" uid="uid://wkgmeftkue50" path="res://Raw_sprites/Towers/Ballista.png" id="20_bop5k"]
-[ext_resource type="Script" uid="uid://u2ofwnkhaa8l" path="res://Scripts/GridBased/Build_tile.cs" id="21_5smyv"]
-[ext_resource type="Texture2D" uid="uid://j2hri2bdtdw2" path="res://Raw_sprites/Towers/CannonBase.png" id="22_bd6cl"]
-[ext_resource type="Texture2D" uid="uid://d3a6vnxuuhj1f" path="res://Raw_sprites/Towers/WizardTower.png" id="23_x77e1"]
-[ext_resource type="Texture2D" uid="uid://bi82ketkd1p5m" path="res://Raw_sprites/TileMap/UiTerrainTextures/Brick.png" id="24_7svp8"]
-[ext_resource type="Script" uid="uid://ijp6ng4aw433" path="res://Scripts/GridBased/Terrain_tile_button.cs" id="25_5o3sx"]
-[ext_resource type="Texture2D" uid="uid://b3k8p786tfmsj" path="res://Raw_sprites/TileMap/UiTerrainTextures/StoneBrick.png" id="26_qxdy8"]
-[ext_resource type="Theme" uid="uid://b4ytiaxr0csu4" path="res://Raw_sprites/UI/Box_theme.tres" id="27_t3qyj"]
-[ext_resource type="Texture2D" uid="uid://bktholecjqbif" path="res://Raw_sprites/UI/DialogueBubble.png" id="28_ubdk0"]
-[ext_resource type="Theme" uid="uid://d00o06fmebnxl" path="res://Raw_sprites/UI/GreenTheme.tres" id="29_ix6ut"]
-[ext_resource type="Texture2D" uid="uid://dcwkdl27nm5g4" path="res://Raw_sprites/TileMap/Coin.png" id="30_7umdu"]
-[ext_resource type="Texture2D" uid="uid://dv1tnv1gxuor7" path="res://Raw_sprites/UI/heart.png" id="31_saluo"]
 [ext_resource type="PackedScene" uid="uid://dor5lrdlgfxjy" path="res://Scenes/UI/GrassBackground.tscn" id="32_qa8r1"]
-[ext_resource type="Texture2D" uid="uid://d0pido6gcpqk3" path="res://Raw_sprites/UI/PlainWhite.png" id="33_hq407"]
-[ext_resource type="Script" uid="uid://caqq0qxyumwr0" path="res://Scripts/LogicBased/GeneralButtonClass.cs" id="34_0mq32"]
 [ext_resource type="Shader" uid="uid://bkiopfnmrlfln" path="res://MainScenes/Darkness.gdshader" id="35_acqmo"]
 [ext_resource type="Shader" uid="uid://bd1hkoflrg8ak" path="res://Raw_sprites/UI/NewFogShader.gdshader" id="36_61pjd"]
 [ext_resource type="Script" uid="uid://bupm80m503aah" path="res://Scripts/LoadSignifier.cs" id="37_qipxq"]
@@ -45,46 +28,6 @@ Spawns = Array[Object]([SubResource("Resource_nwys6")])
 UsedSpawners = PackedStringArray("Spawner")
 WaveMoney = 450
 metadata/_custom_type_script = "uid://bxq7b72m4anqj"
-
-[sub_resource type="Theme" id="Theme_hiam4"]
-default_font = ExtResource("18_h1uks")
-Label/font_sizes/font_size = 16
-
-[sub_resource type="LabelSettings" id="LabelSettings_11i1w"]
-line_spacing = -6.0
-font_size = 17
-outline_size = 4
-outline_color = Color(0, 0, 0, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7qnck"]
-bg_color = Color(0.7109375, 0.56013256, 0.35546875, 1)
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-border_color = Color(0.32729906, 0.32729903, 0.32729912, 1)
-corner_radius_bottom_left = 10
-shadow_size = 2
-shadow_offset = Vector2(-2, 0)
-
-[sub_resource type="Theme" id="Theme_wfuso"]
-Panel/styles/panel = SubResource("StyleBoxFlat_7qnck")
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_j7otg"]
-bg_color = Color(0.5989584, 0.43576562, 0.2121311, 1)
-corner_radius_top_left = 5
-corner_radius_bottom_left = 5
-corner_detail = 4
-expand_margin_left = 4.0
-expand_margin_top = 4.0
-expand_margin_right = 4.0
-expand_margin_bottom = 4.0
-shadow_color = Color(0, 0, 0, 0.70980394)
-shadow_size = 1
-shadow_offset = Vector2(-1, 0)
-
-[sub_resource type="Theme" id="Theme_k3nk6"]
-Panel/styles/panel = SubResource("StyleBoxFlat_j7otg")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_htv6h"]
 shader = ExtResource("35_acqmo")
@@ -168,6 +111,10 @@ grow_horizontal = 2
 grow_vertical = 2
 metadata/_edit_lock_ = true
 
+[node name="Ui" parent="ControlNodes" unique_id=1584451753 instance=ExtResource("8_7g4l5")]
+unique_name_in_owner = true
+layout_mode = 1
+
 [node name="TextureRect" type="TextureRect" parent="ControlNodes" unique_id=842042576]
 self_modulate = Color(1, 1, 1, 0.27450982)
 z_index = -4
@@ -183,387 +130,8 @@ texture = ExtResource("17_35fsu")
 stretch_mode = 1
 metadata/_edit_lock_ = true
 
-[node name="Ui" type="Control" parent="ControlNodes" unique_id=1480055819]
-z_index = 10
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-metadata/_edit_lock_ = true
-
-[node name="Rounds&Tiles" type="HBoxContainer" parent="ControlNodes/Ui" unique_id=1304473972]
-layout_mode = 1
-anchors_preset = 11
-anchor_left = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -100.0
-offset_bottom = -398.0
-grow_horizontal = 0
-grow_vertical = 2
-
-[node name="MarginContainer" type="MarginContainer" parent="ControlNodes/Ui/Rounds&Tiles" unique_id=512317300]
-layout_mode = 2
-theme_override_constants/margin_left = -60
-
-[node name="RoundText" type="Label" parent="ControlNodes/Ui/Rounds&Tiles/MarginContainer" unique_id=1252812028]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 0
-size_flags_vertical = 0
-theme = SubResource("Theme_hiam4")
-text = "Round
-0/4"
-label_settings = SubResource("LabelSettings_11i1w")
-horizontal_alignment = 2
-
-[node name="SideBar" type="Panel" parent="ControlNodes/Ui/Rounds&Tiles" unique_id=431035276]
-layout_mode = 2
-size_flags_horizontal = 3
-mouse_filter = 1
-theme = SubResource("Theme_wfuso")
-
-[node name="TowerAndTiles" type="MarginContainer" parent="ControlNodes/Ui/Rounds&Tiles/SideBar" unique_id=947477097]
-layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -33.0
-offset_top = 6.0
-offset_right = 36.0
-offset_bottom = 114.0
-grow_horizontal = 2
-theme_override_constants/margin_top = 8
-theme_override_constants/margin_bottom = -8
-
-[node name="Panel" type="Panel" parent="ControlNodes/Ui/Rounds&Tiles/SideBar/TowerAndTiles" unique_id=1122151907]
-layout_mode = 2
-mouse_filter = 1
-theme = SubResource("Theme_k3nk6")
-
-[node name="VBoxContainer" type="HBoxContainer" parent="ControlNodes/Ui/Rounds&Tiles/SideBar/TowerAndTiles" unique_id=927336857]
-layout_mode = 2
-
-[node name="TowerContainer" type="TextureRect" parent="ControlNodes/Ui/Rounds&Tiles/SideBar/TowerAndTiles/VBoxContainer" unique_id=1911848941]
-unique_name_in_owner = true
-texture_filter = 1
-texture_repeat = 2
-layout_mode = 2
-size_flags_horizontal = 0
-mouse_filter = 2
-texture = ExtResource("19_herod")
-stretch_mode = 1
-
-[node name="VBox" type="VBoxContainer" parent="ControlNodes/Ui/Rounds&Tiles/SideBar/TowerAndTiles/VBoxContainer/TowerContainer" unique_id=904527679]
-layout_mode = 1
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -72.0
-offset_bottom = 114.0
-grow_horizontal = 0
-theme_override_constants/separation = -3
-
-[node name="MarginContainer" type="MarginContainer" parent="ControlNodes/Ui/Rounds&Tiles/SideBar/TowerAndTiles/VBoxContainer/TowerContainer/VBox" unique_id=1171115226]
-layout_mode = 2
-theme_override_constants/margin_left = 0
-theme_override_constants/margin_top = 8
-theme_override_constants/margin_right = 8
-theme_override_constants/margin_bottom = 16
-
-[node name="Ballista" type="TextureButton" parent="ControlNodes/Ui/Rounds&Tiles/SideBar/TowerAndTiles/VBoxContainer/TowerContainer/VBox/MarginContainer" unique_id=845775152]
-layout_mode = 2
-size_flags_horizontal = 8
-size_flags_vertical = 0
-texture_normal = ExtResource("20_bop5k")
-texture_pressed = ExtResource("20_bop5k")
-texture_hover = ExtResource("20_bop5k")
-texture_disabled = ExtResource("20_bop5k")
-texture_focused = ExtResource("20_bop5k")
-script = ExtResource("21_5smyv")
-cost = 40
-building = ExtResource("14_p475i")
-
-[node name="MarginContainer2" type="MarginContainer" parent="ControlNodes/Ui/Rounds&Tiles/SideBar/TowerAndTiles/VBoxContainer/TowerContainer/VBox" unique_id=738686359]
-layout_mode = 2
-theme_override_constants/margin_left = 0
-theme_override_constants/margin_top = 8
-theme_override_constants/margin_right = 8
-theme_override_constants/margin_bottom = 16
-
-[node name="Cannon" type="TextureButton" parent="ControlNodes/Ui/Rounds&Tiles/SideBar/TowerAndTiles/VBoxContainer/TowerContainer/VBox/MarginContainer2" unique_id=772836926]
-layout_mode = 2
-size_flags_horizontal = 8
-size_flags_vertical = 0
-texture_normal = ExtResource("22_bd6cl")
-texture_pressed = ExtResource("22_bd6cl")
-texture_hover = ExtResource("22_bd6cl")
-texture_disabled = ExtResource("22_bd6cl")
-texture_focused = ExtResource("22_bd6cl")
-script = ExtResource("21_5smyv")
-building = ExtResource("15_tv6nv")
-
-[node name="MarginContainer3" type="MarginContainer" parent="ControlNodes/Ui/Rounds&Tiles/SideBar/TowerAndTiles/VBoxContainer/TowerContainer/VBox" unique_id=526153558]
-layout_mode = 2
-theme_override_constants/margin_left = 0
-theme_override_constants/margin_top = 8
-theme_override_constants/margin_right = 8
-theme_override_constants/margin_bottom = 16
-
-[node name="WizardTower" type="TextureButton" parent="ControlNodes/Ui/Rounds&Tiles/SideBar/TowerAndTiles/VBoxContainer/TowerContainer/VBox/MarginContainer3" unique_id=1007356637]
-layout_mode = 2
-size_flags_horizontal = 8
-size_flags_vertical = 0
-texture_normal = ExtResource("23_x77e1")
-texture_pressed = ExtResource("23_x77e1")
-texture_hover = ExtResource("23_x77e1")
-texture_disabled = ExtResource("23_x77e1")
-texture_focused = ExtResource("23_x77e1")
-script = ExtResource("21_5smyv")
-cost = 50
-building = ExtResource("16_3cgwx")
-
-[node name="TileContainer" type="TextureRect" parent="ControlNodes/Ui/Rounds&Tiles/SideBar/TowerAndTiles/VBoxContainer" unique_id=2107707053]
-unique_name_in_owner = true
-texture_filter = 1
-texture_repeat = 2
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-texture = ExtResource("19_herod")
-expand_mode = 4
-stretch_mode = 1
-
-[node name="VBox" type="VBoxContainer" parent="ControlNodes/Ui/Rounds&Tiles/SideBar/TowerAndTiles/VBoxContainer/TileContainer" unique_id=388277253]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 52.0
-theme_override_constants/separation = 13
-
-[node name="MarginContainer" type="MarginContainer" parent="ControlNodes/Ui/Rounds&Tiles/SideBar/TowerAndTiles/VBoxContainer/TileContainer/VBox" unique_id=229973671]
-layout_mode = 2
-theme_override_constants/margin_left = 8
-theme_override_constants/margin_top = 8
-
-[node name="Brick" type="TextureButton" parent="ControlNodes/Ui/Rounds&Tiles/SideBar/TowerAndTiles/VBoxContainer/TileContainer/VBox/MarginContainer" unique_id=1164962354]
-unique_name_in_owner = true
-layout_mode = 2
-texture_normal = ExtResource("24_7svp8")
-script = ExtResource("25_5o3sx")
-cost = 5
-AtlasCoordinates = Vector2i(368, 64)
-
-[node name="MarginContainer2" type="MarginContainer" parent="ControlNodes/Ui/Rounds&Tiles/SideBar/TowerAndTiles/VBoxContainer/TileContainer/VBox" unique_id=454300331]
-layout_mode = 2
-theme_override_constants/margin_left = 8
-theme_override_constants/margin_top = 8
-
-[node name="StoneBrick" type="TextureButton" parent="ControlNodes/Ui/Rounds&Tiles/SideBar/TowerAndTiles/VBoxContainer/TileContainer/VBox/MarginContainer2" unique_id=81215910]
-unique_name_in_owner = true
-layout_mode = 2
-texture_normal = ExtResource("26_qxdy8")
-script = ExtResource("25_5o3sx")
-cost = 10
-
-[node name="StartContainer" type="MarginContainer" parent="ControlNodes/Ui/Rounds&Tiles/SideBar" unique_id=2100704814]
-layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -40.0
-offset_top = -50.0
-offset_right = 40.0
-grow_horizontal = 2
-grow_vertical = 0
-theme = ExtResource("27_t3qyj")
-theme_override_constants/margin_left = 10
-theme_override_constants/margin_top = 10
-theme_override_constants/margin_right = 10
-theme_override_constants/margin_bottom = 10
-
-[node name="Panel" type="NinePatchRect" parent="ControlNodes/Ui/Rounds&Tiles/SideBar/StartContainer" unique_id=1528419329]
-self_modulate = Color(0.07450981, 0.4392157, 0.03137255, 1)
-layout_mode = 2
-texture = ExtResource("28_ubdk0")
-patch_margin_left = 8
-patch_margin_top = 8
-patch_margin_right = 8
-patch_margin_bottom = 8
-
-[node name="Start" type="Button" parent="ControlNodes/Ui/Rounds&Tiles/SideBar/StartContainer/Panel" unique_id=729254960]
-unique_name_in_owner = true
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -19.0
-offset_top = -11.5
-offset_right = 19.0
-offset_bottom = 11.5
-grow_horizontal = 2
-grow_vertical = 2
-size_flags_horizontal = 8
-size_flags_vertical = 8
-theme = ExtResource("29_ix6ut")
-text = "Start"
-
-[node name="HealthAndCoins" type="MarginContainer" parent="ControlNodes/Ui" unique_id=989641397]
-layout_mode = 1
-offset_right = 96.0
-offset_bottom = 40.0
-
-[node name="HBoxContainer" type="HBoxContainer" parent="ControlNodes/Ui/HealthAndCoins" unique_id=1888665964]
-layout_mode = 2
-
-[node name="TextureRect" type="TextureRect" parent="ControlNodes/Ui/HealthAndCoins/HBoxContainer" unique_id=1732746573]
-layout_mode = 2
-texture = ExtResource("30_7umdu")
-stretch_mode = 4
-
-[node name="MoneyNum" type="Label" parent="ControlNodes/Ui/HealthAndCoins/HBoxContainer" unique_id=23445455]
-unique_name_in_owner = true
-layout_mode = 2
-
-[node name="HBoxContainer2" type="HBoxContainer" parent="ControlNodes/Ui/HealthAndCoins/HBoxContainer" unique_id=453172738]
-layout_mode = 2
-
-[node name="TextureRect" type="TextureRect" parent="ControlNodes/Ui/HealthAndCoins/HBoxContainer/HBoxContainer2" unique_id=132309790]
-layout_mode = 2
-texture = ExtResource("31_saluo")
-stretch_mode = 4
-
-[node name="HealthNum" type="Label" parent="ControlNodes/Ui/HealthAndCoins/HBoxContainer/HBoxContainer2" unique_id=1580004134]
-unique_name_in_owner = true
-layout_mode = 2
-text = "10"
-
 [node name="Grass" parent="ControlNodes" unique_id=1932690567 instance=ExtResource("32_qa8r1")]
 layout_mode = 1
-
-[node name="DefeatMenu" type="CenterContainer" parent="ControlNodes" unique_id=877297039]
-unique_name_in_owner = true
-visible = false
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="Panel" type="TextureRect" parent="ControlNodes/DefeatMenu" unique_id=1760546625]
-self_modulate = Color(0, 0, 0, 0.84705883)
-custom_minimum_size = Vector2(200, 200)
-layout_mode = 2
-mouse_filter = 2
-theme = ExtResource("27_t3qyj")
-texture = ExtResource("33_hq407")
-
-[node name="Label" type="Label" parent="ControlNodes/DefeatMenu/Panel" unique_id=78257928]
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.5
-anchor_top = 0.1
-anchor_right = 0.5
-anchor_bottom = 0.1
-offset_left = -0.5
-offset_right = 0.5
-offset_bottom = 23.0
-grow_horizontal = 2
-text = "Game Over, you lost!!!"
-
-[node name="CenterContainer" type="CenterContainer" parent="ControlNodes/DefeatMenu/Panel" unique_id=1929058001]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="InnerDefMenu" type="HBoxContainer" parent="ControlNodes/DefeatMenu/Panel/CenterContainer" unique_id=1884315651]
-unique_name_in_owner = true
-layout_mode = 2
-
-[node name="MainMenu" type="Button" parent="ControlNodes/DefeatMenu/Panel/CenterContainer/InnerDefMenu" unique_id=1844786049]
-layout_mode = 2
-text = "Main Menu"
-script = ExtResource("34_0mq32")
-SendMessage = true
-message = "main_menu"
-
-[node name="Restart" type="Button" parent="ControlNodes/DefeatMenu/Panel/CenterContainer/InnerDefMenu" unique_id=1151887369]
-layout_mode = 2
-text = "Restart
-
-"
-script = ExtResource("34_0mq32")
-SendMessage = true
-message = "Level1"
-
-[node name="WinMenu" type="CenterContainer" parent="ControlNodes" unique_id=1650556053]
-unique_name_in_owner = true
-visible = false
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="Panel" type="TextureRect" parent="ControlNodes/WinMenu" unique_id=1344058727]
-self_modulate = Color(0, 0, 0, 0.84705883)
-custom_minimum_size = Vector2(200, 200)
-layout_mode = 2
-mouse_filter = 2
-theme = ExtResource("27_t3qyj")
-texture = ExtResource("33_hq407")
-
-[node name="Label" type="Label" parent="ControlNodes/WinMenu/Panel" unique_id=1481521528]
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.5
-anchor_top = 0.1
-anchor_right = 0.5
-anchor_bottom = 0.1
-offset_left = -0.5
-offset_right = 0.5
-offset_bottom = 23.0
-grow_horizontal = 2
-text = "You won, Hooray!!!"
-
-[node name="CenterContainer" type="CenterContainer" parent="ControlNodes/WinMenu/Panel" unique_id=1920761763]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="InnerWinMenu" type="HBoxContainer" parent="ControlNodes/WinMenu/Panel/CenterContainer" unique_id=1606006574]
-unique_name_in_owner = true
-layout_mode = 2
-
-[node name="MainMenu" type="Button" parent="ControlNodes/WinMenu/Panel/CenterContainer/InnerWinMenu" unique_id=889749626]
-layout_mode = 2
-text = "Main Menu"
-script = ExtResource("34_0mq32")
-SendMessage = true
-message = "main_menu"
-
-[node name="Next" type="Button" parent="ControlNodes/WinMenu/Panel/CenterContainer/InnerWinMenu" unique_id=425940638]
-layout_mode = 2
-text = "Next Level
-
-"
-script = ExtResource("34_0mq32")
-SendMessage = true
-message = "Level1_Intermediary"
 
 [node name="Darkness" type="ColorRect" parent="ControlNodes" unique_id=566419520]
 z_index = 4
@@ -589,6 +157,13 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 metadata/_edit_lock_ = true
+
+[node name="WettSplattPlayer" type="AudioStreamPlayer" parent="." unique_id=1082110795]
+unique_name_in_owner = true
+stream = ExtResource("13_ibq04")
+volume_db = -1.0
+pitch_scale = 1.8
+max_polyphony = 20
 
 [node name="LoadSignifier" type="Node" parent="." unique_id=415859115]
 unique_name_in_owner = true

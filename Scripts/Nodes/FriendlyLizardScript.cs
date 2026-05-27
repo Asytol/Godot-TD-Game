@@ -160,8 +160,8 @@ public partial class FriendlyLizardScript : CharacterBody2D
 			if (script.PickedUp != true)
 			{
 				script.PickedUp = true;
-				MaterialSprite.Texture = material.GetNode<Sprite2D>("Sprite2D").Texture;
 				MaterialSprite.Visible = true;
+				MaterialSprite.Texture = material.GetNode<Sprite2D>("Sprite2D").Texture;
 				CarriedMaterial = (material as Material).MaterialType;
 				material.QueueFree();	
 			}

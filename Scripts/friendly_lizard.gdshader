@@ -7,7 +7,6 @@ void vertex() {
 	VERTEX.y += cos(TIME*speed)*height;
 	// Called for every vertex the material is visible on.
 }
-
 void fragment() {
 	// Called for every pixel the material is visible on.
 }

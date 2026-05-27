@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://d3wo35pdropd7" path="res://Scenes/Enemies/spawner.tscn" id="4_mccvt"]
 [ext_resource type="Texture2D" uid="uid://06jq0rfp0yc3" path="res://Raw_sprites/TileMap/GridOutline.png" id="8_bn30d"]
 [ext_resource type="PackedScene" uid="uid://crf6pbap3sfoi" path="res://MainScenes/Ui.tscn" id="8_ncc8h"]
+[ext_resource type="AudioStream" uid="uid://w4npfkdcifmo" path="res://SoundEffects/kill-splat.mp3" id="13_a6lty"]
 [ext_resource type="PackedScene" uid="uid://dor5lrdlgfxjy" path="res://Scenes/UI/GrassBackground.tscn" id="24_usodk"]
 [ext_resource type="Shader" uid="uid://bd1hkoflrg8ak" path="res://Raw_sprites/UI/NewFogShader.gdshader" id="28_3djbc"]
 [ext_resource type="Shader" uid="uid://bkiopfnmrlfln" path="res://MainScenes/Darkness.gdshader" id="31_uy88i"]
@@ -151,6 +152,13 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 color = Color(0, 0, 0, 1)
+
+[node name="WettSplattPlayer" type="AudioStreamPlayer" parent="." unique_id=162535746]
+unique_name_in_owner = true
+stream = ExtResource("13_a6lty")
+volume_db = -1.0
+pitch_scale = 1.8
+max_polyphony = 20
 
 [node name="LoadSignifier" type="Node" parent="." unique_id=1569553362]
 unique_name_in_owner = true

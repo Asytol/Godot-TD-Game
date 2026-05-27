@@ -14,6 +14,7 @@ public partial class Enemy_base : RigidBody2D
     [Export] private GpuParticles2D DamageDisplayParticles;
 	[Export] private GpuParticles2D OnHitParticles;
     [Export] private GpuParticles2D DeathParticles;
+	private AudioStreamPlayer BloodSplattPlayer;
     private RandomNumberGenerator rng = new RandomNumberGenerator();
 	
 	private float og_line_width;
@@ -230,6 +231,9 @@ public partial class Enemy_base : RigidBody2D
 
 	private async void KillYourself()
 	{
+		BloodSplattPlayer = GetTree().Root.GetChild(1).GetNode<AudioStreamPlayer>("%WettSplattPlayer");
+		BloodSplattPlayer.PitchScale = rng.RandfRange(0.5f,1.5f);
+		BloodSplattPlayer.Play();
         KillingSelf = true;
         TileMapLayer.money += MoneyDrops;
         GetTree().Root.GetChild<LevelHandler>(1).OnEnemyDeath(GlobalPosition);

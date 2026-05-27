@@ -102,8 +102,9 @@ shader = ExtResource("5_nmxrr")
 shader_parameter/speed = 3.0
 shader_parameter/height = 2.0
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_titcx"]
-size = Vector2(15, 19)
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_nmxrr"]
+radius = 3.5
+height = 11.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_bdg6b"]
 radius = 50.0
@@ -113,8 +114,7 @@ radius = 4.0
 height = 11.0
 
 [node name="FriendlyLizard" type="CharacterBody2D" unique_id=1517741578 node_paths=PackedStringArray("Sprite", "MaterialSprite")]
-collision_layer = 5
-collision_mask = 2
+collision_layer = 6
 motion_mode = 1
 script = ExtResource("1_uauau")
 Sprite = NodePath("MainSprite")
@@ -141,11 +141,11 @@ position = Vector2(0, -19)
 texture = ExtResource("6_skcvv")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1141165200]
-visible = false
-position = Vector2(0.5, 0.5)
-shape = SubResource("RectangleShape2D_titcx")
+position = Vector2(0.5, 1.5)
+shape = SubResource("CapsuleShape2D_nmxrr")
 
 [node name="Area2D" type="Area2D" parent="." unique_id=640555835]
+visible = false
 collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=16467128]
@@ -153,6 +153,7 @@ visible = false
 shape = SubResource("CircleShape2D_bdg6b")
 
 [node name="TinyDetector" type="Area2D" parent="." unique_id=1525266294]
+visible = false
 collision_layer = 4
 collision_mask = 4
 

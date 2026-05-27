@@ -8,9 +8,12 @@
 [ext_resource type="Texture2D" uid="uid://ctg1ox4rmbbn0" path="res://Raw_sprites/UI/Item_frame.png" id="8_2t546"]
 [ext_resource type="Texture2D" uid="uid://cbuj4l03yywyq" path="res://Raw_sprites/UI/SelectionSquare.png" id="9_3tpw6"]
 [ext_resource type="Texture2D" uid="uid://bl4sq513qvi66" path="res://Raw_sprites/UI/AimingReticle.png" id="9_t8qc5"]
+[ext_resource type="Theme" uid="uid://b4ytiaxr0csu4" path="res://Raw_sprites/UI/Box_theme.tres" id="10_fvoc4"]
 [ext_resource type="Shader" uid="uid://bd1hkoflrg8ak" path="res://Raw_sprites/UI/NewFogShader.gdshader" id="10_t8qc5"]
 [ext_resource type="Texture2D" uid="uid://06jq0rfp0yc3" path="res://Raw_sprites/TileMap/GridOutline.png" id="11_3tpw6"]
+[ext_resource type="Texture2D" uid="uid://d0pido6gcpqk3" path="res://Raw_sprites/UI/PlainWhite.png" id="11_nnyd4"]
 [ext_resource type="PackedScene" uid="uid://dxfsvjd0cqoxa" path="res://Scenes/material.tscn" id="12_8gciv"]
+[ext_resource type="Script" uid="uid://caqq0qxyumwr0" path="res://Scripts/LogicBased/GeneralButtonClass.cs" id="12_ffvep"]
 [ext_resource type="PackedScene" uid="uid://1808imdfruyl" path="res://Scenes/MaterialSpawner.tscn" id="12_p41iy"]
 
 [sub_resource type="Gradient" id="Gradient_3tpw6"]
@@ -138,6 +141,68 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
+[node name="WinMenu" type="CenterContainer" parent="." unique_id=1672326272]
+unique_name_in_owner = true
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 137.0
+offset_top = -2.0
+offset_right = 137.0
+offset_bottom = -2.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="TextureRect" parent="WinMenu" unique_id=654336403]
+self_modulate = Color(0, 0, 0, 0.84705883)
+custom_minimum_size = Vector2(200, 200)
+layout_mode = 2
+mouse_filter = 2
+theme = ExtResource("10_fvoc4")
+texture = ExtResource("11_nnyd4")
+
+[node name="Label" type="Label" parent="WinMenu/Panel" unique_id=2075006643]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.1
+anchor_right = 0.5
+anchor_bottom = 0.1
+offset_left = -0.5
+offset_right = 0.5
+offset_bottom = 23.0
+grow_horizontal = 2
+text = "You won, Hooray!!!"
+
+[node name="CenterContainer" type="CenterContainer" parent="WinMenu/Panel" unique_id=2142058927]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="InnerWinMenu" type="HBoxContainer" parent="WinMenu/Panel/CenterContainer" unique_id=218901311]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="MainMenu" type="Button" parent="WinMenu/Panel/CenterContainer/InnerWinMenu" unique_id=1908347371]
+layout_mode = 2
+text = "Main Menu"
+script = ExtResource("12_ffvep")
+SendMessage = true
+message = "main_menu"
+
+[node name="Next" type="Button" parent="WinMenu/Panel/CenterContainer/InnerWinMenu" unique_id=1036126131]
+layout_mode = 2
+text = "Next Level
+
+"
+script = ExtResource("12_ffvep")
+SendMessage = true
+message = "Level2"
+
 [node name="Grids" type="TextureRect" parent="." unique_id=1833962819]
 self_modulate = Color(1, 1, 1, 0.27450982)
 z_index = -4
@@ -162,3 +227,11 @@ position = Vector2(765, 92)
 position = Vector2(237, 98)
 SpawnTime = 10.0
 Tilemap = NodePath("../TileMap")
+
+[node name="FriendlyLizard3" parent="." unique_id=476724320 instance=ExtResource("7_titcx")]
+position = Vector2(904, 126)
+wall_min_slide_angle = 0.0
+
+[node name="FriendlyLizard4" parent="." unique_id=513433234 instance=ExtResource("7_titcx")]
+position = Vector2(953, 123)
+wall_min_slide_angle = 0.0

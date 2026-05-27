@@ -212,5 +212,9 @@ public partial class BrokenTotem : Area2D
 	{
 		CurrentTreeAmount++;
 		TreeSelectionLabel.Text = CurrentTreeAmount+"/"+TreeReperationAmount;
+		if (CurrentTreeAmount >= TreeReperationAmount)
+		{
+			GetTree().Root.GetChild(1).GetNode<CenterContainer>("%WinMenu").Visible = true;
+		}
 	}
 }

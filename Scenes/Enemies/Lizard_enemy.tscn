@@ -123,7 +123,7 @@ damping_max = 100.00001
 scale_min = 2.0
 scale_max = 3.0
 
-[node name="Enemy" type="RigidBody2D" unique_id=447939803 node_paths=PackedStringArray("DamageDisplay", "DamageDisplayParticles", "OnHitParticles", "DeathParticles")]
+[node name="Enemy" type="RigidBody2D" unique_id=447939803 node_paths=PackedStringArray("DamageDisplay", "DamageDisplayParticles", "OnHitParticles", "DeathParticles", "BloodSplattPlayer")]
 collision_layer = 2
 collision_mask = 4
 script = ExtResource("1_r88v8")
@@ -131,6 +131,7 @@ DamageDisplay = NodePath("SubViewport/DamageDisplay")
 DamageDisplayParticles = NodePath("Particle")
 OnHitParticles = NodePath("BloodParticles")
 DeathParticles = NodePath("DeathParticles")
+BloodSplattPlayer = NodePath("")
 Speed = 24
 ExtraIFrames = 0.5
 RotationSpeed = 0.5
