@@ -16,8 +16,11 @@ public partial class TowerBase : Area2D
 	{
 		my_collider = this.GetNode<CollisionShape2D>("CollisionShape2D");
 		CircleShape2D circle_collider = my_collider.Shape as CircleShape2D;
+		range = base_range;
 
 		circle_collider.Radius = range;
+		GD.Print("range:" + range);
+		GD.Print("Radious:" + circle_collider.Radius);
 
 		this.BodyEntered += OnBodyEntered;
 		this.BodyExited += OnBodyExited;

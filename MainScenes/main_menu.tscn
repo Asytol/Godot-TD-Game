@@ -51,11 +51,6 @@ layout_mode = 2
 theme = ExtResource("1_oepce")
 text = "Level select"
 
-[node name="Settings" type="Button" parent="CenterContainer/VBoxContainer" unique_id=519410632]
-layout_mode = 2
-theme = ExtResource("1_oepce")
-text = "Settings"
-
 [node name="Quit" type="Button" parent="CenterContainer/VBoxContainer" unique_id=1702049403]
 unique_name_in_owner = true
 layout_mode = 2

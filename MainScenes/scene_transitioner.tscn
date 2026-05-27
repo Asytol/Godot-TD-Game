@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://b3xok25ig7tro" path="res://Scripts/LogicBased/SceneTransitioner.cs" id="1_wppla"]
 [ext_resource type="Script" uid="uid://v6twjfoqftrg" path="res://Scripts/LoadingLabel.cs" id="2_iw3go"]
 [ext_resource type="Texture2D" uid="uid://pomy66dfgb0a" path="res://Raw_sprites/Enemies/LizardWalking.png" id="3_atd0y"]
+[ext_resource type="AudioStream" uid="uid://bc1iqlv8333iu" path="res://SoundEffects/Sketchbook 2025-11-26.ogg" id="4_bamnw"]
 
 [sub_resource type="Theme" id="Theme_wppla"]
 RichTextLabel/font_sizes/normal_font_size = 25
@@ -163,3 +164,8 @@ z_index = 23
 position = Vector2(576, 224)
 sprite_frames = SubResource("SpriteFrames_v6u7r")
 frame_progress = 0.897732
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=1739000062]
+stream = ExtResource("4_bamnw")
+autoplay = true
+parameters/looping = true

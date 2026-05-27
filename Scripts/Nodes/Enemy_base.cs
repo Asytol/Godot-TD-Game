@@ -239,7 +239,6 @@ public partial class Enemy_base : RigidBody2D
         GetTree().Root.GetChild<LevelHandler>(1).OnEnemyDeath(GlobalPosition);
 		Tween tween = CreateTween();
 
-		AngularVelocity = 4000;
 		tween.TweenProperty(this, "scale",Godot.Vector2.Zero,1);
 		await ToSignal(tween, Tween.SignalName.Finished);
 		QueueFree();

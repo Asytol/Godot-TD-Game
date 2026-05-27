@@ -12,6 +12,7 @@ public partial class Finish : Area2D
 
     [Export] private GpuParticles2D OnHitParticles;
     [Export] private GpuParticles2D SoulSuckingParticles;
+    [Export] private String NextLevel = "level name here";
 
 
     private RandomNumberGenerator Rand = new RandomNumberGenerator();
@@ -91,6 +92,11 @@ public partial class Finish : Area2D
         GD.Print(level);
         CanvasLayer Transitioner = GetTree().Root.GetChild<CanvasLayer>(0);
         SceneTransitioner script = Transitioner as SceneTransitioner;
+        if (level == "NextLevel")
+        {
+            script.GoToScene(NextLevel);
+            return;
+        }
         script.GoToScene(level);
     }
 }
