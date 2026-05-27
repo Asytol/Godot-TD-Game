@@ -402,6 +402,7 @@ public partial class TileMapLayer : Godot.TileMapLayer
 		PlaceTiles = false;
 		PlaceBuildings = true;
         BuildScript = button as Build_tile;
+        TileSignifier.GetChild<Sprite2D>(0).Visible = true;
 
         Node2D temp = BuildScript.building.Instantiate<Node2D>();
         TowerBase BuildingScript = temp as TowerBase;

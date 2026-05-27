@@ -112,6 +112,7 @@ public partial class Spawner : Node2D
     {
         if (!DrawPath) { return; }
         //Regular path
+        ObstructionList.Clear();
         for (int i = 1; i < path.Count; i++)
         {
             Godot.Vector2 Pos1 = new Godot.Vector2(path[i - 1].x, path[i - 1].y) * 16;
@@ -119,7 +120,10 @@ public partial class Spawner : Node2D
             DrawLine(Pos1 - this.GlobalPosition + new Godot.Vector2(8, 8), Pos2 - this.GlobalPosition + new Godot.Vector2(8, 8), Colors.Red, 1.5f);
             if (path[i].is_obstruction)
             {
-                ObstructionList.Add(new Vector2(path[i].x, path[i].y)*16);
+                if (ObstructionList.Contains(new Vector2(path[i].x, path[i].y)*16) == false)
+                {
+                    ObstructionList.Add(new Vector2(path[i].x, path[i].y)*16);   
+                }
             }
         }
         //FatPath

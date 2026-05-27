@@ -8,7 +8,7 @@ public partial class Terrain_tile_button : TextureButton
     [Export] public int cost;
     [Export] public int SourceId;
     [Export] public Vector2I AtlasCoordinates;
-    private float health;
+    [Export] private float health;
 
     private const int width = 32;
     private const int height = 32;
@@ -38,7 +38,7 @@ public partial class Terrain_tile_button : TextureButton
 		Label label = StatsPanel.GetChild<Label>(1);
         label.Text = $"cost: {cost}" + "\n" +
         $"Tile: {Name}" + "\n" +
-        $"Health: idk";
+        $"Health: {health}";
     }
 	private void NoHover()
 	{

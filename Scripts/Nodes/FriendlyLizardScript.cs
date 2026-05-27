@@ -128,7 +128,7 @@ public partial class FriendlyLizardScript : CharacterBody2D
             if (distance > distance2){continue;}
 			if (Mathf.Abs(GlobalPosition.X - cell_positon2.X) < cellsize && Mathf.Abs(GlobalPosition.Y - cell_positon2.Y) < cellsize){continue;}
 			//
-            while ((Mathf.Abs(GlobalPosition.X - cell_positon.X) > 1 || Mathf.Abs(GlobalPosition.Y - cell_positon.Y) > 1) && !path_updated)
+            while (Mathf.Abs(GlobalPosition.X - cell_positon.X) > 1 || Mathf.Abs(GlobalPosition.Y - cell_positon.Y) > 1)
             {
 				if (QueueCoroutineDeletion)
 				{
@@ -145,9 +145,9 @@ public partial class FriendlyLizardScript : CharacterBody2D
 				await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
 			}
 		}
-		GlobalVelocity = Vector2.Zero;
 		//BrokenTotem.DrawList.Remove(new Vector2I(nodes[nodes.Count].x,nodes[nodes.Count].y));
 		end:
+		GlobalVelocity = Vector2.Zero;
 		CoroutineAmount--;
 		Sprite.Play("default");
 		await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);

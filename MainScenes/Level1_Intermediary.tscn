@@ -15,6 +15,7 @@
 [ext_resource type="PackedScene" uid="uid://dxfsvjd0cqoxa" path="res://Scenes/material.tscn" id="12_8gciv"]
 [ext_resource type="Script" uid="uid://caqq0qxyumwr0" path="res://Scripts/LogicBased/GeneralButtonClass.cs" id="12_ffvep"]
 [ext_resource type="PackedScene" uid="uid://1808imdfruyl" path="res://Scenes/MaterialSpawner.tscn" id="12_p41iy"]
+[ext_resource type="Texture2D" uid="uid://bicq3g7afr8fi" path="res://Raw_sprites/TileMap/FlowerRepeatTexture.png" id="16_nnyd4"]
 
 [sub_resource type="Gradient" id="Gradient_3tpw6"]
 offsets = PackedFloat32Array(0.42537314, 0.89179105)
@@ -68,8 +69,8 @@ script = null
 [node name="Totem" parent="." unique_id=2087812220 node_paths=PackedStringArray("SelectionButton", "AimingButton", "SelectionBox") instance=ExtResource("4_4y0w2")]
 position = Vector2(1000, 120)
 collision_layer = 2
-SelectionButton = NodePath("../VBoxContainer/SelectionFrame")
-AimingButton = NodePath("../VBoxContainer/AimingFrame")
+SelectionButton = NodePath("../SelectorsBoxes/SelectionFrame")
+AimingButton = NodePath("../SelectorsBoxes/AimingFrame")
 SelectionBox = NodePath("../SelectionBox")
 TreeReperationAmount = 5
 
@@ -84,7 +85,8 @@ wall_min_slide_angle = 0.0
 position = Vector2(945, 143)
 wall_min_slide_angle = 0.0
 
-[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=908921444]
+[node name="SelectorsBoxes" type="VBoxContainer" parent="." unique_id=908921444]
+unique_name_in_owner = true
 z_index = 20
 anchors_preset = 1
 anchor_left = 1.0
@@ -95,7 +97,7 @@ grow_horizontal = 0
 size_flags_horizontal = 8
 size_flags_vertical = 0
 
-[node name="SelectionFrame" type="TextureButton" parent="VBoxContainer" unique_id=433986356]
+[node name="SelectionFrame" type="TextureButton" parent="SelectorsBoxes" unique_id=433986356]
 layout_mode = 2
 texture_normal = ExtResource("8_2t546")
 texture_pressed = ExtResource("8_2t546")
@@ -104,7 +106,7 @@ texture_disabled = ExtResource("8_2t546")
 texture_focused = ExtResource("8_2t546")
 stretch_mode = 3
 
-[node name="TextureRect" type="TextureRect" parent="VBoxContainer/SelectionFrame" unique_id=774171963]
+[node name="TextureRect" type="TextureRect" parent="SelectorsBoxes/SelectionFrame" unique_id=774171963]
 layout_mode = 0
 offset_top = -4.0
 offset_right = 40.0
@@ -113,7 +115,7 @@ mouse_filter = 2
 texture = ExtResource("9_3tpw6")
 stretch_mode = 3
 
-[node name="AimingFrame" type="TextureButton" parent="VBoxContainer" unique_id=2115757950]
+[node name="AimingFrame" type="TextureButton" parent="SelectorsBoxes" unique_id=2115757950]
 layout_mode = 2
 texture_normal = ExtResource("8_2t546")
 texture_pressed = ExtResource("8_2t546")
@@ -122,7 +124,7 @@ texture_disabled = ExtResource("8_2t546")
 texture_focused = ExtResource("8_2t546")
 stretch_mode = 3
 
-[node name="TextureRect" type="TextureRect" parent="VBoxContainer/AimingFrame" unique_id=1533509671]
+[node name="TextureRect" type="TextureRect" parent="SelectorsBoxes/AimingFrame" unique_id=1533509671]
 layout_mode = 0
 offset_top = -3.0
 offset_right = 40.0
@@ -147,10 +149,6 @@ visible = false
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 137.0
-offset_top = -2.0
-offset_right = 137.0
-offset_bottom = -2.0
 grow_horizontal = 2
 grow_vertical = 2
 
@@ -235,3 +233,14 @@ wall_min_slide_angle = 0.0
 [node name="FriendlyLizard4" parent="." unique_id=513433234 instance=ExtResource("7_titcx")]
 position = Vector2(953, 123)
 wall_min_slide_angle = 0.0
+
+[node name="Flowers" type="TextureRect" parent="." unique_id=1622149802]
+self_modulate = Color(1, 1, 1, 0.78431374)
+z_index = -4
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("16_nnyd4")
+stretch_mode = 1

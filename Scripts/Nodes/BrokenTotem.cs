@@ -27,6 +27,7 @@ public partial class BrokenTotem : Area2D
 
 	public bool SelectionActive;
 	public bool AimingActive;
+	private bool HoveringOnSumScheiße;
 
 	public static List<Vector2I> DrawList = new List<Vector2I>();
 
@@ -42,6 +43,10 @@ public partial class BrokenTotem : Area2D
 		SelectionShape = SelectionBox.GetChild<CollisionShape2D>(0);
 		SelectionBoxHitbox = SelectionBox.GetChild<CollisionShape2D>(0).Shape as RectangleShape2D;
 		SelectionBoxRect = SelectionBox.GetChild<NinePatchRect>(1);
+		foreach (TextureButton button in GetTree().Root.GetChild(1).GetNode<VBoxContainer>("SelectorsBoxes").GetChildren()){
+			button.MouseEntered += OnHover;
+			button.MouseExited += OffHover;
+		}
 
 		DisableSelector();
 
@@ -95,6 +100,16 @@ public partial class BrokenTotem : Area2D
 					if (RefreshBox)
 					{
 						EnableSelector();
+						if (HoveringOnSumScheiße == false)
+						{
+							foreach (CharacterBody2D Lizard in SelectedLizards)
+							{
+								ShaderMaterial material = Lizard.GetChild<AnimatedSprite2D>(0).Material as ShaderMaterial;
+								material.SetShaderParameter("EnableShader",false);
+								Lizard.GetChild<Sprite2D>(1).Visible = false;
+							}
+							SelectedLizards.Clear();	
+						}
 
 						SelectionCoordinates[0] = eventMouseButton.Position;
 						SelectionCoordinates[1] = eventMouseButton.Position;
@@ -120,7 +135,7 @@ public partial class BrokenTotem : Area2D
 				}
 				
 
-				if (AimingActive)
+				if (AimingActive && HoveringOnSumScheiße == false)
 				{
 					SelectionBox.GlobalPosition = eventMouseButton.Position;
 					foreach (CharacterBody2D Lizard in SelectedLizards)
@@ -214,7 +229,28 @@ public partial class BrokenTotem : Area2D
 		TreeSelectionLabel.Text = CurrentTreeAmount+"/"+TreeReperationAmount;
 		if (CurrentTreeAmount >= TreeReperationAmount)
 		{
-			GetTree().Root.GetChild(1).GetNode<CenterContainer>("%WinMenu").Visible = true;
+			CenterContainer WinMenu = GetTree().Root.GetChild(1).GetNode<CenterContainer>("%WinMenu");
+			WinMenu.Visible = true;
+			foreach(GeneralButtonClass button in GetNode<HBoxContainer>("%InnerWinMenu").GetChildren())
+			{
+				button.Connect("SendString",new Callable(this, nameof(GoToLevel)));
+			}
 		}
 	}
+	private void OnHover()
+	{
+		HoveringOnSumScheiße = true;
+	}
+	private void OffHover()
+	{
+		HoveringOnSumScheiße = false;
+	}
+
+	private void GoToLevel(string level)
+    {
+        GD.Print(level);
+        CanvasLayer Transitioner = GetTree().Root.GetChild<CanvasLayer>(0);
+        SceneTransitioner script = Transitioner as SceneTransitioner;
+        script.GoToScene(level);
+    }
 }

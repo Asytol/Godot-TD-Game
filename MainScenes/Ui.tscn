@@ -17,6 +17,7 @@
 [ext_resource type="Theme" uid="uid://b4ytiaxr0csu4" path="res://Raw_sprites/UI/Box_theme.tres" id="13_1dpt7"]
 [ext_resource type="Texture2D" uid="uid://bktholecjqbif" path="res://Raw_sprites/UI/DialogueBubble.png" id="14_umvtk"]
 [ext_resource type="Theme" uid="uid://d00o06fmebnxl" path="res://Raw_sprites/UI/GreenTheme.tres" id="15_a8vcu"]
+[ext_resource type="Texture2D" uid="uid://boj13ucyad5rs" path="res://Raw_sprites/TileMap/UiTerrainTextures/GoldenBrick.png" id="15_ykdji"]
 [ext_resource type="Texture2D" uid="uid://dcwkdl27nm5g4" path="res://Raw_sprites/TileMap/Coin.png" id="16_wv531"]
 [ext_resource type="Texture2D" uid="uid://dv1tnv1gxuor7" path="res://Raw_sprites/UI/heart.png" id="17_1tw1y"]
 [ext_resource type="Texture2D" uid="uid://d0pido6gcpqk3" path="res://Raw_sprites/UI/PlainWhite.png" id="18_ap56t"]
@@ -243,6 +244,7 @@ texture_focused = ExtResource("2_rqt7b")
 script = ExtResource("10_yajl0")
 cost = 5
 AtlasCoordinates = Vector2i(368, 64)
+health = 18.0
 
 [node name="CenterContainer" type="CenterContainer" parent="Rounds&Tiles/SideBar/TowerAndTiles/PlacementContainer/Tiles/Brick" unique_id=839874863]
 layout_mode = 1
@@ -265,6 +267,7 @@ texture_disabled = ExtResource("2_rqt7b")
 texture_focused = ExtResource("2_rqt7b")
 script = ExtResource("10_yajl0")
 cost = 10
+health = 44.0
 
 [node name="CenterContainer" type="CenterContainer" parent="Rounds&Tiles/SideBar/TowerAndTiles/PlacementContainer/Tiles/StoneBrick" unique_id=1443565571]
 layout_mode = 1
@@ -277,6 +280,29 @@ grow_vertical = 2
 [node name="TextureRect" type="TextureRect" parent="Rounds&Tiles/SideBar/TowerAndTiles/PlacementContainer/Tiles/StoneBrick/CenterContainer" unique_id=450323176]
 layout_mode = 2
 texture = ExtResource("12_56835")
+
+[node name="GoldenBrick" type="TextureButton" parent="Rounds&Tiles/SideBar/TowerAndTiles/PlacementContainer/Tiles" unique_id=607210616]
+layout_mode = 2
+texture_normal = ExtResource("2_rqt7b")
+texture_pressed = ExtResource("2_rqt7b")
+texture_hover = ExtResource("2_rqt7b")
+texture_disabled = ExtResource("2_rqt7b")
+texture_focused = ExtResource("2_rqt7b")
+script = ExtResource("10_yajl0")
+cost = 20
+health = 125.0
+
+[node name="CenterContainer" type="CenterContainer" parent="Rounds&Tiles/SideBar/TowerAndTiles/PlacementContainer/Tiles/GoldenBrick" unique_id=208972870]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TextureRect" type="TextureRect" parent="Rounds&Tiles/SideBar/TowerAndTiles/PlacementContainer/Tiles/GoldenBrick/CenterContainer" unique_id=730328473]
+layout_mode = 2
+texture = ExtResource("15_ykdji")
 
 [node name="StartContainer" type="MarginContainer" parent="Rounds&Tiles/SideBar" unique_id=207066610]
 layout_mode = 1

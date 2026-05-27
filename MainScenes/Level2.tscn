@@ -10,6 +10,7 @@
 [ext_resource type="Texture2D" uid="uid://06jq0rfp0yc3" path="res://Raw_sprites/TileMap/GridOutline.png" id="8_bn30d"]
 [ext_resource type="PackedScene" uid="uid://crf6pbap3sfoi" path="res://MainScenes/Ui.tscn" id="8_ncc8h"]
 [ext_resource type="AudioStream" uid="uid://w4npfkdcifmo" path="res://SoundEffects/kill-splat.mp3" id="13_a6lty"]
+[ext_resource type="Texture2D" uid="uid://bicq3g7afr8fi" path="res://Raw_sprites/TileMap/FlowerRepeatTexture.png" id="13_cefbi"]
 [ext_resource type="PackedScene" uid="uid://dor5lrdlgfxjy" path="res://Scenes/UI/GrassBackground.tscn" id="24_usodk"]
 [ext_resource type="Shader" uid="uid://bd1hkoflrg8ak" path="res://Raw_sprites/UI/NewFogShader.gdshader" id="28_3djbc"]
 [ext_resource type="Shader" uid="uid://bkiopfnmrlfln" path="res://MainScenes/Darkness.gdshader" id="31_uy88i"]
@@ -152,6 +153,18 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 color = Color(0, 0, 0, 1)
+
+[node name="Flowers" type="TextureRect" parent="ControlNodes" unique_id=2047346824]
+self_modulate = Color(1, 1, 1, 0.78431374)
+z_index = -4
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("13_cefbi")
+stretch_mode = 1
 
 [node name="WettSplattPlayer" type="AudioStreamPlayer" parent="." unique_id=162535746]
 unique_name_in_owner = true
