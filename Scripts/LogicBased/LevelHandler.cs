@@ -42,7 +42,7 @@ public partial class LevelHandler : Node
 		TileMapLayer.MoneyNum.Text = Waves[0].WaveMoney.ToString();
 
 		OriginalSpawner = GetNode<Node2D>("%Spawner");
-        foreach (string SpawnerName in Waves[0].UsedSpawners)
+        foreach (string SpawnerName in GetUsedSpawners(Waves[0].Spawns))
         {
             Node2D SpawnNode = GetNodeOrNull<Node2D>($"%{SpawnerName}");
             if (SpawnNode == null) {continue;}
@@ -139,7 +139,7 @@ public partial class LevelHandler : Node
 	}
     private void DisableAndEnableSpawners()
     {
-        foreach (string SpawnerName in Waves[CurrentWave-1].UsedSpawners)
+        foreach (string SpawnerName in GetUsedSpawners(Waves[CurrentWave-1].Spawns))
 		{
 			Node2D SpawnNode = GetNodeOrNull<Node2D>($"%{SpawnerName}");
 			if (SpawnNode == null) {continue;}
@@ -149,7 +149,7 @@ public partial class LevelHandler : Node
         }
 		if (CurrentWave < Waves.Length)
 		{
-			foreach (string SpawnerName in Waves[CurrentWave].UsedSpawners)
+			foreach (string SpawnerName in GetUsedSpawners(Waves[CurrentWave].Spawns))
 			{
 				Node2D SpawnNode = GetNodeOrNull<Node2D>($"%{SpawnerName}");
 				if (SpawnNode == null) {continue;}
@@ -185,7 +185,7 @@ public partial class LevelHandler : Node
 		SpawnPreset[] CombinedSpawns = Waves[CurrentWave - 1].Spawns;
 	}
 
-	private void GetUsedSpawners(SpawnPreset[] waves)
+	private List<string> GetUsedSpawners(SpawnPreset[] waves)
 	{
 		List<string> Spawners = new List<string>{waves[0].SpawnerName};
 
@@ -196,5 +196,6 @@ public partial class LevelHandler : Node
 				Spawners.Add(waves[i].SpawnerName);
 			}
 		}
+		return Spawners;
 	}
 }

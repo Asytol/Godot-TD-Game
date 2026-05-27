@@ -48,7 +48,6 @@ metadata/_custom_type_script = "uid://dl1twe57s3hf0"
 [sub_resource type="Resource" id="Resource_4bbre"]
 script = ExtResource("3_i3w5r")
 Spawns = Array[Object]([SubResource("Resource_dooye"), SubResource("Resource_veopj"), SubResource("Resource_11i1w")])
-UsedSpawners = PackedStringArray("Spawner")
 WaveMoney = 250
 metadata/_custom_type_script = "uid://bxq7b72m4anqj"
 
@@ -86,7 +85,6 @@ metadata/_custom_type_script = "uid://dl1twe57s3hf0"
 [sub_resource type="Resource" id="Resource_8j02k"]
 script = ExtResource("3_i3w5r")
 Spawns = Array[Object]([SubResource("Resource_s7j74"), SubResource("Resource_oplss"), SubResource("Resource_qnaon"), SubResource("Resource_2ssgj")])
-UsedSpawners = PackedStringArray("Spawner")
 WaveMoney = 200
 metadata/_custom_type_script = "uid://bxq7b72m4anqj"
 
@@ -134,7 +132,6 @@ metadata/_custom_type_script = "uid://dl1twe57s3hf0"
 [sub_resource type="Resource" id="Resource_awtb3"]
 script = ExtResource("3_i3w5r")
 Spawns = Array[Object]([SubResource("Resource_1ev2f"), SubResource("Resource_ugl54"), SubResource("Resource_8pko7"), SubResource("Resource_k6ckn"), SubResource("Resource_k8a30")])
-UsedSpawners = PackedStringArray("Spawner", "Spawner2")
 WaveMoney = 250
 metadata/_custom_type_script = "uid://bxq7b72m4anqj"
 
