@@ -67,6 +67,7 @@ collision_layer = 4
 collision_mask = 2
 script = ExtResource("1_ugw7c")
 base_damage = 20.0
+base_spread = 4.0
 projectile = ExtResource("2_xxiu3")
 base_range = 140.0
 

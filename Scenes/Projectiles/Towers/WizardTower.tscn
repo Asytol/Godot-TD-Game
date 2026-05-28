@@ -29,7 +29,8 @@ animations = [{
 collision_layer = 4
 collision_mask = 2
 script = ExtResource("1_312rr")
-base_damage = 15.0
+base_damage = 7.5
+base_spread = 20.0
 projectile = ExtResource("2_45217")
 base_range = 100.0
 
