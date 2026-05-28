@@ -1,4 +1,4 @@
-[gd_scene format=4 uid="uid://bxdyy21aattsp"]
+[gd_scene format=4 uid="uid://b1uh5rjlbnh7n"]
 
 [ext_resource type="Script" uid="uid://c2t62uwun1ntw" path="res://Scripts/LogicBased/LevelHandler.cs" id="1_efgot"]
 [ext_resource type="PackedScene" uid="uid://d0fwc6pi0u3cn" path="res://Scenes/Enemies/Lizard_enemy.tscn" id="2_7g58q"]
