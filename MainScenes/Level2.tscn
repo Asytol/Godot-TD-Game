@@ -7,6 +7,8 @@
 [ext_resource type="PackedScene" uid="uid://bvb6dnwk6e2" path="res://Scenes/finish.tscn" id="3_4reqs"]
 [ext_resource type="Script" uid="uid://dl1twe57s3hf0" path="res://Scripts/LogicBased/SpawnPreset.cs" id="3_uy88i"]
 [ext_resource type="PackedScene" uid="uid://d3wo35pdropd7" path="res://Scenes/Enemies/spawner.tscn" id="4_mccvt"]
+[ext_resource type="PackedScene" uid="uid://dvedtw87ptkk1" path="res://Scenes/Enemies/DemonEnemy.tscn" id="5_v2g4k"]
+[ext_resource type="PackedScene" uid="uid://cceh23qhesmx0" path="res://Scenes/Enemies/FairyEnemy.tscn" id="6_5kboj"]
 [ext_resource type="Texture2D" uid="uid://06jq0rfp0yc3" path="res://Raw_sprites/TileMap/GridOutline.png" id="8_bn30d"]
 [ext_resource type="PackedScene" uid="uid://crf6pbap3sfoi" path="res://MainScenes/Ui.tscn" id="8_ncc8h"]
 [ext_resource type="AudioStream" uid="uid://w4npfkdcifmo" path="res://SoundEffects/kill-splat.mp3" id="13_a6lty"]
@@ -17,15 +19,66 @@
 
 [sub_resource type="Resource" id="Resource_pjmbt"]
 script = ExtResource("3_uy88i")
-amount = 6
-SpawnTime = 1.0
+amount = 15
+SpawnTime = 2.5
 EnemyScene = ExtResource("2_3djbc")
 metadata/_custom_type_script = "uid://dl1twe57s3hf0"
 
 [sub_resource type="Resource" id="Resource_mccvt"]
 script = ExtResource("2_4reqs")
 Spawns = Array[Object]([SubResource("Resource_pjmbt")])
-WaveMoney = 200
+WaveMoney = 300
+metadata/_custom_type_script = "uid://bxq7b72m4anqj"
+
+[sub_resource type="Resource" id="Resource_twaos"]
+script = ExtResource("3_uy88i")
+amount = 30
+SpawnTime = 1.5
+EnemyScene = ExtResource("2_3djbc")
+metadata/_custom_type_script = "uid://dl1twe57s3hf0"
+
+[sub_resource type="Resource" id="Resource_uugqj"]
+script = ExtResource("3_uy88i")
+amount = 10
+SpawnTime = 2.0
+EnemyScene = ExtResource("2_3djbc")
+SpawnerName = "Spawner2"
+metadata/_custom_type_script = "uid://dl1twe57s3hf0"
+
+[sub_resource type="Resource" id="Resource_1tk64"]
+script = ExtResource("2_4reqs")
+Spawns = Array[Object]([SubResource("Resource_twaos"), SubResource("Resource_uugqj")])
+WaveMoney = 350
+metadata/_custom_type_script = "uid://bxq7b72m4anqj"
+
+[sub_resource type="Resource" id="Resource_novnt"]
+script = ExtResource("3_uy88i")
+amount = 5
+SpawnTime = 1.0
+EnemyScene = ExtResource("5_v2g4k")
+metadata/_custom_type_script = "uid://dl1twe57s3hf0"
+
+[sub_resource type="Resource" id="Resource_b0kqp"]
+script = ExtResource("3_uy88i")
+amount = 10
+wait = 5.0
+SpawnTime = 2.0
+EnemyScene = ExtResource("6_5kboj")
+SpawnerName = "Spawner2"
+metadata/_custom_type_script = "uid://dl1twe57s3hf0"
+
+[sub_resource type="Resource" id="Resource_fynag"]
+script = ExtResource("3_uy88i")
+amount = 35
+SpawnTime = 1.25
+EnemyScene = ExtResource("2_3djbc")
+SpawnerName = "Spawner2"
+metadata/_custom_type_script = "uid://dl1twe57s3hf0"
+
+[sub_resource type="Resource" id="Resource_2m1cb"]
+script = ExtResource("2_4reqs")
+Spawns = Array[Object]([SubResource("Resource_novnt"), SubResource("Resource_b0kqp"), SubResource("Resource_fynag")])
+WaveMoney = 400
 metadata/_custom_type_script = "uid://bxq7b72m4anqj"
 
 [sub_resource type="Gradient" id="Gradient_uy88i"]
@@ -74,7 +127,7 @@ shader_parameter/ShadowStrenght = 0.0
 
 [node name="Level2" type="Node" unique_id=2034359895]
 script = ExtResource("1_h10e6")
-Waves = Array[Object]([SubResource("Resource_mccvt")])
+Waves = Array[Object]([SubResource("Resource_mccvt"), SubResource("Resource_1tk64"), SubResource("Resource_2m1cb")])
 
 [node name="2DNodes" type="Node2D" parent="." unique_id=620944930]
 unique_name_in_owner = true

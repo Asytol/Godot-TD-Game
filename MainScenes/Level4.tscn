@@ -148,6 +148,7 @@ unique_name_in_owner = true
 position = Vector2(936, 600)
 collision_layer = 4
 collision_mask = 2
+NextLevel = "Level4_Intermediary"
 
 [node name="Spawner" parent="2DNodes" unique_id=1605035797 instance=ExtResource("9_5v3by")]
 unique_name_in_owner = true
