@@ -25,6 +25,48 @@ shadow_size = 25
 [sub_resource type="Theme" id="Theme_7u5wi"]
 Panel/styles/panel = SubResource("StyleBoxFlat_5it2y")
 
+[sub_resource type="LabelSettings" id="LabelSettings_xqaau"]
+font_size = 80
+outline_size = 22
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="Animation" id="Animation_xqaau"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("RichTextLabel:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="Animation" id="Animation_5it2y"]
+resource_name = "new_animation"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("RichTextLabel:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5, 1, 1.5, 2),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [0.0, 0.0, 0.01745329251994329, 0.0, 0.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_7u5wi"]
+_data = {
+&"RESET": SubResource("Animation_xqaau"),
+&"new_animation": SubResource("Animation_5it2y")
+}
+
 [node name="MainMenu" type="Control" unique_id=1009987052]
 layout_mode = 3
 anchors_preset = 15
@@ -104,6 +146,7 @@ text = "Quit"
 
 [node name="TestLevel1" type="Button" parent="." unique_id=1820325865]
 unique_name_in_owner = true
+visible = false
 layout_mode = 0
 offset_right = 85.0
 offset_bottom = 31.0
@@ -199,6 +242,23 @@ message = "Level6"
 [node name="LoadSignifier" type="Node" parent="." unique_id=1835038460]
 unique_name_in_owner = true
 script = ExtResource("8_5it2y")
+
+[node name="RichTextLabel" type="Label" parent="." unique_id=632879165]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.2
+anchor_right = 0.5
+anchor_bottom = 0.205
+offset_left = -362.5
+offset_right = 362.5
+offset_bottom = 96.0
+grow_horizontal = 2
+text = "Rebirth of a dead god"
+label_settings = SubResource("LabelSettings_xqaau")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1461074985]
+libraries/ = SubResource("AnimationLibrary_7u5wi")
 
 [connection signal="finished" from="AudioStreamPlayer2D" to="." method="_on_audio_stream_player_2d_finished"]
 [connection signal="button_up" from="Panel/CenterContainer/VBoxContainer/Level select" to="." method="_on_button_button_up"]

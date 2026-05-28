@@ -74,7 +74,7 @@ collision_layer = 2
 SelectionButton = NodePath("../SelectorsBoxes/SelectionFrame")
 AimingButton = NodePath("../SelectorsBoxes/AimingFrame")
 SelectionBox = NodePath("../SelectionBox")
-TreeReperationAmount = 5
+TreeReperationAmount = 10
 
 [node name="SelectionBox" parent="." unique_id=919978090 instance=ExtResource("6_cw4yw")]
 z_index = 23
@@ -249,4 +249,3 @@ texture = ExtResource("16_nnyd4")
 stretch_mode = 1
 
 [node name="Node2D" parent="." unique_id=681426081 instance=ExtResource("17_ffvep")]
-position = Vector2(576, 750)
