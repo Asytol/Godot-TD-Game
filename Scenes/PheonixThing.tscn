@@ -23,7 +23,7 @@ tracks/0/keys = {
 
 [sub_resource type="Animation" id="Animation_ltkdw"]
 resource_name = "new_animation"
-length = 2.0
+length = 3.0
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -31,10 +31,10 @@ tracks/0/path = NodePath("Sprite2D:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0.033333335, 0.3, 1.2333333, 1.9333333),
+"times": PackedFloat32Array(0.033333335, 0.8, 1.8666667, 3.0333333),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 0,
-"values": [Vector2(0, 0), Vector2(0, -1000), Vector2(0, -1000), Vector2(0, 0)]
+"values": [Vector2(0, 0), Vector2(0, -2000), Vector2(0, -2000), Vector2(0, 0)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_syxsl"]
@@ -44,6 +44,7 @@ _data = {
 }
 
 [node name="Node2D" type="Node2D" unique_id=681426081]
+z_index = 30
 scale = Vector2(0.2, 0.2)
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1174706742]
