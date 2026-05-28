@@ -12,9 +12,9 @@ public partial class LevelHandler : Node
 	public static bool RoundOver = true;
 	public static bool CutsceneFinished;
 	public static int EnemiesAlive = 0;
-    //[Export] private WavePreset[] WavePresets;
+	//[Export] private WavePreset[] WavePresets;
 
-    private TextureRect CutSceneHandler;
+	private TextureRect CutSceneHandler;
 	private Label RoundText;
 
 	private bool Rebirthed = false;
@@ -25,7 +25,7 @@ public partial class LevelHandler : Node
 
 	private Control UiNodes;
 
-    [Signal]
+	[Signal]
 	public delegate void StartGameEventHandler();
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -34,24 +34,24 @@ public partial class LevelHandler : Node
 		UiNodes = GetTree().Root.GetChild(1).GetNode<Control>("%Ui");
 
 		CurrentWave = 0;	
-        UiNodes.GetNode<Button>("%Start").ButtonUp += OnStart;
-        GD.Print("got start");
-        RoundText = UiNodes.GetNode<Label>("%RoundText");
-        //if/or is sadly faster than reflection ):
-        TileMapLayer.money += Waves[0].WaveMoney;
+		UiNodes.GetNode<Button>("%Start").ButtonUp += OnStart;
+		GD.Print("got start");
+		RoundText = UiNodes.GetNode<Label>("%RoundText");
+		//if/or is sadly faster than reflection ):
+		TileMapLayer.money += Waves[0].WaveMoney;
 		TileMapLayer.MoneyNum.Text = Waves[0].WaveMoney.ToString();
 
 		OriginalSpawner = GetNode<Node2D>("%Spawner");
-        foreach (string SpawnerName in GetUsedSpawners(Waves[0].Spawns))
-        {
-            Node2D SpawnNode = GetNodeOrNull<Node2D>($"%{SpawnerName}");
-            if (SpawnNode == null) {continue;}
-            Spawner script = SpawnNode as Spawner;
-            script.DrawPath = true;
+		foreach (string SpawnerName in GetUsedSpawners(Waves[0].Spawns))
+		{
+			Node2D SpawnNode = GetNodeOrNull<Node2D>($"%{SpawnerName}");
+			if (SpawnNode == null) {continue;}
+			Spawner script = SpawnNode as Spawner;
+			script.DrawPath = true;
 			script.QueueRedraw();
-        }
+		}
 
-        RoundOver = true;
+		RoundOver = true;
 
 		CutSceneHandler = GetNodeOrNull<TextureRect>("%Cutscene");
 		if (CutSceneHandler != null)
@@ -62,15 +62,15 @@ public partial class LevelHandler : Node
 			GetNode<Node2D>("%2DNodes").PropagateCall("set_process", [false]);
 			GetNode<Node2D>("%2DNodes").Visible = false;
 			GetNode<Control>("ControlNodes").Visible = false;
-        }
+		}
 
-        RoundText.Text = "Round" + "\n" + $"0/{Waves.Length}";
+		RoundText.Text = "Round" + "\n" + $"0/{Waves.Length}";
 
 		if (Totem == null)
 		{
 			Totem = GetNode<Node2D>("%Finish");
 		}
-    }
+	}
 	private bool CantFindIsDigitFunction(char c)
 	{
 		for (int i = 0; i < 10; i++)
@@ -96,9 +96,9 @@ public partial class LevelHandler : Node
 		Finish script = Totem as Finish;
 		script.EmitSoul(Position);
 		if (EnemiesAlive == 0)
-        {
-        	DisableAndEnableSpawners();
-            RoundOver = true;
+		{
+			DisableAndEnableSpawners();
+			RoundOver = true;
 			if (CurrentWave < Waves.Length)
 			{
 				TileMapLayer.money += Waves[CurrentWave].WaveMoney;
@@ -107,27 +107,27 @@ public partial class LevelHandler : Node
 			{
 				UiNodes.GetNode<CenterContainer>("%WinMenu").Visible = true;	
 			}
-            TileMapLayer.MoneyNum.Text = TileMapLayer.money.ToString();
-        }
+			TileMapLayer.MoneyNum.Text = TileMapLayer.money.ToString();
+		}
 
 	}
 
 	private void OnStart()
 	{
 		if (RoundOver && CurrentWave < Waves.Length)
-        {
-            foreach (SpawnPreset preset in Waves[CurrentWave].Spawns)
+		{
+			foreach (SpawnPreset preset in Waves[CurrentWave].Spawns)
 			{
 				EnemiesAlive += preset.amount;
-                Node2D SpawnNode = GetNodeOrNull<Node2D>($"%{preset.SpawnerName}");
-                if (SpawnNode == null) {continue;}
-                Spawner script = SpawnNode as Spawner;
+				Node2D SpawnNode = GetNodeOrNull<Node2D>($"%{preset.SpawnerName}");
+				if (SpawnNode == null) {continue;}
+				Spawner script = SpawnNode as Spawner;
 				script.StartSpawn(preset);
 			}
 			RoundOver = false;
-            CurrentWave++;
-            RoundText.Text = "Round" + "\n" + $"{CurrentWave}/{Waves.Length}";
-        }
+			CurrentWave++;
+			RoundText.Text = "Round" + "\n" + $"{CurrentWave}/{Waves.Length}";
+		}
 	}
 
 	private void ResumeScene()
@@ -137,16 +137,16 @@ public partial class LevelHandler : Node
 		GetNode<Control>("ControlNodes").Visible = true;
 		CutsceneFinished = true;
 	}
-    private void DisableAndEnableSpawners()
-    {
-        foreach (string SpawnerName in GetUsedSpawners(Waves[CurrentWave-1].Spawns))
+	private void DisableAndEnableSpawners()
+	{
+		foreach (string SpawnerName in GetUsedSpawners(Waves[CurrentWave-1].Spawns))
 		{
 			Node2D SpawnNode = GetNodeOrNull<Node2D>($"%{SpawnerName}");
 			if (SpawnNode == null) {continue;}
 			Spawner script = SpawnNode as Spawner;
-            script.DrawPath = false;
-            script.SomeoneIsFat = false;
-        }
+			script.DrawPath = false;
+			script.SomeoneIsFat = false;
+		}
 		if (CurrentWave < Waves.Length)
 		{
 			foreach (string SpawnerName in GetUsedSpawners(Waves[CurrentWave].Spawns))
@@ -173,7 +173,7 @@ public partial class LevelHandler : Node
 				}
 			}	
 		}
-    }
+	}
 	private bool CheckIfSomeoneIsFat(PackedScene Enemy)
 	{
 		Node2D Instance = Enemy.Instantiate<Node2D>();
