@@ -2,12 +2,28 @@
 
 [ext_resource type="Theme" uid="uid://s4ii41fomu2s" path="res://Raw_sprites/UI/Button_theme.tres" id="1_oepce"]
 [ext_resource type="Script" uid="uid://csyu14jixahob" path="res://Scripts/LogicBased/MainMenu.cs" id="1_rqe8y"]
-[ext_resource type="Texture2D" uid="uid://dnbrsh5txxmn4" path="res://BigYahu.jpg" id="2_gnxq4"]
 [ext_resource type="Texture2D" uid="uid://b4du7co2ny5mf" path="res://Diabolical.jpg" id="2_w41gr"]
-[ext_resource type="Theme" uid="uid://b4ytiaxr0csu4" path="res://Raw_sprites/UI/Box_theme.tres" id="3_qnbo1"]
+[ext_resource type="Texture2D" uid="uid://cgr54yjoteah1" path="res://Raw_sprites/UI/background 4.png" id="3_7u5wi"]
 [ext_resource type="AudioStream" uid="uid://b1wn8y5apqbpa" path="res://bill-butcher-f-cking-diabolical-the-boys-theboys-billybutcher-butcher-funnymoments-primevideo-amazonprimevideo.mp3" id="6_4xubp"]
 [ext_resource type="Script" uid="uid://caqq0qxyumwr0" path="res://Scripts/LogicBased/GeneralButtonClass.cs" id="7_xqaau"]
 [ext_resource type="Script" uid="uid://bupm80m503aah" path="res://Scripts/LoadSignifier.cs" id="8_5it2y"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5it2y"]
+bg_color = Color(0.8392157, 0.6431373, 0.46666667, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.29492188, 0.12430316, 0.04953766, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+shadow_color = Color(0, 0, 0, 0.8235294)
+shadow_size = 25
+
+[sub_resource type="Theme" id="Theme_7u5wi"]
+Panel/styles/panel = SubResource("StyleBoxFlat_5it2y")
 
 [node name="MainMenu" type="Control" unique_id=1009987052]
 layout_mode = 3
@@ -18,7 +34,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_rqe8y")
 RebirthTexture = ExtResource("2_w41gr")
-RegularTexture = ExtResource("2_gnxq4")
+RegularTexture = ExtResource("3_7u5wi")
 
 [node name="TextureRect" type="TextureRect" parent="." unique_id=719563857]
 layout_mode = 1
@@ -27,7 +43,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("2_gnxq4")
+texture = ExtResource("3_7u5wi")
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="." unique_id=300165130]
 stream = ExtResource("6_4xubp")
@@ -42,26 +58,49 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer" unique_id=1959833956]
+[node name="Panel" type="Panel" parent="." unique_id=1196410402]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -90.0
+offset_top = -75.0
+offset_right = 90.0
+offset_bottom = 75.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_7u5wi")
+
+[node name="CenterContainer" type="CenterContainer" parent="Panel" unique_id=1324355826]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel/CenterContainer" unique_id=1959833956]
 layout_mode = 2
 
-[node name="Level select" type="Button" parent="CenterContainer/VBoxContainer" unique_id=131614400]
+[node name="Level select" type="Button" parent="Panel/CenterContainer/VBoxContainer" unique_id=131614400]
 unique_name_in_owner = true
 layout_mode = 2
 theme = ExtResource("1_oepce")
 text = "Level select"
 
-[node name="Quit" type="Button" parent="CenterContainer/VBoxContainer" unique_id=1702049403]
-unique_name_in_owner = true
-layout_mode = 2
-theme = ExtResource("1_oepce")
-text = "Quit"
-
-[node name="Rebirth" type="Button" parent="CenterContainer/VBoxContainer" unique_id=208411230]
+[node name="Rebirth" type="Button" parent="Panel/CenterContainer/VBoxContainer" unique_id=208411230]
 unique_name_in_owner = true
 layout_mode = 2
 theme = ExtResource("1_oepce")
 text = "Rebirth"
+
+[node name="Quit" type="Button" parent="Panel/CenterContainer/VBoxContainer" unique_id=1702049403]
+unique_name_in_owner = true
+layout_mode = 2
+theme = ExtResource("1_oepce")
+text = "Quit"
 
 [node name="TestLevel1" type="Button" parent="." unique_id=1820325865]
 unique_name_in_owner = true
@@ -73,7 +112,6 @@ text = "Test Level
 
 [node name="LevelSelect" type="CenterContainer" parent="." unique_id=452464053]
 unique_name_in_owner = true
-visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -81,14 +119,14 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Panel" type="PanelContainer" parent="LevelSelect" unique_id=751640181]
-custom_minimum_size = Vector2(300, 300)
+[node name="Panel" type="Panel" parent="LevelSelect" unique_id=1164901573]
+custom_minimum_size = Vector2(360, 270)
 layout_mode = 2
 mouse_filter = 2
-theme = ExtResource("3_qnbo1")
+theme = SubResource("Theme_7u5wi")
 
 [node name="PanelContainer" type="Control" parent="LevelSelect/Panel" unique_id=982175287]
-layout_mode = 2
+anchors_preset = 0
 size_flags_horizontal = 8
 size_flags_vertical = 0
 
@@ -99,19 +137,26 @@ offset_right = 20.0
 text = "X
 "
 
-[node name="LevelTab" type="GridContainer" parent="LevelSelect/Panel" unique_id=1976333802]
+[node name="MarginContainer" type="MarginContainer" parent="LevelSelect/Panel" unique_id=6212543]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_top = 15
+
+[node name="LevelTab" type="GridContainer" parent="LevelSelect/Panel/MarginContainer" unique_id=1976333802]
 unique_name_in_owner = true
 layout_mode = 2
 columns = 5
 
-[node name="Level1" type="Button" parent="LevelSelect/Panel/LevelTab" unique_id=542082849]
+[node name="Level1" type="Button" parent="LevelSelect/Panel/MarginContainer/LevelTab" unique_id=542082849]
 layout_mode = 2
 text = "Level 1"
 script = ExtResource("7_xqaau")
 SendMessage = true
 message = "Level1"
 
-[node name="Level2" type="Button" parent="LevelSelect/Panel/LevelTab" unique_id=1450859488]
+[node name="Level2" type="Button" parent="LevelSelect/Panel/MarginContainer/LevelTab" unique_id=1450859488]
 layout_mode = 2
 text = "Level 2
 "
@@ -119,7 +164,7 @@ script = ExtResource("7_xqaau")
 SendMessage = true
 message = "Level2"
 
-[node name="Level3" type="Button" parent="LevelSelect/Panel/LevelTab" unique_id=1414508186]
+[node name="Level3" type="Button" parent="LevelSelect/Panel/MarginContainer/LevelTab" unique_id=1414508186]
 layout_mode = 2
 text = "Level 3
 "
@@ -127,14 +172,14 @@ script = ExtResource("7_xqaau")
 SendMessage = true
 message = "Level3"
 
-[node name="Level4" type="Button" parent="LevelSelect/Panel/LevelTab" unique_id=1155731041]
+[node name="Level4" type="Button" parent="LevelSelect/Panel/MarginContainer/LevelTab" unique_id=1155731041]
 layout_mode = 2
 text = "Level 4"
 script = ExtResource("7_xqaau")
 SendMessage = true
 message = "Level4"
 
-[node name="Level5" type="Button" parent="LevelSelect/Panel/LevelTab" unique_id=1753885052]
+[node name="Level5" type="Button" parent="LevelSelect/Panel/MarginContainer/LevelTab" unique_id=1753885052]
 layout_mode = 2
 text = "Level 5
 "
@@ -142,7 +187,7 @@ script = ExtResource("7_xqaau")
 SendMessage = true
 message = "Level5"
 
-[node name="Level6" type="Button" parent="LevelSelect/Panel/LevelTab" unique_id=1016524862]
+[node name="Level6" type="Button" parent="LevelSelect/Panel/MarginContainer/LevelTab" unique_id=1016524862]
 layout_mode = 2
 text = "Level 6
 "
@@ -155,10 +200,10 @@ unique_name_in_owner = true
 script = ExtResource("8_5it2y")
 
 [connection signal="finished" from="AudioStreamPlayer2D" to="." method="_on_audio_stream_player_2d_finished"]
-[connection signal="button_up" from="CenterContainer/VBoxContainer/Level select" to="." method="_on_button_button_up"]
-[connection signal="button_up" from="CenterContainer/VBoxContainer/Level select" to="LevelSelect" method="show"]
-[connection signal="button_up" from="CenterContainer/VBoxContainer/Level select" to="LevelSelect" method="set_mouse_filter" binds= [0]]
-[connection signal="button_up" from="CenterContainer/VBoxContainer/Quit" to="." method="_on_quit_button_up"]
-[connection signal="button_up" from="CenterContainer/VBoxContainer/Rebirth" to="." method="_on_rebirth_button_up"]
+[connection signal="button_up" from="Panel/CenterContainer/VBoxContainer/Level select" to="." method="_on_button_button_up"]
+[connection signal="button_up" from="Panel/CenterContainer/VBoxContainer/Level select" to="LevelSelect" method="show"]
+[connection signal="button_up" from="Panel/CenterContainer/VBoxContainer/Level select" to="LevelSelect" method="set_mouse_filter" binds= [0]]
+[connection signal="button_up" from="Panel/CenterContainer/VBoxContainer/Rebirth" to="." method="_on_rebirth_button_up"]
+[connection signal="button_up" from="Panel/CenterContainer/VBoxContainer/Quit" to="." method="_on_quit_button_up"]
 [connection signal="button_up" from="TestLevel1" to="." method="_on_test_level_1_button_up"]
 [connection signal="button_up" from="LevelSelect/Panel/PanelContainer/ExitLvlTab" to="LevelSelect" method="hide"]

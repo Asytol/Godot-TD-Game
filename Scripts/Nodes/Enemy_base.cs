@@ -81,7 +81,7 @@ public partial class Enemy_base : RigidBody2D
 		UpdateIFrameList((float) delta);
 		current_pathfinding_delay++;
 
-		if (!stunned)
+		if (!stunned && !KillingSelf)
 		{
 			if (GlobalRotation != 0) { StandStraight(); }
 			GlobalPosition += GlobalVelocity;
@@ -235,6 +235,7 @@ public partial class Enemy_base : RigidBody2D
 		BloodSplattPlayer.PitchScale = rng.RandfRange(0.5f,1.5f);
 		BloodSplattPlayer.Play();
         KillingSelf = true;
+		GlobalVelocity = Godot.Vector2.Zero;
         TileMapLayer.money += MoneyDrops;
         GetTree().Root.GetChild<LevelHandler>(1).OnEnemyDeath(GlobalPosition);
 		Tween tween = CreateTween();

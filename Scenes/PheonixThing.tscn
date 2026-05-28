@@ -1,0 +1,73 @@
+[gd_scene format=3 uid="uid://5qusgqxpmwh2"]
+
+[ext_resource type="Texture2D" uid="uid://cnunbqd5niork" path="res://Raw_sprites/UI/clipart381171.png" id="1_j85ds"]
+[ext_resource type="Script" uid="uid://cmawofxm6a81l" path="res://Scripts/PluhBadSmolFix.cs" id="2_g8fkc"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_g8fkc"]
+font_size = 400
+
+[sub_resource type="Animation" id="Animation_stcj7"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_ltkdw"]
+resource_name = "new_animation"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.033333335, 0.3, 1.2333333, 1.9333333),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, -1000), Vector2(0, -1000), Vector2(0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_syxsl"]
+_data = {
+&"RESET": SubResource("Animation_stcj7"),
+&"new_animation": SubResource("Animation_ltkdw")
+}
+
+[node name="Node2D" type="Node2D" unique_id=681426081]
+scale = Vector2(0.2, 0.2)
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1174706742]
+scale = Vector2(0.4, 0.4)
+texture = ExtResource("1_j85ds")
+
+[node name="Label" type="Label" parent="Sprite2D" unique_id=350187065]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -3071.0
+offset_top = -1724.0
+offset_right = 707.0
+offset_bottom = -1178.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "Enemies rebirthed!!"
+label_settings = SubResource("LabelSettings_g8fkc")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=537376607]
+libraries/ = SubResource("AnimationLibrary_syxsl")
+script = ExtResource("2_g8fkc")
+
+[node name="Timer" type="Timer" parent="." unique_id=608241094]
+autostart = true

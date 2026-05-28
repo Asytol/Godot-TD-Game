@@ -38,6 +38,7 @@ script = ExtResource("1_ppcg6")
 Decay_time = 0.3
 BaseSpeed = 10.0
 damage = 20.0
+Pierce = 1
 Shrapnell = Array[Object]([])
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1997404428]
