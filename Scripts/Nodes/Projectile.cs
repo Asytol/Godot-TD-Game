@@ -19,6 +19,7 @@ public partial class Projectile : Area2D
     [Export] public float StunDuration = 0;
 
     [Export] public int Pierce = 2;
+	[Export] private bool BreaksWalls;
     [Export] private GpuParticles2D SpawnParticles2D;
 	[Export] private GpuParticles2D DeathParticles2D;
 
