@@ -1,4 +1,4 @@
-[gd_scene format=4 uid="uid://bkg7e041vfumn"]
+[gd_scene format=4 uid="uid://dfkyr3j0koger"]
 
 [ext_resource type="Script" uid="uid://c2t62uwun1ntw" path="res://Scripts/LogicBased/LevelHandler.cs" id="1_7ymi7"]
 [ext_resource type="PackedScene" uid="uid://d0fwc6pi0u3cn" path="res://Scenes/Enemies/Lizard_enemy.tscn" id="2_84qnp"]
@@ -10,12 +10,9 @@
 [ext_resource type="PackedScene" uid="uid://b3pfsr0pb5v88" path="res://Scenes/Enemies/BigDemonEnemy.tscn" id="6_okpkk"]
 [ext_resource type="PackedScene" uid="uid://dvedtw87ptkk1" path="res://Scenes/Enemies/DemonEnemy.tscn" id="7_47emo"]
 [ext_resource type="PackedScene" uid="uid://d3wo35pdropd7" path="res://Scenes/Enemies/spawner.tscn" id="7_mi4ye"]
-[ext_resource type="PackedScene" uid="uid://dpyk8ch0ry6yg" path="res://MainScenes/CutsceneHandler.tscn" id="8_d6uy1"]
 [ext_resource type="PackedScene" uid="uid://crf6pbap3sfoi" path="res://MainScenes/Ui.tscn" id="8_i8lht"]
 [ext_resource type="Texture2D" uid="uid://06jq0rfp0yc3" path="res://Raw_sprites/TileMap/GridOutline.png" id="9_8seuo"]
-[ext_resource type="Texture2D" uid="uid://k16j8sowh6n0" path="res://MainScenes/CutscenePictures/Level1/Deadgod.png" id="9_d6uy1"]
 [ext_resource type="PackedScene" uid="uid://dor5lrdlgfxjy" path="res://Scenes/UI/GrassBackground.tscn" id="10_4cmh5"]
-[ext_resource type="Script" uid="uid://bdyxqlpjygfcj" path="res://Scripts/DialogueHandle.cs" id="10_l2v2c"]
 [ext_resource type="Shader" uid="uid://bkiopfnmrlfln" path="res://MainScenes/Darkness.gdshader" id="11_upx5i"]
 [ext_resource type="Shader" uid="uid://bd1hkoflrg8ak" path="res://Raw_sprites/UI/NewFogShader.gdshader" id="12_jq0rn"]
 [ext_resource type="Texture2D" uid="uid://bicq3g7afr8fi" path="res://Raw_sprites/TileMap/FlowerRepeatTexture.png" id="13_gmya0"]
@@ -150,31 +147,6 @@ script = ExtResource("4_revlb")
 Spawns = Array[Object]([SubResource("Resource_36ou5"), SubResource("Resource_50wns"), SubResource("Resource_m8k4i")])
 metadata/_custom_type_script = "uid://bxq7b72m4anqj"
 
-[sub_resource type="Resource" id="Resource_10i07"]
-script = ExtResource("10_l2v2c")
-text = "There is only one more step in the way to reviving your god."
-Background = ExtResource("9_d6uy1")
-metadata/_custom_type_script = "uid://bdyxqlpjygfcj"
-
-[sub_resource type="Resource" id="Resource_d6uy1"]
-script = ExtResource("10_l2v2c")
-text = "Collect the last of the innocent souls from the forest"
-metadata/_custom_type_script = "uid://bdyxqlpjygfcj"
-
-[sub_resource type="Resource" id="Resource_ja6me"]
-script = ExtResource("10_l2v2c")
-text = "AND REVIVE YOUR GOD!!"
-speed = 7.0
-color = Color(1, 0, 0, 1)
-metadata/_custom_type_script = "uid://bdyxqlpjygfcj"
-
-[sub_resource type="Resource" id="Resource_l2v2c"]
-script = ExtResource("10_l2v2c")
-text = "GOOOO!!!"
-speed = 12.0
-color = Color(1, 0, 0, 1)
-metadata/_custom_type_script = "uid://bdyxqlpjygfcj"
-
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_htv6h"]
 shader = ExtResource("11_upx5i")
 shader_parameter/ShadowAmount = 2.60000003874312
@@ -223,11 +195,6 @@ shader_parameter/Fog2MiddleInfluence = 0.0
 script = ExtResource("1_7ymi7")
 Waves = Array[Resource]([SubResource("Resource_d3dww"), SubResource("Resource_8seuo"), SubResource("Resource_gmya0"), SubResource("Resource_empa5"), SubResource("Resource_uc23u")])
 Totem = NodePath("2DNodes/Finish")
-
-[node name="Cutscene" parent="." unique_id=1298014254 instance=ExtResource("8_d6uy1")]
-unique_name_in_owner = true
-visible = false
-Dialogues = Array[Object]([SubResource("Resource_10i07"), SubResource("Resource_d6uy1"), SubResource("Resource_ja6me"), SubResource("Resource_l2v2c")])
 
 [node name="2DNodes" type="Node2D" parent="." unique_id=1495063507]
 unique_name_in_owner = true
