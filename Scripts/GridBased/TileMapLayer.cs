@@ -52,6 +52,7 @@ public partial class TileMapLayer : Godot.TileMapLayer
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
+        money = 0;
 		UiNodes = GetTree().Root.GetChild(1).GetNode<Control>("%Ui");
 
 		PlacementContainer = UiNodes.GetNode<HBoxContainer>("%PlacementContainer");
@@ -392,6 +393,7 @@ public partial class TileMapLayer : Godot.TileMapLayer
 			money += grid.GetGridObject(TilePos.X,TilePos.Y).IndentedMoney;
 			Damage_tileI(TilePos, int.MaxValue);
 			MoneyNum.Text = money.ToString();
+            EmitSignal("CustomTileChanged");
 		}
 	}
 	private void SellBuilding(Godot.Vector2 GlobalPosition)

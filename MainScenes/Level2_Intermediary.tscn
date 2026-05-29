@@ -224,15 +224,13 @@ position = Vector2(812, 102)
 [node name="Material" parent="." unique_id=18266591 instance=ExtResource("14_vnpq5")]
 position = Vector2(765, 92)
 
-[node name="MaterialSpawning2" parent="." unique_id=564956147 node_paths=PackedStringArray("Tilemap") instance=ExtResource("15_s3wmn")]
+[node name="MaterialSpawning2" parent="." unique_id=564956147 instance=ExtResource("15_s3wmn")]
 position = Vector2(901, 568)
 SpawnTime = 12.0
-Tilemap = NodePath("")
 
-[node name="MaterialSpawning" parent="." unique_id=677607079 node_paths=PackedStringArray("Tilemap") instance=ExtResource("15_s3wmn")]
+[node name="MaterialSpawning" parent="." unique_id=677607079 instance=ExtResource("15_s3wmn")]
 position = Vector2(183, 544)
 SpawnTime = 12.0
-Tilemap = NodePath("")
 
 [node name="FriendlyLizard3" parent="." unique_id=476724320 instance=ExtResource("5_smwdf")]
 position = Vector2(904, 126)

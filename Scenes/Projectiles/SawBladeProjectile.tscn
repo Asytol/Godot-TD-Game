@@ -37,7 +37,7 @@ collision_mask = 3
 script = ExtResource("1_ppcg6")
 Decay_time = 0.3
 BaseSpeed = 10.0
-damage = 20.0
+damage = 22.5
 Pierce = 1
 Shrapnell = Array[Object]([])
 

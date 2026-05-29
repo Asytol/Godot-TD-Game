@@ -101,6 +101,7 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="Panel" type="Panel" parent="." unique_id=1196410402]
+z_index = 1
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -156,6 +157,7 @@ text = "Test Level
 [node name="LevelSelect" type="CenterContainer" parent="." unique_id=452464053]
 unique_name_in_owner = true
 visible = false
+z_index = 1
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -230,14 +232,6 @@ text = "Level 5
 script = ExtResource("7_xqaau")
 SendMessage = true
 message = "Level5"
-
-[node name="Level6" type="Button" parent="LevelSelect/Panel/MarginContainer/LevelTab" unique_id=1016524862]
-layout_mode = 2
-text = "Level 6
-"
-script = ExtResource("7_xqaau")
-SendMessage = true
-message = "Level6"
 
 [node name="LoadSignifier" type="Node" parent="." unique_id=1835038460]
 unique_name_in_owner = true

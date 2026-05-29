@@ -1,0 +1,42 @@
+[gd_scene format=3 uid="uid://bao3cukdvcnsi"]
+
+[ext_resource type="PackedScene" uid="uid://dpyk8ch0ry6yg" path="res://MainScenes/CutsceneHandler.tscn" id="1_8rqb5"]
+[ext_resource type="Texture2D" uid="uid://cdfesrdhjbig5" path="res://hq720.jpg" id="2_ptbhj"]
+[ext_resource type="Script" uid="uid://bdyxqlpjygfcj" path="res://Scripts/DialogueHandle.cs" id="3_ufvbi"]
+[ext_resource type="Texture2D" uid="uid://b4du7co2ny5mf" path="res://Diabolical.jpg" id="4_822lh"]
+
+[sub_resource type="Resource" id="Resource_qvw58"]
+script = ExtResource("3_ufvbi")
+text = "Your god has been revived!!! He's! He is! He issss!"
+Background = ExtResource("2_ptbhj")
+metadata/_custom_type_script = "uid://bdyxqlpjygfcj"
+
+[sub_resource type="Resource" id="Resource_oj18v"]
+script = ExtResource("3_ufvbi")
+text = "He is Billy butcher from the hit tv-series the boys? WHAT?"
+Background = ExtResource("4_822lh")
+metadata/_custom_type_script = "uid://bdyxqlpjygfcj"
+
+[sub_resource type="Resource" id="Resource_0o6e1"]
+script = ExtResource("3_ufvbi")
+text = "This is.."
+metadata/_custom_type_script = "uid://bdyxqlpjygfcj"
+
+[sub_resource type="Resource" id="Resource_15gyy"]
+script = ExtResource("3_ufvbi")
+text = "FUCKING DIABOLICAL!!!"
+speed = 5.0
+color = Color(1, 0, 0, 1)
+metadata/_custom_type_script = "uid://bdyxqlpjygfcj"
+
+[sub_resource type="Resource" id="Resource_w15km"]
+script = ExtResource("3_ufvbi")
+text = "Thanks for playing"
+NewBubble = true
+metadata/_custom_type_script = "uid://bdyxqlpjygfcj"
+
+[node name="Node" type="Node" unique_id=1708964472]
+
+[node name="Background" parent="." unique_id=1298014254 instance=ExtResource("1_8rqb5")]
+texture = ExtResource("2_ptbhj")
+Dialogues = Array[Object]([SubResource("Resource_qvw58"), SubResource("Resource_oj18v"), SubResource("Resource_0o6e1"), SubResource("Resource_15gyy"), SubResource("Resource_w15km")])
